@@ -8,6 +8,14 @@
     height:100vh;
 }
 
+.logo{
+    height:300px;
+    width:500px;
+    justify-self: center;
+    margin-left: auto;
+    margin-right:auto;
+}
+
 .login-container{
     display:flex;
     justify-content:center;
@@ -26,7 +34,8 @@
 }
 
 .signUp-form{
-
+    justify-content: center;
+    align-content: center;
 }
 
 .login-title{
