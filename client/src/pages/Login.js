@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import LoginForm from '../components/LoginForm'
 import SignUpForm from '../components/SignUpForm'
 import { Button } from 'reactstrap';
+import '../styles/Login.css'
 
 
 class Login extends Component{
@@ -20,20 +21,27 @@ class Login extends Component{
     }
     
     renderForms(){
-        if(this.state.isUserLogginIn){
+        if(!this.state.isUserLogginIn){
             return (
-                <div>
+                <div className="login-container">
                     <LoginForm></LoginForm>
-                    <Button onClick={this.changeUserLogginStatus.bind(this)}>Create an Account</Button>
+                    <div onClick={this.changeUserLogginStatus.bind(this)} className="change-login">
+                        <p>Don't have an account?</p>
+                        
+                        <p>Create an Account</p>
+                    </div>
                 </div>
             
             )
                 
         }else{
             return (
-                <div>
+                <div className="login-container">
                     <SignUpForm></SignUpForm>
-                    <Button onClick={this.changeUserLogginStatus.bind(this)}>Login Instead</Button>
+                    <div onClick={this.changeUserLogginStatus.bind(this)} className="change-login">
+                        <p>Already have an account? </p>
+                        <p >Login</p>
+                    </div>                
                 </div>
             
             )
@@ -45,7 +53,8 @@ class Login extends Component{
 
     render(){
         return(
-            <div> 
+            <div className="login-page"> 
+                <p>INSERT XCHEDULE LOGO</p>
                 {this.renderForms()}                
             </div>
             
