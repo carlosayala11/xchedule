@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Input } from 'reactstrap';
 import * as firebase from 'firebase';
+import '../styles/Login.css'
+
 
 
 class SignUpForm extends Component{
@@ -41,11 +43,13 @@ class SignUpForm extends Component{
 
     render(){
         return(
-            <div>
-                <Input name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
-                <Input name="password" placeholder="password123" onChange={this.onInputChange}/>
+            <div className="signUp-form">
+                <p className="login-title">Create an Account</p>
 
-                <Button color="primary" onClick={this.createUserAccount.bind(this)}>Create Account</Button>{' '}                
+                <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
+                <Input className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
+
+                <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>Create Account</Button>{' '}                
             </div>
             
 
