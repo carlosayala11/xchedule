@@ -27,9 +27,9 @@ class SignUpForm extends Component{
     }
 
     createUserAccount(){
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(
-            console.log("User Creation Successful"),
-            console.log(firebase.auth().currentUser)
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
+            console.log("User Creation Successful")
+        }
         ).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -47,7 +47,7 @@ class SignUpForm extends Component{
                 <p className="login-title">Create an Account</p>
 
                 <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
-                <Input className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
+                <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
 
                 <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>Create Account</Button>{' '}                
             </div>

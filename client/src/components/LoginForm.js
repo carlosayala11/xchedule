@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Button, Input } from 'reactstrap';
 import * as firebase from 'firebase';
 import '../styles/Login.css'
+import {Redirect} from 'react-router-dom'
 
 
 class LoginForm extends Component{
@@ -9,7 +10,8 @@ class LoginForm extends Component{
         super();
         this.state={
             email:'',
-            password:''
+            password:'',
+            loggedIn: false
         }
 
     
@@ -25,9 +27,16 @@ class LoginForm extends Component{
     }
 
     loginExistingUser(){
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(
-            console.log("User Login Successful"),
-            console.log(firebase.auth().currentUser)
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
+            console.log("SUCCESS")
+            this.setState({
+                loggedIn: true 
+            })
+            
+
+        }
+
+            
         ).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -40,12 +49,15 @@ class LoginForm extends Component{
 
 
     render(){
+        if (this.state.loggedIn) {
+            return <Redirect to='/profile'/>;
+          }
         return(
             <div className="login-form">
                 <p className="login-title">Login</p>
                 
                 <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
-                <Input className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
+                <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
                 <p className="login-small-text">Forgot Password?</p>
                 <Button className="login-button" color="primary" onClick={this.loginExistingUser.bind(this)}>Login</Button>{' '}                
             </div>
