@@ -10,7 +10,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Login from './pages/Login.js'
-import Home from './pages/Home.js'
+import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
 
 var firebase = require('firebase');
@@ -35,7 +35,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Home/>
+            <LandingPage/>
           </Route>
           <Route path="/login">
             <Login />

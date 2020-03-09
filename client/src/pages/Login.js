@@ -3,6 +3,9 @@ import LoginForm from '../components/LoginForm'
 import SignUpForm from '../components/SignUpForm'
 import { Button } from 'reactstrap';
 import '../styles/Login.css'
+import logo_white from '../logo_white.png'
+import logo_black from '../logo_black.png'
+
 
 
 class Login extends Component{
@@ -54,7 +57,7 @@ class Login extends Component{
     render(){
         return(
             <div className="login-page"> 
-                <p>INSERT XCHEDULE LOGO</p>
+                <img src={logo_black} className="logo"/>
                 {this.renderForms()}                
             </div>
             
