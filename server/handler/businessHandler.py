@@ -1,24 +1,27 @@
 from flask import jsonify
-from dao.business import BusinessDAO
+from server.dao.business import BusinessDAO
 class BusinessHandler:
     def build_business_dict(self, row):
         result = {}
         result['bid'] = row[0]
-        result['bname'] = row[1]
-        result['bphone'] = row[2]
-        result['bemail'] = row[3]
-        result['baddress'] = row[4]
-        result['blocation'] = row[5]
+        result['uid'] = row[1]
+        result['bname'] = row[2]
+        result['twitter'] = row[3]
+        result['facebook'] = row[4]
+        result['instagram'] = row[5]
+        result['website_url'] = row[6]
+        result['workingHours'] = row[7]
+        result['workingDays'] = row[8]
+        result['baddress'] = row[9]
+        result['blocation'] = row[10]
+        result['timeRestriction'] = row[11]
         return result
 
     def build_service_dict(self, row):
         result = {}
         result['sid'] = row[0]
-        result['admin_id'] = row[1]
-        result['details'] = row[2]
-        result['website_url'] = row[3]
-        result['facebook'] = row[4]
-        result['instagram'] = row[5]
+        result['serviceType'] = row[1]
+        result['serviceDetails'] = row[2]
         return result
 
     def getAllBusiness(self):
@@ -80,22 +83,36 @@ class BusinessHandler:
                 return jsonify(Error="Malformed search string."), 400
 
     def insertBusiness(self, form):
-        if form and len(form) == 5:
+        if form and len(form) == 11:
+            uid = form['uid']
             bname = form['bname']
-            bphone = form['bphone']
-            bemail = form['bemail']
+            twitter = form['twitter']
+            facebook = form['facebook']
+            instagram = form['instagram']
+            website_url = form['website_url']
+            workingHours = form['workingHours']
+            workingDays = form['workingDays']
             baddress = form['baddress']
             blocation = form['blocation']
-            if bname and bphone and bemail and baddress and blocation:
+            timeRestriction = form['timeRestriction']
+            if uid and bname and twitter and facebook and instagram and website_url and workingHours \
+                    and workingDays and baddress and blocation and timeRestriction:
                 dao = BusinessDAO()
-                bid = dao.insert(bname, bphone, bemail, baddress, blocation)
+                bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
+                                 workingDays, baddress, blocation, timeRestriction)
                 result = {}
                 result['bid'] = bid
+                result['uid'] = uid
                 result['bname'] = bname
-                result['bphone'] = bphone
-                result['bemail'] = bemail
+                result['twitter'] = twitter
+                result['facebook'] = facebook
+                result['instagram'] = instagram
+                result['website_url'] = website_url
+                result['workingHours'] = workingHours
+                result['workingDays'] = workingDays
                 result['baddress'] = baddress
                 result['blocation'] = blocation
+                result['timeRestriction'] = timeRestriction
                 return jsonify(Business=result), 201
             else:
                 return jsonify('Unexpected attributes in post request'), 401
@@ -110,28 +127,42 @@ class BusinessHandler:
             dao.delete(bid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updatePerson(self, bid, form):
+    def updateBusiness(self, bid, form):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
             return jsonify(Error = "Business not found."), 404
         else:
-            if len(form) != 5:
+            if len(form) != 11:
                 return jsonify(Error="Malformed update request"), 400
             else:
+                uid = form['uid']
                 bname = form['bname']
-                bphone = form['bphone']
-                bemail = form['bemail']
+                twitter = form['twitter']
+                facebook = form['facebook']
+                instagram = form['instagram']
+                website_url = form['website_url']
+                workingHours = form['workingHours']
+                workingDays = form['workingDays']
                 baddress = form['baddress']
                 blocation = form['blocation']
-                if bname and bphone and bemail and baddress and blocation:
-                    dao.update(bid, bname, bphone, bemail, baddress, blocation)
+                timeRestriction = form['timeRestriction']
+                if uid and bname and twitter and facebook and instagram and website_url and workingHours \
+                        and workingDays and baddress and blocation and timeRestriction:
+                    dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
+                               baddress, blocation, timeRestriction)
                     result = {}
                     result['bid'] = bid
+                    result['uid'] = uid
                     result['bname'] = bname
-                    result['bphone'] = bphone
-                    result['bemail'] = bemail
+                    result['twitter'] = twitter
+                    result['facebook'] = facebook
+                    result['instagram'] = instagram
+                    result['website_url'] = website_url
+                    result['workingHours'] = workingHours
+                    result['workingDays'] = workingDays
                     result['baddress'] = baddress
                     result['blocation'] = blocation
+                    result['timeRestriction'] = timeRestriction
                     return jsonify(Business=result), 200
                 else:
                     return jsonify(Error="Unexpected attributes in update request"), 400
