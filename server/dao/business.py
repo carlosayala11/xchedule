@@ -1,4 +1,4 @@
-from config.config import pg_config
+#from server.config.config import pg_config
 import psycopg2
 
 class BusinessDAO:
@@ -29,7 +29,7 @@ class BusinessDAO:
     def getServicesByBusinessId(self, bid):
         cursor = self.conn.cursor()
         result = []
-        query = "select sid, details, website_url, facebook, instagram from business natural inner join service natural inner join offers where bid =%s;"
+        query = "select sid, serviceType, serviceDetails from business natural inner join services natural inner join offers where bid =%s;"
         cursor.execute(query, (bid,))
         for row in cursor:
             result.append(row)
@@ -44,10 +44,10 @@ class BusinessDAO:
             result.append(row)
         return result
 
-    def insert(self, bname, bphone, bemail, baddress, blocation):
+    def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()
-        query = "insert into business(bname, bphone, bemail, baddress, blocation) values (%s, %s, %s, %s, %s) returning bid;"
-        cursor.execute(query, (bname, bphone, bemail, baddress, blocation))
+        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
+        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction))
         bid = cursor.fetchone()[0]
         self.conn.commit()
         return bid
@@ -59,9 +59,9 @@ class BusinessDAO:
         self.conn.commit()
         return bid
 
-    def update(self, bid, bname, bphone, bemail, baddress, blocation):
+    def update(self, bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()
-        query = "update person set bname = %s, bphone = %s, bemail = %s, baddress = %s, blocation = %s where bid = %s;"
-        cursor.execute(query, (bname, bphone, bemail, baddress, blocation, bid,))
+        query = "update person set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s baddress = %s, blocation = %s where bid = %s;"
+        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction, bid,))
         self.conn.commit()
         return bid

@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import UserHandler
+from flask_cors import CORS, cross_origin
 import psycopg2
 import os
 
 app = Flask(__name__)
+CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/df6hbif2dks1kv'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
