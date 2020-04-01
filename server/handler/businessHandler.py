@@ -1,5 +1,5 @@
 from flask import jsonify
-from dao.business import BusinessDAO
+from server.dao.business import BusinessDAO
 class BusinessHandler:
     def build_business_dict(self, row):
         result = {}
@@ -127,7 +127,7 @@ class BusinessHandler:
             dao.delete(bid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updatePerson(self, bid, form):
+    def updateBusiness(self, bid, form):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
             return jsonify(Error = "Business not found."), 404
