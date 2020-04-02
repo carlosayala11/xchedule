@@ -51,15 +51,25 @@ def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)
 
 #-----Appointments-----
-@app.route('/appointments', methods=['GET', 'POST'])
+@app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
 def getAllAppointments():
     if request.method == 'GET':
         return AppointmentsHandler().getAllAppointments()
     elif request.method == 'POST':
         return AppointmentsHandler().insertAppointment(request.form)
+    elif request.method == 'DELETE':
+        return AppointmentsHandler().deleteAppointment()
 
     return jsonify(Error = "Method not allowed"), 405
 
+@app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])
+def getAppointmentById(aid):
+    if request.method == 'GET':
+        return AppointmentsHandler().getAppointmentById(aid)
+    elif request.method == 'DELETE':
+        return AppointmentsHandler().deleteAppointment(aid)
+    
+    return jsonify(Error = "Method not allowed"), 405
 
 @app.route('/service/<int:sid>/appointments')
 def getAppointmentsByServiceId(sid):
