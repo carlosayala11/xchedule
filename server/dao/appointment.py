@@ -17,6 +17,13 @@ class AppointmentsDAO:
         self.conn.commit()
         return aid
 
+    def delete(self, aid):
+        cursor = self.conn.cursor()
+        query = "delete from appointments where aid = %s;"
+        cursor.execute(query, (aid,))
+        self.conn.commit()
+        return aid
+
     def getAllAppointments(self):
         cursor = self.conn.cursor()
         query = "select * from appointments;"
@@ -26,10 +33,17 @@ class AppointmentsDAO:
             result.append(row)
         return result
 
+    def getAppointmentById(self, aid):
+        cursor = self.conn.cursor()
+        query = "select * from appointments where aid = %s;"
+        cursor.execute(query, (aid,))
+        result = cursor.fetchone()
+        return result
+
     def getAppointmentsByServiceId(self, sid):
         cursor = self.conn.cursor()
-        query = "select sc.aid, sc.uid, s.sid, servicetype, bname from schedules as sc, requests as r, services as s, business where s.sid = 1;"
-        cursor.execute(query)
+        query = "select distinct sc.aid, sc.uid, s.sid, servicetype, bname from schedules as sc, requests as r, services as s, business where s.sid = %s;"
+        cursor.execute(query, (sid,))
         result = []
         for row in cursor:
             result.append(row)

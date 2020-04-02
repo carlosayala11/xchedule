@@ -44,6 +44,14 @@ class AppointmentsHandler:
             else:
                 return jsonify(Error="Unexpected attributes in appointment request"), 400
     
+    def deleteAppointment(self, aid):
+        dao = AppointmentsDAO()
+        if not dao.getAppointmentById(aid):
+            return jsonify(Error = "Appointment not found."), 404
+        else:
+            dao.delete(aid)
+            return jsonify(DeleteStatus = "OK"), 200
+
     def getAllAppointments(self):
         dao = AppointmentsDAO()
         appointments_list = dao.getAllAppointments()
@@ -52,6 +60,12 @@ class AppointmentsHandler:
             result = self.build_appointment_dict(row)
             result_list.append(result)
         return jsonify(AppointmentsList=result_list)
+
+    def getAppointmentById(self, aid):
+        dao = AppointmentsDAO()
+        appointment = dao.getAppointmentById(aid)
+        result = self.build_appointment_dict(appointment)
+        return jsonify(Appointment=result)
     
     def getAppointmentsByServiceId(self, sid):
         dao = AppointmentsDAO()

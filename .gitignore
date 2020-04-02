@@ -29,3 +29,9 @@ server/handler/__pycache__/userHandler.cpython-37.pyc
 server/handler/__pycache__/userHandler.cpython-37.pyc
 server/dao/__pycache__/user.cpython-37.pyc
 server/handler/__pycache__/userHandler.cpython-37.pyc
+
+server/dao/*.pyc
+server/handler/*.pyc
+server/*.pyc
+server/dao/__pycache__/user.cpython-37.pyc
+server/handler/__pycache__/userHandler.cpython-37.pyc
