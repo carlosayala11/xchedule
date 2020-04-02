@@ -23,3 +23,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.pyc
+server/dao/__pycache__/user.cpython-37.pyc
+server/dao/__pycache__/user.cpython-37.pyc
+server/handler/__pycache__/userHandler.cpython-37.pyc
+server/handler/__pycache__/userHandler.cpython-37.pyc
+server/dao/__pycache__/user.cpython-37.pyc
+server/handler/__pycache__/userHandler.cpython-37.pyc
