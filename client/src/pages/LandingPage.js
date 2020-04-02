@@ -12,7 +12,7 @@ class LandingPage extends Component{
         super();
         this.state={
         }
-        
+
     }
 
 
@@ -20,24 +20,24 @@ class LandingPage extends Component{
 
     render(){
         return(
-            <div className="landing-page"> 
+            <div className="landing-page">
                 <div className="jumbotron-div">
                     <div className="jumbotron-segment">
-                        <h1 className="jumbotron-title">Welcome to XChedule</h1>
+                        <h1 className="jumbotron-title">Welcome to Xchedule</h1>
                         <p className="jumbotron-text">The online solution to schedule your appointments</p>
-                        <br></br> 
+                        <br></br>
                         <p className="jumbotron-text">easily, quickly, and effectively</p>
-                        <NavLink to="/login">Login to Learn More</NavLink>
+                        <NavLink to="/login"> <Button>Login to Learn More</Button> </NavLink>
 
                     </div>
                     <img src={logo_black_circle} className="landing-logo"/>
 
                 </div>
-                
+
                 <LandingPageSegment title="How it works?"></LandingPageSegment>
                 <LandingPageSegment title="Contact Us"></LandingPageSegment>
             </div>
-            
+
 
         )
     }
