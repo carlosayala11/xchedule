@@ -23,7 +23,7 @@ create table appointments (
 	duration integer not null,
 	pending boolean,
 	completed boolean,
-	canceled boolean,
+	canceled boolean
 );
 
 create table offers(
@@ -34,7 +34,7 @@ create table offers(
 
 create table schedules(
     aid integer constraint appointments_bid_fkey references appointments,
-    uid integer constraint users_sid_fkey references users,
+    uid varchar(30) constraint users_uid_fkey references users,
     primary key (aid, uid)
  );
 

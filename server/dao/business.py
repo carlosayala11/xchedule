@@ -37,7 +37,7 @@ class BusinessDAO:
 
     def getBusinessByCity(self, city):
         cursor = self.conn.cursor()
-        query = "select * from business where baddress.city = %s;"
+        query = "select * from business where (baddress).city = %s;"
         cursor.execute(query, (city,))
         result = []
         for row in cursor:
@@ -61,7 +61,7 @@ class BusinessDAO:
 
     def update(self, bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()
-        query = "update person set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s baddress = %s, blocation = %s where bid = %s;"
+        query = "update person set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s baddress = %s, blocation = %s, timeRestriction= %s where bid = %s;"
         cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction, bid,))
         self.conn.commit()
         return bid
