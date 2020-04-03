@@ -54,14 +54,18 @@ class BusinessDAO:
 
     def delete(self, bid):
         cursor = self.conn.cursor()
-        query = "delete from business where bid = %s;"
-        cursor.execute(query, (bid,))
+        query1 = "delete from appointments as a using services as s, requests as r, offers as o where o.bid= %s and o.sid = s.sid and r.sid = s.sid and r.aid = a.aid;"
+        cursor.execute(query1, (bid,))
+        query2 = "delete from services as s using offers as o where s.sid = o.sid and o.bid = %s;"
+        cursor.execute(query2, (bid,))
+        query3 = "delete from business where bid = %s;"
+        cursor.execute(query3, (bid,))
         self.conn.commit()
         return bid
 
     def update(self, bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()
-        query = "update person set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s baddress = %s, blocation = %s, timeRestriction= %s where bid = %s;"
+        query = "update business set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s, workingDays = %s, baddress = %s, blocation = %s, timeRestriction= %s where bid = %s;"
         cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction, bid,))
         self.conn.commit()
         return bid

@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from server.handler.userHandler import UserHandler
-from server.handler.businessHandler import BusinessHandler
+from handler.userHandler import UserHandler
+from handler.businessHandler import BusinessHandler
+from handler.appointmentHandler import AppointmentsHandler
 from flask_cors import CORS, cross_origin
 import psycopg2
 import os
@@ -16,7 +17,7 @@ CORS(app)
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    return 'Welcome to XChedule!'
 
 @app.route('/users')
 def getUsers():
@@ -48,6 +49,31 @@ def getBusinessById(bid):
 @app.route('/business/<int:bid>/services')
 def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)
+
+#-----Appointments-----
+@app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
+def getAllAppointments():
+    if request.method == 'GET':
+        return AppointmentsHandler().getAllAppointments()
+    elif request.method == 'POST':
+        return AppointmentsHandler().insertAppointment(request.form)
+    elif request.method == 'DELETE':
+        return AppointmentsHandler().deleteAppointment()
+
+    return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])
+def getAppointmentById(aid):
+    if request.method == 'GET':
+        return AppointmentsHandler().getAppointmentById(aid)
+    elif request.method == 'DELETE':
+        return AppointmentsHandler().deleteAppointment(aid)
+    
+    return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/service/<int:sid>/appointments')
+def getAppointmentsByServiceId(sid):
+    return AppointmentsHandler().getAppointmentsByServiceId(sid)
 
 if __name__ == '__main__':
     app.debug = False
