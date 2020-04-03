@@ -19,3 +19,10 @@ class UsersDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getUserById(self, bid):
+        cursor = self.conn.cursor()
+        query = "select * from users where uid = %s;"
+        cursor.execute(query, (bid,))
+        result = cursor.fetchone()
+        return result

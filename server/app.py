@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from handler.userHandler import UserHandler
+from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
 from flask_cors import CORS, cross_origin
@@ -19,11 +19,12 @@ CORS(app)
 def hello_world():
     return 'Welcome to XChedule!'
 
-@app.route('/users')
-def getUsers():
-    return UserHandler().getAllUsers()
+#-----Users-----
+@app.route('/users', methods=['GET', 'POST'])
+def getAllUsers():
+    return userHandler().getAllUsers()
 
-#-----Business------
+#-----Business-----
 @app.route('/business', methods=['GET', 'POST'])
 def getAllPerson():
     if request.method == 'POST':
