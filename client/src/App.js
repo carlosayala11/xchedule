@@ -12,6 +12,7 @@ import {
 import Login from './pages/Login.js'
 import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
+import Appointment from './pages/Appointment.js'
 
 var firebase = require('firebase');
 
@@ -42,6 +43,9 @@ function App() {
           </Route>
           <Route path="/profile">
             <Profile />
+          </Route>
+          <Route exact path="/appointment">
+            <Appointment />
           </Route>
         </Switch>
       </Router>
