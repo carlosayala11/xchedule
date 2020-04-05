@@ -19,3 +19,54 @@ class UsersDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getUserById(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from users where CAST(uid as int) = %s;"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        return result
+
+    def getUserByCity(self, city):
+        cursor = self.conn.cursor()
+        query = "select * from users where (uaddress).city = %s;"
+        cursor.execute(query, (city,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAppointmentsByUserID(self, uid):
+        cursor = self.conn.cursor()
+        result = []
+        query = "select aid, date, duration, completed from users natural inner join appointments natural inner join schedules where uid =%s;"
+        cursor.execute(query, (uid,))
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def insert(self, id, full_name, username, password, email, phone_number, age, gender, uaddress, isowner):
+        cursor = self.conn.cursor()
+        query = "insert into users(uid, full_name, username, password, email, phone_number, age, gender, uaddress, isowner) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
+        cursor.execute(query, (id, full_name, username, password, email, phone_number, age, gender, uaddress, isowner))
+        uid = cursor.fetchone()[0]
+        self.conn.commit()
+        return uid
+
+    def delete(self, uid):
+        cursor = self.conn.cursor()
+        query1 = "delete from appointments as a using schedules as s where CAST(s.uid as int) = %s and s.aid = a.aid;"
+        cursor.execute(query1, (uid,))
+        query2 = "delete from business as b using users as u where CAST(u.uid as int) = b.uid;"
+        cursor.execute(query2, (uid,))
+        query3 = "delete from users where CAST(uid as int) = %s;"
+        cursor.execute(query3, (uid,))
+        self.conn.commit()
+        return uid
+
+    def update(self, uid, full_name, username, password, email, phone_number, age, gender, uaddress, isowner):
+        cursor = self.conn.cursor()
+        query = "update users set full_name = %s, username = %s, password = %s, email = %s, phone_number = %s, age = %s, gender = %s, uaddress = %s, isowner = %s;"
+        cursor.execute(query, (full_name, username, password, email, phone_number, age, gender, uaddress, isowner))
+        self.conn.commit()
+        return uid

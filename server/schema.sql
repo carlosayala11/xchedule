@@ -27,20 +27,20 @@ create table appointments (
 );
 
 create table offers(
-    bid integer constraint business_bid_fkey references business,
-    sid integer constraint services_sid_fkey references services,
+    bid integer constraint business_bid_fkey references business on delete cascade,
+    sid integer constraint services_sid_fkey references services on delete cascade,
     primary key (bid, sid)
  );
 
 create table schedules(
-    aid integer constraint appointments_bid_fkey references appointments,
-    uid varchar(30) constraint users_uid_fkey references users,
+    aid integer constraint appointments_bid_fkey references appointments on delete cascade,
+    uid varchar(30) constraint users_uid_fkey references users on delete cascade,
     primary key (aid, uid)
  );
 
 create table requests(
-    aid integer constraint appointments_bid_fkey references appointments,
-    sid integer constraint services_sid_fkey references services,
+    aid integer constraint appointments_bid_fkey references appointments on delete cascade,
+    sid integer constraint services_sid_fkey references services on delete cascade,
     primary key (aid, sid)
  );
 
@@ -59,7 +59,7 @@ create type address_item AS (
 
 create table business (
 	bid serial not null constraint business_pkey primary key,
-	uid integer constraint user_uid_fkey references users,
+	uid varchar(30) constraint user_uid_fkey references users,
 	bname varchar(40) not null,
 	twitter varchar(30),
 	facebook varchar(30),
