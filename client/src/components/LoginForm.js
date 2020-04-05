@@ -15,7 +15,8 @@ class LoginForm extends Component{
             loggedIn: false,
             loadingLoggin: false,
             modal:false,
-            emailreset:''
+            emailreset:'',
+            errorMessage:''
         }
         this.renderLoginSpinner = this.renderLoginSpinner.bind(this)
     
@@ -38,7 +39,7 @@ class LoginForm extends Component{
                 loggedIn: true 
             })            
         }).catch((error) => {
-            this.setState({loadingLoggin:false})
+            this.setState({loadingLoggin:false, errorMessage:error.message})
 
             // Handle Errors here.
             var errorCode = error.code;
@@ -73,7 +74,13 @@ class LoginForm extends Component{
           });
     }
 
-    
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            return <p className="login-error-message">{this.state.errorMessage}</p>
+        }
+    }
+
+
     render(){
         if (this.state.loggedIn) {
             return <Redirect to='/profile'/>;
@@ -98,7 +105,8 @@ class LoginForm extends Component{
                 <Button onClick={this.toggle.bind(this)} className="login-small-text">Forgot Password?</Button>
                 <Button className="login-button" color="primary" onClick={this.loginExistingUser.bind(this)}>
                     {this.renderLoginSpinner()}
-                </Button>               
+                </Button>
+                {this.renderErrorMessage()}               
             </div>
             
 
