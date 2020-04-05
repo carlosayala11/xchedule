@@ -13,8 +13,6 @@ CORS(app)
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
 
-
-
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
@@ -48,7 +46,7 @@ def getAppointmentsByUserId(uid):
 
 #-----Business-----
 @app.route('/business', methods=['GET', 'POST'])
-def getAllPerson():
+def getAllBusiness():
     if request.method == 'POST':
         return BusinessHandler().insertBusiness(request.form)
     else:
@@ -57,8 +55,7 @@ def getAllPerson():
         else:
             return BusinessHandler().searchBusiness(request.args)
 
-@app.route('/business/<int:bid>',
-           methods=['GET', 'PUT', 'DELETE'])
+@app.route('/business/<int:bid>',methods=['GET', 'PUT', 'DELETE'])
 def getBusinessById(bid):
     if request.method == 'GET':
         return BusinessHandler().getBusinessById(bid)
