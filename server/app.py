@@ -22,7 +22,29 @@ def hello_world():
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST'])
 def getAllUsers():
-    return userHandler().getAllUsers()
+    if request.method == 'POST':
+        return userHandler().insertUser(request.form)
+    else:
+        if not request.args:
+            return userHandler().getAllUsers()
+        else:
+            return userHandler().searchUsers(request.args)
+
+@app.route('/users/<int:uid>',
+           methods=['GET', 'PUT', 'DELETE'])
+def getUserById(uid):
+    if request.method == 'GET':
+        return userHandler().getUserById(uid)
+    elif request.method == 'PUT':
+        return userHandler().updateUser(uid, request.form)
+    elif request.method == 'DELETE':
+        return userHandler().deleteUser(uid)
+    else:
+        return jsonify(Error = "Method not allowed."), 405
+
+@app.route('/users/<int:uid>/appointments')
+def getAppointmentsByUserId(uid):
+    return userHandler().getAppointmentsByUserId(uid)
 
 #-----Business-----
 @app.route('/business', methods=['GET', 'POST'])
