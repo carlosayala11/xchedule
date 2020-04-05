@@ -1,5 +1,5 @@
 from flask import jsonify
-from server.dao.business import BusinessDAO
+from dao.business import BusinessDAO
 class BusinessHandler:
     def build_business_dict(self, row):
         result = {}
