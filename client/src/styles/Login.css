@@ -5,7 +5,7 @@
     justify-items: center;
     align-content: center;
     background-color: lightskyblue;
-    height:100vh;
+    min-height:100vh;
 }
 
 .logo{
@@ -26,6 +26,7 @@
     width:400px;
     padding:15px;
     border-radius:10px;
+    margin-bottom:50px;
 }
 
 .login-form{
@@ -36,6 +37,7 @@
 .signUp-form{
     justify-content: center;
     align-content: center;
+    margin-bottom:20px;
 }
 
 .login-title{

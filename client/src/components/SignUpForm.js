@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input } from 'reactstrap';
+import { Button, Input, Spinner } from 'reactstrap';
 import * as firebase from 'firebase';
 import '../styles/Login.css'
 
@@ -10,7 +10,17 @@ class SignUpForm extends Component{
         super();
         this.state={
             email:'',
-            password:''
+            password:'',
+            passwordretype:'',
+            fullName:'',
+            phoneNumber:'',
+            username:'',
+            age:'',
+            sex:'',
+            country:'',
+            city:'',
+            loadingSignUp:false,
+            errorMessage:''
         }
 
     
@@ -27,17 +37,53 @@ class SignUpForm extends Component{
     }
 
     createUserAccount(){
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
-            console.log("User Creation Successful")
+        this.setState({loadingSignUp:true})
+        if(this.state.password === this.state.passwordretype){
+            firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
+                console.log("User Creation Successful")
+                // user = {
+                //     uid = firebase.auth().currentUser.uid,
+                //     fullname = this.state.fullName,
+                //     username = this.state.username,
+                //     email = this.state.email,
+                //     phone = this.state.phoneNumber,
+                //     age = this.state.age,
+                //     gender = this.state.sex,
+                //     uaddress = '',
+                //     isOwner = false
+                // }
+                //axios.post(URL/users, user).then((res)=>{
+                //  console.log(res)    
+                //}).catch((err)=>{
+                //  console.log(err)    
+                //})
+            }
+            ).catch((error) => {
+                this.setState({loadingSignUp:false, errorMessage:error.message})
+    
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+                console.log(errorCode);
+                console.log(errorMessage);
+              });
         }
-        ).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-            console.log(errorCode);
-            console.log(errorMessage);
-          });
+        
+    }
+
+    renderSignUpSpinner(){
+        if(this.state.loadingSignUp){
+            return <Spinner color="primary" />
+        }else{
+            return <p>SignUp</p>
+        }
+    }
+
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            return <p className="login-error-message">{this.state.errorMessage}</p>
+        }
     }
 
 
@@ -48,8 +94,20 @@ class SignUpForm extends Component{
 
                 <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
                 <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
+                <Input type="password" className="login-input" name="passwordretype" placeholder="password123" onChange={this.onInputChange}/>
+                <Input className="login-input" name="fullName" placeholder="Name" onChange={this.onInputChange}/>
+                <Input className="login-input" name="phoneNumber" placeholder="7875555555" onChange={this.onInputChange}/>
+                <Input className="login-input" name="username" placeholder="username" onChange={this.onInputChange}/>
+                <Input className="login-input" name="age" placeholder="Age" onChange={this.onInputChange}/>
+                <Input className="login-input" name="sex" placeholder="Sex" onChange={this.onInputChange}/>
+                <Input className="login-input" name="country" placeholder="Country" onChange={this.onInputChange}/>
+                <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
 
-                <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>Create Account</Button>{' '}                
+                <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>
+                    {this.renderSignUpSpinner()}
+                </Button>   
+
+                {this.renderErrorMessage()}            
             </div>
             
 
