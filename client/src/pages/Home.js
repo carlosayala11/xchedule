@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
+import NavigationBar from "../components/NavigationBar"
 
 class Home extends Component{
     constructor(){
@@ -14,6 +15,7 @@ class Home extends Component{
     render(){
         return(
             <div className="home-page">
+                <NavigationBar/>
                 <div className="lheader">
                     <img src={logo_black_circle} className="home-logo"/>
                 </div>

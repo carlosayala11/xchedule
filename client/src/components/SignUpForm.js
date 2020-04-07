@@ -36,7 +36,7 @@ class SignUpForm extends Component{
         })
     }
 
-    createUserAccount(){
+    createUserAccount(){ 
         this.setState({loadingSignUp:true})
         if(this.state.password === this.state.passwordretype){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
@@ -57,8 +57,7 @@ class SignUpForm extends Component{
                 //}).catch((err)=>{
                 //  console.log(err)    
                 //})
-            }
-            ).catch((error) => {
+            }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
     
                 // Handle Errors here.
