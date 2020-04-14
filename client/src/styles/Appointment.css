@@ -4,7 +4,7 @@
     justify-content:center;
     justify-items: center;
     align-content: center;
-    background-color: red;
+    background-color: lightskyblue;
     height:100vh;
 }
 
@@ -41,6 +41,7 @@
     margin:20px;
     font-size:18px;
     font-weight:bold;
+    align-self: center;
 }
 
 .appointment-label{

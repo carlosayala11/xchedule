@@ -2,51 +2,80 @@ import React, {Component} from 'react';
 import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/dark.css";
-
+import axios from 'axios'
+import moment from 'moment'
 
 
 class AppointmentForm extends Component{
     constructor(){
         super();
         this.state={
-            datePickerIsOpen: false,
-            date: new Date(),
-            duration:''
-        }
+            date: '',
+            duration:'',
+            completed:'',
+            pending:'',
+            canceled:'',
+        };
     }
-
 
     onInputChange = (event) => {
         event.preventDefault();
-
         this.setState({
             [event.target.name]: event.target.value
         })
     }
 
-    scheduleAppointment(){
+    onSubmit = (event) => {
+        event.preventDefault();
+        const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        axios.post('http://localhost:5000/appointments', {
+            adate: dt, 
+            duration: duration,
+            completed: 'False', 
+            pending: 'True',
+            canceled: 'False',
+            sid: 1,
+            uid:1 })
+            .then(function(response){
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+        });
 
-    }
+    } 
+
+    
+
+    // scheduleAppointment(){
+    //     axios.post('http://localhost:5000/appointments').then(result =>{
+    //         console.log(result.data)
+    //     });
+    // }
 
     render(){
-        const { date } = this.state;
+        const {date, duration } = this.state;
+        var dt;
         return(
             <div className="form-container">                
-                {/* <Input className="appointment-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
-                <Input className="appointment-input" name="password" placeholder="password123" onChange={this.onInputChange}/> */}
-                <Form>
-                <FormGroup>
+                <form>
                     <Label>Date</Label>
                     <div>
-                    <Flatpickr className="date-box" data-enable-time value={date} onChange={date => {
-                        this.setState({ date });}}
-                    />   
+                    <Flatpickr 
+                        placeholder="Please select a date"
+                        name="date"
+                        value={date}
+                        onChange={date => {
+                            dt = moment(date[0])
+                            console.log(dt)
+                            this.setState({ dt });
+                          }}
+                    /> 
                     </div> 
-                {/* <Button onClick={this.pickdate.bind(this)}></Button> */}
-                </FormGroup>
+                
                 <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
-                    <Input name="duration" type="select">
+                    <Input name="duration" type="select" value={duration} onChange={this.onInputChange}>
                         <option>10</option>
                         <option>20</option>
                         <option>30</option>
@@ -54,8 +83,8 @@ class AppointmentForm extends Component{
                         <option>50</option>
                     </Input>
                 </FormGroup>
-                </Form>
-                <Button className="appointment-button" color="primary" onClick={this.scheduleAppointment.bind(this)}>Schedule</Button>{' '}                
+                </form>
+                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}                
             </div>
             
 
