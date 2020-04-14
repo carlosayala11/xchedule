@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
+import Calendar from "../components/Calendar"
 
 class Home extends Component{
     constructor(){
@@ -21,8 +22,13 @@ class Home extends Component{
                     <br/><br/><br/><h1 className="h1">Xchedule</h1>
                     <h2 className="h2">Organize your appointments effectively.</h2><br/>
                 </div>
-                <h3 className="navigator"> Hello. </h3>
-                <Slideshow className="carousel"></Slideshow>
+                <div className="carousel">
+                    <Slideshow></Slideshow>
+                </div>
+                <div className="calendar">
+                    <Calendar></Calendar>
+                </div>
+
             </div>
         )
     }

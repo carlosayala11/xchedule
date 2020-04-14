@@ -1,7 +1,6 @@
 .home-page{
     display:flex;
     flex-direction:column;
-
 }
 
 .lheader {
@@ -31,14 +30,14 @@
         padding-left: 100px;
     }
 
-.navigator {
+.carousel {
     top: 250px;
-    background-color: yellow;
+    background-color: red;
 }
 
-.carousel {
-    top: 500px;
-    background-color: red;
+.calendar {
+    top: 750px;
+    background-color: pink;
 }
 
 .home-logo{
