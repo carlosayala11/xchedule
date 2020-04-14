@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input, Spinner } from 'reactstrap';
+import { Button, Input, Spinner, Container, Row, Col } from 'reactstrap';
 import * as firebase from 'firebase';
 import '../styles/Login.css'
 
@@ -75,7 +75,7 @@ class SignUpForm extends Component{
         if(this.state.loadingSignUp){
             return <Spinner color="primary" />
         }else{
-            return <p>SignUp</p>
+            return <p className="button-text">SignUp</p>
         }
     }
 
@@ -90,17 +90,51 @@ class SignUpForm extends Component{
         return(
             <div className="signUp-form">
                 <p className="login-title">Create an Account</p>
+                <Container>
+                    <Row>
+                        <Col>
+                            <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                            <Input className="login-input" name="age" placeholder="Age" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                            <Input className="login-input" name="sex" placeholder="Sex" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input type="password" className="login-input" name="passwordretype" placeholder="password123" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                        <Input className="login-input" name="phoneNumber" placeholder="7875555555" onChange={this.onInputChange}/>
 
-                <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
-                <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
-                <Input type="password" className="login-input" name="passwordretype" placeholder="password123" onChange={this.onInputChange}/>
-                <Input className="login-input" name="fullName" placeholder="Name" onChange={this.onInputChange}/>
-                <Input className="login-input" name="phoneNumber" placeholder="7875555555" onChange={this.onInputChange}/>
-                <Input className="login-input" name="username" placeholder="username" onChange={this.onInputChange}/>
-                <Input className="login-input" name="age" placeholder="Age" onChange={this.onInputChange}/>
-                <Input className="login-input" name="sex" placeholder="Sex" onChange={this.onInputChange}/>
-                <Input className="login-input" name="country" placeholder="Country" onChange={this.onInputChange}/>
-                <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input className="login-input" name="username" placeholder="username" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                        <Input className="login-input" name="country" placeholder="Country" onChange={this.onInputChange}/>
+
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input className="login-input" name="fullName" placeholder="Name" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                        <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    
+                </Container>
 
                 <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>
                     {this.renderSignUpSpinner()}

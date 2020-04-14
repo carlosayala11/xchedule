@@ -29,6 +29,18 @@
     margin-bottom:50px;
 }
 
+.signup-container{
+    display:flex;
+    justify-content:center;
+    align-content: center;
+    align-self: center;
+    background-color: white;
+    flex-direction: column;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:50px;
+}
+
 .login-form{
     justify-content: center;
     align-content: center;
@@ -75,9 +87,43 @@
     margin-right:auto;
     display:flex;
     text-decoration-line: underline;
+    color:lightskyblue;
+    font-weight: bold;
 }
 
 .login-error-message{
     color:red;
     font-size:14px;
+}
+
+.button-text{
+    margin:0px;
+}
+
+.forgot-password-button{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:lightskyblue;
+    font-weight:bold;
+}
+
+.forgot-password-button:hover{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:rgb(54, 76, 90);
+    font-weight:bold;
+}
+
+.forgot-password-button:focus{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:rgb(54, 76, 90);
+    font-weight:bold;
+}
+
+.signup-label{
+    
 }

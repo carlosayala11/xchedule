@@ -54,7 +54,7 @@ class LoginForm extends Component{
         if(this.state.loadingLoggin){
             return <Spinner color="primary" />
         }else{
-            return <p>Login</p>
+            return <p className="button-text">Login</p>
         }
     }
 
@@ -102,7 +102,7 @@ class LoginForm extends Component{
                 
                 <Input className="login-input" name="email" placeholder="email@email.com" onChange={this.onInputChange}/>
                 <Input type="password" className="login-input" name="password" placeholder="password123" onChange={this.onInputChange}/>
-                <Button onClick={this.toggle.bind(this)} className="login-small-text">Forgot Password?</Button>
+                <Button onClick={this.toggle.bind(this)} className="forgot-password-button">Forgot Password?</Button>
                 <Button className="login-button" color="primary" onClick={this.loginExistingUser.bind(this)}>
                     {this.renderLoginSpinner()}
                 </Button>
