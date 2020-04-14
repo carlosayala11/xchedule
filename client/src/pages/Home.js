@@ -3,6 +3,7 @@ import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
 import Calendar from "../components/Calendar"
+import NavigationBar from '../components/NavigationBar'
 
 class Home extends Component{
     constructor(){
