@@ -45,14 +45,6 @@ class AppointmentForm extends Component{
 
     } 
 
-    
-
-    // scheduleAppointment(){
-    //     axios.post('http://localhost:5000/appointments').then(result =>{
-    //         console.log(result.data)
-    //     });
-    // }
-
     render(){
         const {date, duration } = this.state;
         var dt;
