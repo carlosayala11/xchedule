@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
