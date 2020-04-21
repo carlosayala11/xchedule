@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
+from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
 import os
@@ -48,7 +49,7 @@ def getAppointmentsByUserId(uid):
 
 #-----Business-----
 @app.route('/business', methods=['GET', 'POST'])
-def getAllPerson():
+def getAllBusiness():
     if request.method == 'POST':
         return BusinessHandler().insertBusiness(request.form)
     else:
@@ -72,6 +73,24 @@ def getBusinessById(bid):
 @app.route('/business/<int:bid>/services')
 def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)
+
+@app.route('/business/<int:bid>/location')
+def showLocationByBusinessId(bid):
+    class Map:
+        def __init__(self, name, lat, lng):
+            self.name = name
+            self.lat = lat
+            self.lng = lng
+
+    api_key = "AIzaSyCeHf-jcEx21QPuV7BZOUOukikZ-bQYxDA"
+    google = GoogleMaps(api_key)
+    location = BusinessHandler().showLocationByBusinessId(bid)
+    address = location[0] + ',' + location[1]
+    geocode_result = google.geocode(address)
+    latitude = geocode_result[0]['geometry']['location']['lat']
+    longitude = geocode_result[0]['geometry']['location']['lng']
+    Map = Map(address, latitude, longitude)
+    return render_template('map.html', map=Map)
 
 #-----Appointments-----
 @app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
