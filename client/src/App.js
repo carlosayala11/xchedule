@@ -13,10 +13,11 @@ import Login from './pages/Login.js'
 import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
 import Home from './pages/Home.js'
+import Appointment from './pages/Appointment.js'
 
 var firebase = require('firebase');
 
-firebase.initializeApp({ 
+firebase.initializeApp({
     apiKey: "AIzaSyC7S6YxCC9enhXCjTz6mFOt9s4lLUbqero",
     authDomain: "schedule-app-e5da3.firebaseapp.com",
     databaseURL: "https://schedule-app-e5da3.firebaseio.com",
@@ -46,6 +47,9 @@ function App() {
           </Route>
           <Route path="/home">
             <Home />
+          </Route>
+          <Route exact path="/appointment">
+            <Appointment />
           </Route>
         </Switch>
       </Router>
