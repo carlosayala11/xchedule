@@ -21,7 +21,7 @@ class AppointmentsHandler:
         result['business name'] = row[4]
         return result
 
-   def insertAppointmentJson(self, json):
+    def insertAppointmentJson(self, json):
         print(json)
         duration = json['duration']
         date = json['adate']
