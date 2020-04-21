@@ -79,7 +79,7 @@ def getAllAppointments():
     if request.method == 'GET':
         return AppointmentsHandler().getAllAppointments()
     elif request.method == 'POST':
-        return AppointmentsHandler().insertAppointment(request.form)
+        return AppointmentsHandler().insertAppointment(request.json)
     elif request.method == 'DELETE':
         return AppointmentsHandler().deleteAppointment()
 
