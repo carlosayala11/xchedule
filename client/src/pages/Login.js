@@ -29,9 +29,7 @@ class Login extends Component{
                 <div className="login-container">
                     <LoginForm></LoginForm>
                     <div onClick={this.changeUserLogginStatus.bind(this)} className="change-login">
-                        <p>Don't have an account?</p>
-                        
-                        <p>Create an Account</p>
+                        <p>Don't have an account? Create an Account</p>
                     </div>
                 </div>
             
@@ -39,11 +37,10 @@ class Login extends Component{
                 
         }else{
             return (
-                <div className="login-container">
+                <div className="signup-container">
                     <SignUpForm></SignUpForm>
                     <div onClick={this.changeUserLogginStatus.bind(this)} className="change-login">
-                        <p>Already have an account? </p>
-                        <p >Login</p>
+                        <p>Already have an account? Login</p>
                     </div>                
                 </div>
             

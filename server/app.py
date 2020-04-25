@@ -23,7 +23,7 @@ def hello_world():
 @app.route('/users', methods=['GET', 'POST'])
 def getAllUsers():
     if request.method == 'POST':
-        return userHandler().insertUser(request.form)
+        return userHandler().insertUser(request.json)
     else:
         if not request.args:
             return userHandler().getAllUsers()
