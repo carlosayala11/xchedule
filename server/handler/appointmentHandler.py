@@ -27,7 +27,7 @@ class AppointmentsHandler:
             return jsonify(Error="Malformed appointment request"), 400
         else:
             duration = form['duration']
-            date = form['date']
+            date = form['adate']
             pending = form['pending']
             completed = form['completed']
             canceled = form['canceled']
@@ -43,6 +43,25 @@ class AppointmentsHandler:
                 return jsonify(Appointment=result), 201
             else:
                 return jsonify(Error="Unexpected attributes in appointment request"), 400
+    
+    def insertAppointmentJson(self, json):
+        print(json)
+        duration = json['duration']
+        date = json['adate']
+        pending = json['pending']
+        completed = json['completed']
+        canceled = json['canceled']
+        sid = json['sid']
+        uid = json['uid']
+        if duration and date and sid and uid:
+            dao = AppointmentsDAO()
+            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid)
+            list = []
+            list.extend((aid, duration, date, pending, completed, canceled))
+            result = self.build_appointment_dict(list)
+            return jsonify(Appointment=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in appointment request"), 400
     
     def deleteAppointment(self, aid):
         dao = AppointmentsDAO()
