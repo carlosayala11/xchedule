@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
-from googlemaps import Client as GoogleMaps
+# from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
 import os

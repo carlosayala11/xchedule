@@ -1,3 +1,4 @@
+import axios from 'axios'
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
@@ -6,6 +7,23 @@ import {
   DayView,
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
+
+const uid = firebase.auth().currentUser.uid;
+
+axios.get('http://localhost:5000/appointments', {
+    params: {
+      ID: uid
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+  .then(function () {
+    // always executed
+  });
 
 const currentDate = '2018-11-01';
 const schedulerData = [
@@ -22,8 +40,8 @@ export default () => (
         currentDate={currentDate}
       />
       <DayView
-        startDayHour={9}
-        endDayHour={14}
+        startDayHour={8}
+        endDayHour={20}
       />
       <Appointments />
     </Scheduler>

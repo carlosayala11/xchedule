@@ -1,6 +1,5 @@
 .home-page{
-    display:flex;
-    flex-direction:column;
+
 }
 
 .lheader {
@@ -9,6 +8,11 @@
     height: 250px;
     position: absolute;
     left: auto;
+}
+
+.home-logo {
+    display: block;
+    width: 100%;
 }
 
 .rheader {
@@ -38,9 +42,4 @@
 .calendar {
     top: 750px;
     background-color: pink;
-}
-
-.home-logo{
-    display: block;
-    width: 100%;
 }

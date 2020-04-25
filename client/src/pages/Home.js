@@ -22,13 +22,8 @@ class Home extends Component{
                     <br/><br/><br/><h1 className="h1">Xchedule</h1>
                     <h2 className="h2">Organize your appointments effectively.</h2><br/>
                 </div>
-                <div className="carousel">
-                    <Slideshow></Slideshow>
-                </div>
-                <div className="calendar">
-                    <Calendar></Calendar>
-                </div>
-
+                <Slideshow className="carousel"></Slideshow>
+                <Calendar className="calendar"></Calendar>
             </div>
         )
     }
