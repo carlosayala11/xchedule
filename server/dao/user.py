@@ -45,10 +45,10 @@ class UsersDAO:
             result.append(row)
         return result
 
-    def insert(self, id, full_name, username, password, email, phone_number, age, gender, uaddress, isowner):
+    def insert(self, id, full_name, username, email, phone_number, age, gender, uaddress, isowner):
         cursor = self.conn.cursor()
-        query = "insert into users(uid, full_name, username, password, email, phone_number, age, gender, uaddress, isowner) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
-        cursor.execute(query, (id, full_name, username, password, email, phone_number, age, gender, uaddress, isowner))
+        query = "insert into users(uid, full_name, username, email, phone_number, age, gender, uaddress, isowner) values (%s, %s, %s, %s, %s, %s, %s, %s, %s) returning uid;"
+        cursor.execute(query, (id, full_name, username, email, phone_number, age, gender, uaddress, isowner))
         uid = cursor.fetchone()[0]
         self.conn.commit()
         return uid
@@ -64,9 +64,9 @@ class UsersDAO:
         self.conn.commit()
         return uid
 
-    def update(self, uid, full_name, username, password, email, phone_number, age, gender, uaddress, isowner):
+    def update(self, uid, full_name, username, email, phone_number, age, gender, uaddress, isowner):
         cursor = self.conn.cursor()
-        query = "update users set full_name = %s, username = %s, password = %s, email = %s, phone_number = %s, age = %s, gender = %s, uaddress = %s, isowner = %s;"
-        cursor.execute(query, (full_name, username, password, email, phone_number, age, gender, uaddress, isowner))
+        query = "update users set full_name = %s, username = %s, email = %s, phone_number = %s, age = %s, gender = %s, uaddress = %s, isowner = %s;"
+        cursor.execute(query, (full_name, username, email, phone_number, age, gender, uaddress, isowner))
         self.conn.commit()
         return uid

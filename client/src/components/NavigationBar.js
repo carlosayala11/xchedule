@@ -27,7 +27,8 @@ class NavigationBar extends Component{
     componentWillMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({username:"test", loggedIn:true})
+                console.log(user)
+                this.setState({username:user.email, loggedIn:true})
               // User is signed in.
             } else {
                 console.log("no user")
@@ -57,7 +58,7 @@ class NavigationBar extends Component{
                 <Button id="Popover1" type="button">
                     {this.state.username}
                 </Button>
-                <Popover placement="left" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover.bind(this)}>
+                <Popover className="popover" placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover.bind(this)}>
                     <PopoverHeader>Manage Account</PopoverHeader>
                     <PopoverBody>
                         <NavLink to="/profile">Go to Profile</NavLink>
@@ -76,6 +77,7 @@ class NavigationBar extends Component{
         return(
             <div className="navigation-bar-container">
                 <Menu>
+                    <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>
                 </Menu>

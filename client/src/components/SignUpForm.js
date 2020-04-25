@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Button, Input, Spinner, Container, Row, Col } from 'reactstrap';
 import * as firebase from 'firebase';
 import '../styles/Login.css'
+import axios from 'axios'
 
 
 
@@ -41,22 +42,23 @@ class SignUpForm extends Component{
         if(this.state.password === this.state.passwordretype){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
                 console.log("User Creation Successful")
-                // user = {
-                //     uid = firebase.auth().currentUser.uid,
-                //     fullname = this.state.fullName,
-                //     username = this.state.username,
-                //     email = this.state.email,
-                //     phone = this.state.phoneNumber,
-                //     age = this.state.age,
-                //     gender = this.state.sex,
-                //     uaddress = '',
-                //     isOwner = false
-                // }
-                //axios.post(URL/users, user).then((res)=>{
-                //  console.log(res)    
-                //}).catch((err)=>{
-                //  console.log(err)    
-                //})
+                var user = {
+                    uid: firebase.auth().currentUser.uid,
+                    fullname: this.state.fullName,
+                    username: this.state.username,
+                    email: this.state.email,
+                    phone: this.state.phoneNumber,
+                    age: this.state.age,
+                    gender: this.state.sex,
+                    uaddress: "(testaddress, country1, city2, 00958)",
+                    isowner: false
+                }
+                console.log(user)
+                axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
+                 console.log(res)    
+                }).catch((err)=>{
+                 console.log(err)    
+                })
             }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
     

@@ -23,7 +23,7 @@ export default () => (
       />
       <DayView
         startDayHour={9}
-        endDayHour={14}
+        endDayHour={18}
       />
       <Appointments />
     </Scheduler>
