@@ -44,11 +44,6 @@ create table requests(
     primary key (aid, sid)
  );
 
-create type location_item AS (
-    latitude numeric(18,9),
-    longitude numeric(18,9),
-    mapURL varchar(1024)
-);
 
 create type address_item AS (
     address varchar(100),
@@ -68,6 +63,5 @@ create table business (
     workingHours varchar(100) not null,
     workingDays varchar(100) not null,
     baddress address_item,
-	blocation location_item,
     timeRestriction int
 );
