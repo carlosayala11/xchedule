@@ -7,13 +7,12 @@ class userHandler:
         users['uid'] = row[0]
         users['fullname'] = row[1]
         users['username'] = row[2]
-        # users['password'] = row[3]
+        users['email'] = row[3]
         users['phone'] = row[4]
-        users['email'] = row[5]
-        users['age'] = row[6]
-        users['gender'] = row[7]
-        users['address'] = row[8]
-        users['isOwner'] = row[9]
+        users['age'] = row[5]
+        users['gender'] = row[6]
+        users['address'] = row[7]
+        users['isOwner'] = row[8]
         return users
 
     def getAllUsers(self):
@@ -81,7 +80,6 @@ class userHandler:
         uid = form['uid']
         fullname = form['fullname']
         username = form['username']
-            # password = form['password']
         email = form['email']
         phone = form['phone']
         age = form['age']
@@ -105,7 +103,6 @@ class userHandler:
             result['uid'] = uid
             result['fullname'] = fullname
             result['username'] = username
-            # result['password'] = password
             result['email'] = email
             result['phone'] = phone
             result['age'] = age
@@ -135,7 +132,6 @@ class userHandler:
             else:
                 fullname = form['fullname']
                 username = form['username']
-                # password = form['password']
                 email = form['email']
                 phone = form['phone']
                 age = form['age']
@@ -147,7 +143,6 @@ class userHandler:
                     result = {}
                     result['fullname'] = fullname
                     result['username'] = username
-                    # result['password'] = password
                     result['email'] = email
                     result['phone'] = phone
                     result['age'] = age
