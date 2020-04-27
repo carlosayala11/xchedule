@@ -22,7 +22,7 @@ class UsersDAO:
 
     def getUserById(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from users where CAST(uid as int) = %s;"
+        query = "select * from users where uid = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
         return result

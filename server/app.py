@@ -31,7 +31,7 @@ def getAllUsers():
         else:
             return userHandler().searchUsers(request.args)
 
-@app.route('/users/<int:uid>',
+@app.route('/users/<string:uid>',
            methods=['GET', 'PUT', 'DELETE'])
 def getUserById(uid):
     if request.method == 'GET':
