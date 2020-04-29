@@ -19,7 +19,7 @@ class UserForm extends Component{
             age:'',
             gender:'',
             address:'',
-            isVisible: false
+            loggedIn:false
         };
     }
 
@@ -55,7 +55,17 @@ class UserForm extends Component{
     }
 
     componentDidMount(){
-        this.getUser();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                console.log(user)
+                this.setState({username:user.email, loggedIn:true})
+              // User is signed in.
+              this.getUser();
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
     }
 
     onSubmit = (event) => {
