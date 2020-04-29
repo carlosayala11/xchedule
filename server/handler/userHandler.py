@@ -76,16 +76,16 @@ class userHandler:
             else:
                 return jsonify(Error="Malformed search string."), 400
 
-    def insertUser(self, form):
-        uid = form['uid']
-        fullname = form['fullname']
-        username = form['username']
-        email = form['email']
-        phone = form['phone']
-        age = form['age']
-        gender = form['gender']
-        uaddress = form['uaddress']
-        isowner = form['isowner']
+    def insertUser(self, json):
+        uid = json['uid']
+        fullname = json['fullname']
+        username = json['username']
+        email = json['email']
+        phone = json['phone']
+        age = json['age']
+        gender = json['gender']
+        uaddress = json['uaddress']
+        isowner = json['isowner']
         print(uid)
         print(fullname)
         print(username)
@@ -122,33 +122,31 @@ class userHandler:
             dao.delete(uid)
             return jsonify(DeleteStatus="OK"), 200
 
-    def updateUser(self, uid, form):
+    def updateUser(self, json):
         dao = UsersDAO()
-        if not dao.getUserById(uid):
+        uid = json['uid']
+        if not dao.getAllUsers(uid):
             return jsonify(Error = "User not found."), 404
         else:
-            if len(form) != 8:
-                return jsonify(Error="Malformed update request"), 400
+            fullname = json['fullname']
+            username = json['username']
+            email = json['email']
+            phone = json['phone']
+            age = json['age']
+            gender = json['gender']
+            uaddress = json['address']
+            isowner = json['isowner']
+            if fullname and username and email and phone and age and gender and uaddress and isowner:
+                dao.update(uid, fullname, username, email, phone, age, gender, uaddress, isowner)
+                result = {}
+                result['fullname'] = fullname
+                result['username'] = username
+                result['email'] = email
+                result['phone'] = phone
+                result['age'] = age
+                result['gender'] = gender
+                result['uaddress'] = uaddress
+                result['isowner'] = isowner
+                return jsonify(User=result), 200
             else:
-                fullname = form['fullname']
-                username = form['username']
-                email = form['email']
-                phone = form['phone']
-                age = form['age']
-                gender = form['gender']
-                uaddress = form['uaddress']
-                isowner = form['isowner']
-                if fullname and username and email and phone and age and gender and uaddress and isowner:
-                    dao.update(uid, fullname, username, email, phone, age, gender, uaddress, isowner)
-                    result = {}
-                    result['fullname'] = fullname
-                    result['username'] = username
-                    result['email'] = email
-                    result['phone'] = phone
-                    result['age'] = age
-                    result['gender'] = gender
-                    result['uaddress'] = uaddress
-                    result['isowner'] = isowner
-                    return jsonify(User=result), 200
-                else:
-                    return jsonify(Error="Unexpected attributes in update request."), 400
+                return jsonify(Error="Unexpected attributes in update request."), 400
