@@ -18,7 +18,8 @@ class UserForm extends Component{
             username:'',
             age:'',
             gender:'',
-            address:''
+            address:'',
+            isVisible: false
         };
     }
 
@@ -76,7 +77,6 @@ class UserForm extends Component{
             .catch(function (error) {
                 console.log(error);
         });
-
     }
 
     render(){
@@ -85,23 +85,23 @@ class UserForm extends Component{
                 <Form>
                     <FormGroup>
                         <Label>Username</Label>
-                        <input className='input-form' placeholder={this.state.username}></input>
+                        <Input name="username" className='input-form' placeholder={this.state.username} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Name</Label>
-                        <input name='fullName' placeholder={this.state.fullName} onChange={this.onInputChange}></input>
+                        <Input name='fullName' placeholder={this.state.fullName} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Email</Label>
-                        <input placeholder={this.state.email}></input>
+                        <Input name="email" placeholder={this.state.email} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Phone</Label>
-                        <input placeholder={this.state.phoneNumber}></input>
+                        <Input name='phoneNumber' placeholder={this.state.phoneNumber} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Age</Label>
-                        <input placeholder={this.state.age}></input>
+                        <Input name='age' placeholder={this.state.age} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Gender</Label>
