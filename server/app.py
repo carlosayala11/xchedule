@@ -29,7 +29,6 @@ def getAllUsers():
         return userHandler().insertUser(request.json)
     # return userHandler().searchUsers(request.args)
     elif request.method == 'GET':
-        print('estoy en el get')
         return userHandler().getUserById(request.args.get('id'))
     else:
         return jsonify(Error = "Method not allowed."), 405
