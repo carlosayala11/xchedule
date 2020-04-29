@@ -18,8 +18,7 @@ class UserForm extends Component{
             username:'',
             age:'',
             gender:'',
-            address:'',
-            user:[]
+            address:''
         };
     }
 
@@ -28,7 +27,6 @@ class UserForm extends Component{
         this.setState({
             [event.target.name]: event.target.value
         })
-        console.log(this.state.fullName);
     }
 
     getUser() {
@@ -61,7 +59,7 @@ class UserForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        var user = {
+        axios.put('http://localhost:5000/users/update', {
             uid: firebase.auth().currentUser.uid,
             fullname: this.state.fullName,
             username: this.state.username,
@@ -69,10 +67,9 @@ class UserForm extends Component{
             phone: this.state.phoneNumber,
             age: this.state.age,
             gender: this.state.gender,
-            uaddress: "(testaddress, country1, city2, 00958)",
+            address: "(testaddress, country1, city2, 00958)",
             isowner: false
-        }
-        axios.put('http://localhost:5000/users', {user})
+        })
             .then(function(response){
                 console.log(response);
             })
@@ -81,11 +78,6 @@ class UserForm extends Component{
         });
 
     }
-    
-    // Example = (props) => {
-    //     const [cSelected, setCSelected] = useState([]);
-    //     const [rSelected, setRSelected] = useState(null);
-    // }
 
     render(){
         return(
@@ -118,12 +110,6 @@ class UserForm extends Component{
                                 <option>F</option>
                             </Input>
                     </FormGroup>
-                        {/* <ButtonGroup> */}
-                            {/* <Button color="primary" onClick={this.state.user.gender === 'M'} value={this.state.user.gender}>Male</Button>
-                            // <Button color="primary" onClick={this.state.user.gender === 'F'} value={this.state.user.gender}>Female</Button> */}
-                            {/* <Button color="primary" onClick={() => setRSelected(2)} active={rSelected === 2}>Female</Button> */}
-                            {/* <Button color="primary" onClick={() => setRSelected(3)} active={rSelected === 3}>Other</Button> */}
-                        {/* </ButtonGroup> */}
                     <p>Selected: {this.state.gender}</p>
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                
