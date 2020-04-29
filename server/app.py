@@ -21,15 +21,22 @@ def hello_world():
     return 'Welcome to XChedule!'
 
 #-----Users-----
-@app.route('/users', methods=['GET', 'POST'])
+@app.route('/users', methods=['GET', 'POST', 'PUT'])
 def getAllUsers():
-    if request.method == 'POST':
+    if not request.args:
+        return userHandler().getAllUsers()
+    elif request.method == 'POST':
         return userHandler().insertUser(request.json)
+    # return userHandler().searchUsers(request.args)
+    elif request.method == 'GET':
+        print('estoy en el get')
+        return userHandler().getUserById(request.args.get('id'))
     else:
-        if not request.args:
-            return userHandler().getAllUsers()
-        else:
-            return userHandler().searchUsers(request.args)
+        return jsonify(Error = "Method not allowed."), 405
+
+@app.route('/users/update', methods=['PUT'])
+def updateUser():
+    return userHandler().updateUser(request.json)
 
 @app.route('/users/<string:uid>',
            methods=['GET', 'PUT', 'DELETE'])
@@ -37,7 +44,7 @@ def getUserById(uid):
     if request.method == 'GET':
         return userHandler().getUserById(uid)
     elif request.method == 'PUT':
-        return userHandler().updateUser(uid, request.form)
+        return userHandler().updateUser(uid, request.json)
     elif request.method == 'DELETE':
         return userHandler().deleteUser(uid)
     else:
@@ -118,5 +125,5 @@ def getAppointmentsByServiceId(sid):
     return AppointmentsHandler().getAppointmentsByServiceId(sid)
 
 if __name__ == '__main__':
-    app.debug = False
+    app.debug = True
     app.run()

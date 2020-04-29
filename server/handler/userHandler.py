@@ -125,7 +125,7 @@ class userHandler:
     def updateUser(self, json):
         dao = UsersDAO()
         uid = json['uid']
-        if not dao.getAllUsers(uid):
+        if not dao.getUserById(uid):
             return jsonify(Error = "User not found."), 404
         else:
             fullname = json['fullname']
@@ -136,7 +136,7 @@ class userHandler:
             gender = json['gender']
             uaddress = json['address']
             isowner = json['isowner']
-            if fullname and username and email and phone and age and gender and uaddress and isowner:
+            if uid and fullname and username and email and phone and age and gender and uaddress:
                 dao.update(uid, fullname, username, email, phone, age, gender, uaddress, isowner)
                 result = {}
                 result['fullname'] = fullname
