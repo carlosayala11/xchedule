@@ -25,6 +25,8 @@ yarn-debug.log*
 yarn-error.log*
 *.pyc
 
+node_modules/
+
 server/handler/__pycache__/
 server/dao/__pycache__/
 
