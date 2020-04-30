@@ -5,6 +5,7 @@ import "flatpickr/dist/themes/dark.css";
 import axios from 'axios'
 import moment from 'moment'
 
+var firebase = require('firebase');
 
 class AppointmentForm extends Component{
     constructor(){
@@ -27,15 +28,16 @@ class AppointmentForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        const {dt, duration, pending, completed, canceled, sid, uid} = this.state
-        axios.post('https://xchedule-api.herokuapp.com/appointments', {
-            adate: dt, 
-            duration: duration,
-            completed: 'False', 
+        // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        var id = firebase.auth().currentUser.uid;
+        axios.post('http://localhost:5000/appointments', {
+            adate: this.state.dt,
+            duration: this.state.duration,
+            completed: 'False',
             pending: 'True',
             canceled: 'False',
             sid: 1,
-            uid:1 })
+            uid: id })
             .then(function(response){
                 console.log(response);
             })
@@ -43,31 +45,31 @@ class AppointmentForm extends Component{
                 console.log(error);
         });
 
-    } 
+    }
 
     render(){
         const {date, duration } = this.state;
         var dt;
         return(
-            <div className="form-container">                
+            <div className="form-container">
                 <form>
                     <Label>Date</Label>
                     <div>
-                    <Flatpickr 
+                    <Flatpickr
                         placeholder="Please select a date"
                         name="date"
                         value={date}
                         onChange={date => {
                             dt = moment(date[0])
-                            console.log(dt)
+                            // console.log(dt)
                             this.setState({ dt });
                           }}
-                    /> 
-                    </div> 
-                
+                    />
+                    </div>
+
                 <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
-                    <Input name="duration" type="select" value={duration} onChange={this.onInputChange}>
+                    <Input name="duration" type="select" value={this.state.duration} onChange={this.onInputChange}>
                         <option>10</option>
                         <option>20</option>
                         <option>30</option>
@@ -76,9 +78,9 @@ class AppointmentForm extends Component{
                     </Input>
                 </FormGroup>
                 </form>
-                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}                
+                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}
             </div>
-            
+
 
         )
     }
