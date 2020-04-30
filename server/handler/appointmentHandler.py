@@ -94,3 +94,13 @@ class AppointmentsHandler:
             result = self.build_AppointmentByService_dict(row)
             result_list.append(result)
         return jsonify(AppointmentsList=result_list)
+
+    def getAppointmentsByUserId(self, uid):
+        dao = AppointmentsDAO()
+        appointments_list = dao.getAppointmentsByUserId(uid)
+        result_list = []
+        for row in appointments_list:
+            result = self.build_appointment_dict(row)
+            result_list.append(result)
+        return jsonify(AppointmentsList=result_list)
+

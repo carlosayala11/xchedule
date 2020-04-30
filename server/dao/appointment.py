@@ -48,3 +48,12 @@ class AppointmentsDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getAppointmentsByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from appointments natural inner join schedules where uid=%s;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

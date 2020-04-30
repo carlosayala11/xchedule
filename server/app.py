@@ -101,8 +101,10 @@ def showLocationByBusinessId(bid):
 #-----Appointments-----
 @app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
 def getAllAppointments():
-    if request.method == 'GET':
+    if request.method == 'GET' and not request.args:
         return AppointmentsHandler().getAllAppointments()
+    elif request.method == 'GET' and request.args:
+        return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
     elif request.method == 'POST':
         return AppointmentsHandler().insertAppointmentJson(request.json)
     elif request.method == 'DELETE':
