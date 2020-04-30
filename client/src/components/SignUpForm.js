@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Input, Spinner, Container, Row, Col } from 'reactstrap';
+import {Redirect} from 'react-router-dom'
 import * as firebase from 'firebase';
 import '../styles/Login.css'
 import axios from 'axios'
@@ -21,10 +22,9 @@ class SignUpForm extends Component{
             country:'',
             city:'',
             loadingSignUp:false,
-            errorMessage:''
+            errorMessage:'',
+            userSignedUp:false
         }
-
-    
     }
 
     
@@ -55,6 +55,7 @@ class SignUpForm extends Component{
                 }
                 console.log(user)
                 axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
+                    this.setState({userSignedUp:true})
                  console.log(res)    
                 }).catch((err)=>{
                  console.log(err)    
@@ -89,6 +90,10 @@ class SignUpForm extends Component{
 
 
     render(){
+        if(this.state.userSignedUp){
+            return <Redirect to='/home'/>;
+            
+        }
         return(
             <div className="signUp-form">
                 <p className="login-title">Create an Account</p>
