@@ -1,6 +1,7 @@
 #from server.config.config import pg_config
 import psycopg2
 
+
 class BusinessDAO:
     def __init__(self):
         # connection_url = "dbname=%s user=%s password=%s" % (pg_config['dbname'],
@@ -43,6 +44,16 @@ class BusinessDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def showLocationByBusinessId(self, bid):
+        cursor = self.conn.cursor()
+        query = "select (baddress).city, (baddress).country from business where bid = %s;"
+        cursor.execute(query, (bid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
 
     def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()
