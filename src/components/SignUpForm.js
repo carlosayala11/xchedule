@@ -54,7 +54,7 @@ class SignUpForm extends Component{
                     isowner: false
                 }
                 console.log(user)
-                axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
+                axios.post("https://xchedule-api.herokuapp.com/users", user).then((res)=>{
                  console.log(res)    
                 }).catch((err)=>{
                  console.log(err)    

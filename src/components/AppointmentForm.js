@@ -30,7 +30,7 @@ class AppointmentForm extends Component{
         event.preventDefault();
         // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
         var id = firebase.auth().currentUser.uid;
-        axios.post('http://localhost:5000/appointments', {
+        axios.post('https://xchedule-api.herokuapp.com/appointments', {
             adate: this.state.dt,
             duration: this.state.duration,
             completed: 'False',

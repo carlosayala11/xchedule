@@ -33,7 +33,7 @@ class UserForm extends Component{
     getUser() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/users',{
+        axios.get('https://xchedule-api.herokuapp.com/users',{
             params: {
                 id: id
             }
@@ -70,7 +70,7 @@ class UserForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        axios.put('http://localhost:5000/users/update', {
+        axios.put('https://xchedule-api.herokuapp.com/users/update', {
             uid: firebase.auth().currentUser.uid,
             fullname: this.state.fullName,
             username: this.state.username,
