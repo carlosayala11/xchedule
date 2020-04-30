@@ -5,6 +5,7 @@ import "flatpickr/dist/themes/dark.css";
 import axios from 'axios'
 import moment from 'moment'
 
+var firebase = require('firebase');
 
 class AppointmentForm extends Component{
     constructor(){
@@ -27,15 +28,16 @@ class AppointmentForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        var id = firebase.auth().currentUser.uid;
         axios.post('http://localhost:5000/appointments', {
-            adate: dt, 
-            duration: duration,
+            adate: this.state.dt, 
+            duration: this.state.duration,
             completed: 'False', 
             pending: 'True',
             canceled: 'False',
             sid: 1,
-            uid:1 })
+            uid: id })
             .then(function(response){
                 console.log(response);
             })
@@ -44,14 +46,6 @@ class AppointmentForm extends Component{
         });
 
     } 
-
-    
-
-    // scheduleAppointment(){
-    //     axios.post('http://localhost:5000/appointments').then(result =>{
-    //         console.log(result.data)
-    //     });
-    // }
 
     render(){
         const {date, duration } = this.state;
@@ -67,7 +61,7 @@ class AppointmentForm extends Component{
                         value={date}
                         onChange={date => {
                             dt = moment(date[0])
-                            console.log(dt)
+                            // console.log(dt)
                             this.setState({ dt });
                           }}
                     /> 
@@ -75,7 +69,7 @@ class AppointmentForm extends Component{
                 
                 <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
-                    <Input name="duration" type="select" value={duration} onChange={this.onInputChange}>
+                    <Input name="duration" type="select" value={this.state.duration} onChange={this.onInputChange}>
                         <option>10</option>
                         <option>20</option>
                         <option>30</option>
