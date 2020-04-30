@@ -55,12 +55,13 @@ class AppointmentForm extends Component{
                 <form>
                     <Label>Date</Label>
                     <div>
-                    <Flatpickr 
+                    <Flatpickr
+                        data-enable-time 
                         placeholder="Please select a date"
                         name="date"
                         value={date}
                         onChange={date => {
-                            dt = moment(date[0])
+                            dt = moment(date[0]).format('MM-DD-YYYYTHH:mm');
                             // console.log(dt)
                             this.setState({ dt });
                           }}
