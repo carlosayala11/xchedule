@@ -16,6 +16,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
+import moment from 'moment'
+
 
 class Calendar extends Component{
   constructor(){
@@ -38,7 +40,7 @@ class Calendar extends Component{
 
   //function to conditionally render the calendar or a message
   renderCalendar(data){
-    const currentDate = '2018-11-01';
+    const currentDate = moment();
 
     //if the calendar is supposed to be rendered (has appointments available to show), render it
     if(this.state.renderCalendar){
