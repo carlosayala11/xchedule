@@ -59,7 +59,7 @@ def getAppointmentsByUserId(uid):
 @app.route('/business', methods=['GET', 'POST'])
 def getAllBusiness():
     if request.method == 'POST':
-        return BusinessHandler().insertBusiness(request.form)
+        return BusinessHandler().insertBusiness(request.json)
     else:
         if not request.args:
             return BusinessHandler().getAllBusiness()
@@ -71,7 +71,7 @@ def getBusinessById(bid):
     if request.method == 'GET':
         return BusinessHandler().getBusinessById(bid)
     elif request.method == 'PUT':
-        return BusinessHandler().updateBusiness(bid, request.form)
+        return BusinessHandler().updateBusiness(bid, request.json)
     elif request.method == 'DELETE':
         return BusinessHandler().deleteBusiness(bid)
     else:

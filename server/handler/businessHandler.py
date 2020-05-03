@@ -107,24 +107,68 @@ class BusinessHandler:
             else:
                 return jsonify(Error="Malformed search string."), 400
 
-    def insertBusiness(self, form):
-        if form and len(form) == 11:
-            uid = form['uid']
-            bname = form['bname']
-            twitter = form['twitter']
-            facebook = form['facebook']
-            instagram = form['instagram']
-            website_url = form['website_url']
-            workingHours = form['workingHours']
-            workingDays = form['workingDays']
-            baddress = form['baddress']
-            blocation = form['blocation']
-            timeRestriction = form['timeRestriction']
+    def insertBusiness(self, json):
+        uid = json['uid']
+        bname = json['bname']
+        twitter = json['twitter']
+        facebook = json['facebook']
+        instagram = json['instagram']
+        website_url = json['website_url']
+        workingHours = json['workingHours']
+        workingDays = json['workingDays']
+        baddress = json['baddress']
+        blocation = json['blocation']
+        timeRestriction = json['timeRestriction']
+        if uid and bname and twitter and facebook and instagram and website_url and workingHours \
+                and workingDays and baddress and blocation and timeRestriction:
+            dao = BusinessDAO()
+            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
+                             workingDays, baddress, blocation, timeRestriction)
+            result = {}
+            result['bid'] = bid
+            result['uid'] = uid
+            result['bname'] = bname
+            result['twitter'] = twitter
+            result['facebook'] = facebook
+            result['instagram'] = instagram
+            result['website_url'] = website_url
+            result['workingHours'] = workingHours
+            result['workingDays'] = workingDays
+            result['baddress'] = baddress
+            result['blocation'] = blocation
+            result['timeRestriction'] = timeRestriction
+            return jsonify(Business=result), 201
+        else:
+            return jsonify('Unexpected attributes in post request'), 401
+
+    def deleteBusiness(self, bid):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error = "Business not found."), 404
+        else:
+            dao.delete(bid)
+            return jsonify(DeleteStatus = "OK"), 200
+
+    def updateBusiness(self, bid, json):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error = "Business not found."), 404
+        else:
+            uid = json['uid']
+            bname = json['bname']
+            twitter = json['twitter']
+            facebook = json['facebook']
+            instagram = json['instagram']
+            website_url = json['website_url']
+            workingHours = json['workingHours']
+            workingDays = json['workingDays']
+            baddress = json['baddress']
+            blocation = json['blocation']
+            timeRestriction = json['timeRestriction']
             if uid and bname and twitter and facebook and instagram and website_url and workingHours \
                     and workingDays and baddress and blocation and timeRestriction:
-                dao = BusinessDAO()
-                bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
-                                 workingDays, baddress, blocation, timeRestriction)
+                dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
+                           baddress, blocation, timeRestriction)
                 result = {}
                 result['bid'] = bid
                 result['uid'] = uid
@@ -138,59 +182,9 @@ class BusinessHandler:
                 result['baddress'] = baddress
                 result['blocation'] = blocation
                 result['timeRestriction'] = timeRestriction
-                return jsonify(Business=result), 201
+                return jsonify(Business=result), 200
             else:
-                return jsonify('Unexpected attributes in post request'), 401
-        else:
-            return jsonify(Error="Malformed post request"), 400
-
-    def deleteBusiness(self, bid):
-        dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error = "Business not found."), 404
-        else:
-            dao.delete(bid)
-            return jsonify(DeleteStatus = "OK"), 200
-
-    def updateBusiness(self, bid, form):
-        dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error = "Business not found."), 404
-        else:
-            if len(form) != 11:
-                return jsonify(Error="Malformed update request"), 400
-            else:
-                uid = form['uid']
-                bname = form['bname']
-                twitter = form['twitter']
-                facebook = form['facebook']
-                instagram = form['instagram']
-                website_url = form['website_url']
-                workingHours = form['workingHours']
-                workingDays = form['workingDays']
-                baddress = form['baddress']
-                blocation = form['blocation']
-                timeRestriction = form['timeRestriction']
-                if uid and bname and twitter and facebook and instagram and website_url and workingHours \
-                        and workingDays and baddress and blocation and timeRestriction:
-                    dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
-                               baddress, blocation, timeRestriction)
-                    result = {}
-                    result['bid'] = bid
-                    result['uid'] = uid
-                    result['bname'] = bname
-                    result['twitter'] = twitter
-                    result['facebook'] = facebook
-                    result['instagram'] = instagram
-                    result['website_url'] = website_url
-                    result['workingHours'] = workingHours
-                    result['workingDays'] = workingDays
-                    result['baddress'] = baddress
-                    result['blocation'] = blocation
-                    result['timeRestriction'] = timeRestriction
-                    return jsonify(Business=result), 200
-                else:
-                    return jsonify(Error="Unexpected attributes in update request"), 400
+                return jsonify(Error="Unexpected attributes in update request"), 400
 
     def approveAppointment(self, bid, aid):
         dao = BusinessDAO()
