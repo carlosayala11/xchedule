@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/dark.css";
+import "flatpickr/dist/themes/material_blue.css";
 import axios from 'axios'
 import moment from 'moment'
 
