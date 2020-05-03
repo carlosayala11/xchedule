@@ -57,3 +57,12 @@ class AppointmentsDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getRouteFromUserToBusinessByAppointmentId(self, aid):
+        cursor = self.conn.cursor()
+        query = "select (users.uaddress).city as user_city, (users.uaddress).country as user_country, (business.baddress).city as business_city , (business.baddress).country as business_country from business natural inner join offers natural inner join requests natural inner join schedules natural inner join users where aid= %s ;"
+        cursor.execute(query, (aid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
