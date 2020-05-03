@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
   Appointments,
+  WeekView,
+  ViewSwitcher,
+  Toolbar,
+  AppointmentTooltip,
+  AppointmentForm,
+  DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
+import { ViewState } from '@devexpress/dx-react-scheduler';
+import { withStyles } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
 
@@ -15,7 +23,7 @@ class Calendar extends Component{
     this.state={
       //holds data of all appointments
       data:[
-        { startDate: '2018-11-01T09:45:00', endDate: '2018-11-01T11:20:49'},
+        { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:20'},
         { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' }
       ],
       //decides if the calendar should be rendered or not
@@ -37,14 +45,29 @@ class Calendar extends Component{
       return(
         <Paper>
           <Scheduler data={data}>
-            <ViewState
-              currentDate={currentDate}
-            />
-            <DayView
-              startDayHour={9}
-              endDayHour={18}
-            />
-            <Appointments />
+          <ViewState
+            defaultCurrentDate={currentDate}
+            defaultCurrentViewName="Week"
+          />
+          <DayView
+            startDayHour={9}
+            endDayHour={18}
+          />
+          <WeekView
+            startDayHour={9}
+            endDayHour={18}
+          />
+          <Toolbar />
+          <DateNavigator />
+          <ViewSwitcher />
+          <Appointments />
+          <AppointmentTooltip
+            showCloseButton
+            showOpenButton
+          />
+          <AppointmentForm
+            readOnly
+          />
           </Scheduler>
         </Paper>
       )}else{
