@@ -16,6 +16,7 @@ class AppointmentForm extends Component{
             completed:'',
             pending:'',
             canceled:'',
+            endDate:'',
         };
     }
 
@@ -30,15 +31,26 @@ class AppointmentForm extends Component{
         event.preventDefault();
         // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
         var id = firebase.auth().currentUser.uid;
+
+        const startTime = this.state.dt;
+        const durationInMinutes = this.state.duration;
+        
+        const endTime = moment(startTime, 'MM-DD-YYYYTHH:mm').add(durationInMinutes, 'minutes').format('MM-DD-YYYYTHH:mm');        
+        this.setState({endDate:endTime})
+        console.log("STart time: " + startTime)
+        console.log("End Time:" + endTime)
+
+        //falta cambiar la tabla de appointments para fit con este POST
         axios.post('http://localhost:5000/appointments', {
-            adate: this.state.dt, 
+            startDate: this.state.dt, 
+            endDate: this.state.endDate,
             duration: this.state.duration,
             completed: 'False', 
             pending: 'True',
             canceled: 'False',
             sid: 1,
-            uid: id })
-            .then(function(response){
+            uid: id 
+        }).then(function(response){
                 console.log(response);
             })
             .catch(function (error) {
