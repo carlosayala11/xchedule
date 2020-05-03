@@ -1,0 +1,54 @@
+.appointment-page{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    justify-items: center;
+    align-content: center;
+    background-color: rgb(238, 238, 238);
+    height:100vh;
+}
+
+.logo{
+    height:300px;
+    width:500px;
+    justify-self: center;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.form-container{
+    display:flex;
+    justify-content:center;
+    align-content: right;
+    align-self: center;
+    background-color: white;
+    flex-direction: column;
+    width:400px;
+    padding:15px;
+    border-radius:10px;
+}
+
+.appointment-input{
+    margin-top: 15px;
+    margin-bottom:15px;
+    margin-left: left;
+    margin-right: auto;
+    width:50px;
+}
+
+.appointment-button{
+    width:300px;
+    margin:20px;
+    font-size:18px;
+    font-weight:bold;
+    align-self: center;
+}
+
+.appointment-label{
+    margin-top: 15px;
+    margin-left: left;
+}
+
+.date-box{
+    width: 350px;
+}

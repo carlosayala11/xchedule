@@ -54,6 +54,18 @@ class BusinessHandler:
                 result_list.append(result)
             return jsonify(BusinessList=result_list)
 
+    def showLocationByBusinessId(self, bid):
+        dao = BusinessDAO()
+        location = dao.showLocationByBusinessId(bid)
+        if not location:
+            return jsonify(Error="Business Not Found"), 404
+        else:
+            result = []
+            result.append(location[0][0])
+            result.append(location[0][1])
+            return result
+
+
     def getServicesByBusinessId(self, bid):
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)

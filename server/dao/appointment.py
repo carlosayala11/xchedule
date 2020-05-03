@@ -7,7 +7,7 @@ class AppointmentsDAO:
 
     def insert(self, date, duration, pending, completed, canceled, sid, uid):
         cursor = self.conn.cursor()
-        query = "insert into appointments (date, duration, pending, completed, canceled) values(%s, %s, %s, %s, %s) returning aid;"
+        query = "insert into appointments (adate, duration, pending, completed, canceled) values(%s, %s, %s, %s, %s) returning aid;"
         cursor.execute(query, (date, duration, pending, completed, canceled))
         aid = cursor.fetchone()[0]
         query1 = "insert into requests (aid, sid) values(%s, %s);"
@@ -44,6 +44,15 @@ class AppointmentsDAO:
         cursor = self.conn.cursor()
         query = "select distinct sc.aid, sc.uid, s.sid, servicetype, bname from schedules as sc, requests as r, services as s, business where s.sid = %s;"
         cursor.execute(query, (sid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getAppointmentsByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select * from appointments natural inner join schedules where uid=%s;"
+        cursor.execute(query, (uid,))
         result = []
         for row in cursor:
             result.append(row)

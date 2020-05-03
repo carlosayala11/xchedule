@@ -1,47 +1,68 @@
 .home-page{
     display:flex;
     flex-direction:column;
-
+    background-color: rgb(238, 238, 238);
 }
 
 .lheader {
-    background-color: lightskyblue;
+    background-color: red;
     width: 250px;
     height: 250px;
-    position: absolute;
     left: auto;
 }
 
 .rheader {
-    background-color: lightskyblue;
-    position: absolute;
+    background-color: red;
     height: 250px;
     width: 100%;
-    left: 250px;
 }
 
-    .h1 {
-        text-align: left;
-        padding-left: 100px;
-        font-weight: bold;
-    }
+.h1 {
+    text-align: left;
+    padding-left: 100px;
+    font-weight: bold;
+}
 
-    .h2 {
-        text-align: left;
-        padding-left: 100px;
-    }
-
-.navigator {
-    top: 250px;
-    background-color: yellow;
+.h2 {
+    text-align: left;
+    padding-left: 100px;
 }
 
 .carousel {
-    top: 500px;
-    background-color: red;
+    background-color: white;
+}
+
+.calendar {
+    height:600px;
+    overflow:scroll;
 }
 
 .home-logo{
     display: block;
     width: 100%;
+}
+
+.card-title{
+    font-size:28px;
+    font-weight: bold;
+    padding:10px;
+}
+
+.card-body{
+    font-size:22px;
+    font-weight: bold;
+}
+
+.home-body-container{
+    display:flex;
+    margin-top:10vh;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    /* margin-right: 200px;
+    margin-left:200px; */
+}
+
+.home-bottom-container{
+    margin-top:30px;
 }
