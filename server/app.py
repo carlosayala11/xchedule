@@ -33,6 +33,10 @@ def getAllUsers():
     else:
         return jsonify(Error = "Method not allowed."), 405
 
+@app.route('/users/insert', methods=['POST'])
+def insertUser():
+    return userHandler().insertUser(request.json)
+    
 @app.route('/users/update', methods=['PUT'])
 def updateUser():
     return userHandler().updateUser(request.json)
