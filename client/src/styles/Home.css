@@ -59,8 +59,8 @@
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    margin-right: 200px;
-    margin-left:200px;
+    /* margin-right: 200px;
+    margin-left:200px; */
 }
 
 .home-bottom-container{
