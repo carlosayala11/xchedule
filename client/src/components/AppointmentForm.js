@@ -36,14 +36,14 @@ class AppointmentForm extends Component{
         const durationInMinutes = this.state.duration;
         
         const endTime = moment(startTime, 'MM-DD-YYYYTHH:mm').add(durationInMinutes, 'minutes').format('MM-DD-YYYYTHH:mm');        
-        this.setState({endDate:endTime})
+        //this.setState({endDate:endTime})
         console.log("STart time: " + startTime)
         console.log("End Time:" + endTime)
 
         //falta cambiar la tabla de appointments para fit con este POST
         axios.post('http://localhost:5000/appointments', {
             startDate: this.state.dt, 
-            endDate: this.state.endDate,
+            endDate: endTime,
             duration: this.state.duration,
             completed: 'False', 
             pending: 'True',

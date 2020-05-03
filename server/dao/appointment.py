@@ -7,7 +7,7 @@ class AppointmentsDAO:
 
     def insert(self, date, duration, pending, completed, canceled, sid, uid, enddate):
         cursor = self.conn.cursor()
-        query = "insert into appointments (adate, duration, pending, completed, canceled, enddate) values(%s, %s, %s, %s, %s, %s) returning aid;"
+        query = "insert into appointments (sdate, duration, pending, completed, canceled, edate) values(%s, %s, %s, %s, %s, %s) returning aid;"
         cursor.execute(query, (date, duration, pending, completed, canceled, enddate))
         aid = cursor.fetchone()[0]
         query1 = "insert into requests (aid, sid) values(%s, %s);"
