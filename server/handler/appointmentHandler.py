@@ -5,12 +5,12 @@ class AppointmentsHandler:
     def build_appointment_dict(self, row):
         result = {}
         result['aid'] = row[0]
-        result['date'] = row[1]
+        result['startDate'] = row[1]
         result['duration'] = row[2]
         result['pending'] = row[3]
         result['completed'] = row[4]
         result['canceled'] = row[5]
-        result['enddate'] = row[6]
+        result['endDate'] = row[6]
         return result
 
     def build_AppointmentByService_dict(self, row):
@@ -21,38 +21,15 @@ class AppointmentsHandler:
         result['service type'] = row[3]
         result['business name'] = row[4]
         return result
-
-    def insertAppointment(self, form):
-        print("form: ", len(form))
-        if len(form) != 7:
-            return jsonify(Error="Malformed appointment request"), 400
-        else:
-            duration = form['duration']
-            date = form['adate']
-            pending = form['pending']
-            completed = form['completed']
-            canceled = form['canceled']
-            sid = form['sid']
-            uid = form['uid']
-            if duration and date and sid and uid:
-                dao = AppointmentsDAO()
-                aid = dao.insert(date, duration, pending, completed, canceled, sid, uid)
-                list = []
-                list.extend((aid, duration, date, pending, completed, canceled))
-                print(list)
-                result = self.build_appointment_dict(list)
-                return jsonify(Appointment=result), 201
-            else:
-                return jsonify(Error="Unexpected attributes in appointment request"), 400
     
     def insertAppointmentJson(self, json):
         print(json)
         duration = json['duration']
-        date = json['adate']
+        date = json['startDate']
         pending = json['pending']
         completed = json['completed']
         canceled = json['canceled']
-        enddate = json['enddate']
+        enddate = json['endDate']
         sid = json['sid']
         uid = json['uid']
         if duration and date and sid and uid:
