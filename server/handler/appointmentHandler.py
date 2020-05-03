@@ -10,6 +10,7 @@ class AppointmentsHandler:
         result['pending'] = row[3]
         result['completed'] = row[4]
         result['canceled'] = row[5]
+        result['enddate'] = row[6]
         return result
 
     def build_AppointmentByService_dict(self, row):
@@ -51,13 +52,14 @@ class AppointmentsHandler:
         pending = json['pending']
         completed = json['completed']
         canceled = json['canceled']
+        enddate = json['enddate']
         sid = json['sid']
         uid = json['uid']
         if duration and date and sid and uid:
             dao = AppointmentsDAO()
-            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid)
+            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid, enddate)
             list = []
-            list.extend((aid, duration, date, pending, completed, canceled))
+            list.extend((aid, duration, date, pending, completed, canceled, enddate))
             result = self.build_appointment_dict(list)
             return jsonify(Appointment=result), 201
         else:
