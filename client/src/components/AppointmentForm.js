@@ -37,7 +37,7 @@ class AppointmentForm extends Component{
         
         const endTime = moment(startTime, 'MM-DD-YYYYTHH:mm').add(durationInMinutes, 'minutes').format('MM-DD-YYYYTHH:mm');        
         //this.setState({endDate:endTime})
-        console.log("STart time: " + startTime)
+        console.log("Start time: " + startTime)
         console.log("End Time:" + endTime)
 
         //falta cambiar la tabla de appointments para fit con este POST

@@ -13,8 +13,7 @@ class BusinessHandler:
         result['workingHours'] = row[7]
         result['workingDays'] = row[8]
         result['baddress'] = row[9]
-        result['blocation'] = row[10]
-        result['timeRestriction'] = row[11]
+        result['timeRestriction'] = row[10]
         return result
 
     def build_business_appointments_dict(self, row):
@@ -124,13 +123,12 @@ class BusinessHandler:
         workingHours = json['workingHours']
         workingDays = json['workingDays']
         baddress = json['baddress']
-        blocation = json['blocation']
         timeRestriction = json['timeRestriction']
         if uid and bname and twitter and facebook and instagram and website_url and workingHours \
-                and workingDays and baddress and blocation and timeRestriction:
+                and workingDays and baddress and timeRestriction:
             dao = BusinessDAO()
             bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
-                             workingDays, baddress, blocation, timeRestriction)
+                             workingDays, baddress, timeRestriction)
             result = {}
             result['bid'] = bid
             result['uid'] = uid
@@ -142,7 +140,6 @@ class BusinessHandler:
             result['workingHours'] = workingHours
             result['workingDays'] = workingDays
             result['baddress'] = baddress
-            result['blocation'] = blocation
             result['timeRestriction'] = timeRestriction
             return jsonify(Business=result), 201
         else:
@@ -170,12 +167,11 @@ class BusinessHandler:
             workingHours = json['workingHours']
             workingDays = json['workingDays']
             baddress = json['baddress']
-            blocation = json['blocation']
             timeRestriction = json['timeRestriction']
             if uid and bname and twitter and facebook and instagram and website_url and workingHours \
-                    and workingDays and baddress and blocation and timeRestriction:
+                    and workingDays and baddress and timeRestriction:
                 dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
-                           baddress, blocation, timeRestriction)
+                           baddress, timeRestriction)
                 result = {}
                 result['bid'] = bid
                 result['uid'] = uid
@@ -187,7 +183,6 @@ class BusinessHandler:
                 result['workingHours'] = workingHours
                 result['workingDays'] = workingDays
                 result['baddress'] = baddress
-                result['blocation'] = blocation
                 result['timeRestriction'] = timeRestriction
                 return jsonify(Business=result), 200
             else:
