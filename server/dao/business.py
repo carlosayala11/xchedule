@@ -61,7 +61,14 @@ class BusinessDAO:
             result.append(row)
         return result
 
-
+    def getTopBusiness(self):
+        cursor = self.conn.cursor()
+        query = "select bid, count(aid) as total, bname from business natural inner join schedules natural inner join requests natural inner join offers group by bid order by total desc fetch first 3 rows only;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
 
     def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
         cursor = self.conn.cursor()

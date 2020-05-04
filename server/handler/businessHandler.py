@@ -36,6 +36,13 @@ class BusinessHandler:
         result['serviceDetails'] = row[2]
         return result
 
+    def build_topBusiness_dict(self, row):
+        result = {}
+        result['bid'] = row[0]
+        result['total_appointments'] = row[1]
+        result['bname'] = row[2]
+        return result
+
     def getAllBusiness(self):
         dao = BusinessDAO()
         business_list = dao.getAllBusiness()
@@ -193,3 +200,13 @@ class BusinessHandler:
         else:
             aid = dao.approveAppointment(bid, aid)
             return jsonify(AppointmentIdApproved=aid), 201
+
+    def getTopBusiness(self):
+        dao = BusinessDAO()
+        business_list = dao.getTopBusiness()
+        result_list = []
+        for row in business_list:
+            result = self.build_topBusiness_dict(row)
+            result_list.append(result)
+        return jsonify(TopBusinessList=result_list)
+
