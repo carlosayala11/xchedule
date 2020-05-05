@@ -17,7 +17,8 @@ class CreateBusinessForm extends Component {
             facebook: '',
             instagram: '',
             website: '',
-            workingHours: '',
+            sworkingHours: '',
+            eworkingHours: '',
             workingDays: '',
             address: '',
             country: '',
@@ -45,9 +46,13 @@ class CreateBusinessForm extends Component {
                     facebook: this.state.facebook,
                     instagram: this.state.instagram,
                     website_url: this.state.website,
-                    workingHours: this.state.workingHours,
+                    sworkingHours: this.state.sworkingHours,
+                    eworkingHours: this.state.eworkingHours,
                     workingDays: this.state.workingDays,
-                    baddress: "(testaddress, country1, city2, 00958)",
+                    baddress: this.state.address,
+                    country: this.state.country,
+                    city: this.state.city,
+                    zip: this.state.zip,
                     timeRestriction: this.state.timeRestriction
                 }
         console.log(business)
@@ -100,30 +105,34 @@ class CreateBusinessForm extends Component {
                             <Input className="login-input" name="website" placeholder="Webiste" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                        <Input className="login-input" name="workingHours" placeholder="Working Hours" onChange={this.onInputChange}/>
+                        <Input className="login-input" name="sworkingHours" placeholder="Working Hours Start Time" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Input className="login-input" name="workingDays" placeholder="Working Days" onChange={this.onInputChange}/>
+                            <Input className="login-input" name="eworkingHours" placeholder="Working Hours End Time" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                        <Input className="login-input" name="address" placeholder="Address" onChange={this.onInputChange}/>
-
+                        <Input className="login-input" name="workingDays" placeholder="Working Days" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Input className="login-input" name="country" placeholder="Country" onChange={this.onInputChange}/>
+                            <Input className="login-input" name="address" placeholder="Address" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                        <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
+                        <Input className="login-input" name="country" placeholder="Country" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Input className="login-input" name="zip" placeholder="Zip Code" onChange={this.onInputChange}/>
+                            <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
                         </Col>
+                        <Col>
+                        <Input className="login-input" name="zip" placeholder="Zip Code" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    <Row>
                         <Col>
                         <Input className="login-input" name="timeRestriction" placeholder="Time Restriction" onChange={this.onInputChange}/>
                         </Col>

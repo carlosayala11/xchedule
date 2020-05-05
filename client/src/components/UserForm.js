@@ -121,6 +121,9 @@ class UserForm extends Component{
                             </Input>
                     </FormGroup>
                     <p>Selected: {this.state.gender}</p>
+                    <Form action="http://localhost:3000/business">
+                    <button type="submit">Create a Business</button>
+                    </Form>
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                
             </div>

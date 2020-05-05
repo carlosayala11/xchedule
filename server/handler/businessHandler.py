@@ -120,9 +120,9 @@ class BusinessHandler:
         facebook = json['facebook']
         instagram = json['instagram']
         website_url = json['website_url']
-        workingHours = json['workingHours']
+        workingHours = (json['sworkingHours'],json['eworkingHours'])
         workingDays = json['workingDays']
-        baddress = json['baddress']
+        baddress = (json['baddress'],json['country'],json['city'],json['zip'])
         timeRestriction = json['timeRestriction']
         if uid and bname and twitter and facebook and instagram and website_url and workingHours \
                 and workingDays and baddress and timeRestriction:
