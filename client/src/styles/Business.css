@@ -1,9 +1,11 @@
-.profile-page{
+.createBusiness-page{
     display:flex;
-    flex-direction:column;
-    background-color: rgb(238, 238, 238);
-    margin-top:10vh;
-    padding:1vh;
+    flex-direction: column;
+    justify-content:center;
+    justify-items: center;
+    align-content: center;
+    background-color: lightskyblue;
+    min-height:100vh;
 }
 
 .logo{
@@ -14,27 +16,114 @@
     margin-right:auto;
 }
 
-.form-container{
+.login-container{
     display:flex;
     justify-content:center;
-    align-content: right;
+    align-content: center;
     align-self: center;
     background-color: white;
     flex-direction: column;
     width:400px;
     padding:15px;
     border-radius:10px;
+    margin-bottom:50px;
 }
 
-.input-form{
-    display: inline;
-    padding-inline: 10px;
+.signup-container{
+    display:flex;
+    justify-content:center;
+    align-content: center;
+    align-self: center;
+    background-color: white;
+    flex-direction: column;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:50px;
 }
 
-.save-button{
+.login-form{
+    justify-content: center;
+    align-content: center;
+}
+
+.signUp-form{
+    justify-content: center;
+    align-content: center;
+    margin-bottom:20px;
+}
+
+.login-title{
+    color:lightskyblue;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.login-input{
+    margin-top: 15px;
+    margin-bottom:15px;
+    margin-left: auto;
+    margin-right: auto;
+    width:300px;
+}
+
+.login-button{
     width:300px;
     margin:20px;
     font-size:18px;
     font-weight:bold;
-    align-self: center;
+}
+
+.login-small-text{
+    font-size:14px;
+}
+
+.change-login{
+    justify-content: center;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:14px;
+    width:300px;
+    margin-left: auto;
+    margin-right:auto;
+    display:flex;
+    text-decoration-line: underline;
+    color:lightskyblue;
+    font-weight: bold;
+}
+
+.login-error-message{
+    color:red;
+    font-size:14px;
+}
+
+.button-text{
+    margin:0px;
+}
+
+.forgot-password-button{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:lightskyblue;
+    font-weight:bold;
+}
+
+.forgot-password-button:hover{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:rgb(54, 76, 90);
+    font-weight:bold;
+}
+
+.forgot-password-button:focus{
+    background:white;
+    border-color:white;
+    padding:0px;
+    color:rgb(54, 76, 90);
+    font-weight:bold;
+}
+
+.signup-label{
+
 }

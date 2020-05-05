@@ -127,8 +127,7 @@ class BusinessHandler:
         if uid and bname and twitter and facebook and instagram and website_url and workingHours \
                 and workingDays and baddress and timeRestriction:
             dao = BusinessDAO()
-            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
-                             workingDays, baddress, timeRestriction)
+            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
             result = {}
             result['bid'] = bid
             result['uid'] = uid

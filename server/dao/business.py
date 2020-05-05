@@ -39,7 +39,7 @@ class BusinessDAO:
     def getAppointmentsByBusinessId(self, bid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, adate, duration, enddate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s;"
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s;"
         cursor.execute(query, (bid,))
         for row in cursor:
             result.append(row)
@@ -70,11 +70,13 @@ class BusinessDAO:
             result.append(row)
         return result
 
-    def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
+    def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):
         cursor = self.conn.cursor()
-        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
-        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction))
+        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
+        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction))
         bid = cursor.fetchone()[0]
+        query = "update users set isOwner= TRUE where uid= %s;"
+        cursor.execute(query, (uid,))
         self.conn.commit()
         return bid
 
