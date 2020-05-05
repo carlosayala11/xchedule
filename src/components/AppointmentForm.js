@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/dark.css";
+import "flatpickr/dist/themes/material_blue.css";
 import axios from 'axios'
 import moment from 'moment'
 
@@ -16,6 +17,7 @@ class AppointmentForm extends Component{
             completed:'',
             pending:'',
             canceled:'',
+            endDate:'',
         };
     }
 
@@ -30,21 +32,32 @@ class AppointmentForm extends Component{
         event.preventDefault();
         // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
         var id = firebase.auth().currentUser.uid;
-        axios.post('https://xchedule-api.herokuapp.com/appointments', {
-            adate: this.state.dt,
+
+        const startTime = this.state.dt;
+        const durationInMinutes = this.state.duration;
+
+        const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
+        //this.setState({endDate:endTime})
+        console.log("Start time: " + startTime)
+        console.log("End Time:" + endTime)
+
+        //falta cambiar la tabla de appointments para fit con este POST
+        axios.post('http://localhost:5000/appointments', {
+            startDate: this.state.dt,
+            endDate: endTime,
             duration: this.state.duration,
             completed: 'False',
             pending: 'True',
             canceled: 'False',
             sid: 1,
-            uid: id })
-            .then(function(response){
+            uid: id
+        }).then(function(response){
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
         });
-
+        this.props.history.push('/home');
     }
 
     render(){
@@ -56,11 +69,12 @@ class AppointmentForm extends Component{
                     <Label>Date</Label>
                     <div>
                     <Flatpickr
+                        data-enable-time
                         placeholder="Please select a date"
                         name="date"
                         value={date}
                         onChange={date => {
-                            dt = moment(date[0])
+                            dt = moment(date[0]).format('YYYY-MM-DDTHH:mm');
                             // console.log(dt)
                             this.setState({ dt });
                           }}
@@ -87,4 +101,4 @@ class AppointmentForm extends Component{
 
 }
 
-export default AppointmentForm;
+export default withRouter(AppointmentForm);

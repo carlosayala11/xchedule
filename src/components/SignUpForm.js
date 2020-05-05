@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Input, Spinner, Container, Row, Col } from 'reactstrap';
+import {Redirect} from 'react-router-dom'
 import * as firebase from 'firebase';
 import '../styles/Login.css'
 import axios from 'axios'
@@ -21,23 +22,22 @@ class SignUpForm extends Component{
             country:'',
             city:'',
             loadingSignUp:false,
-            errorMessage:''
+            errorMessage:'',
+            userSignedUp:false
         }
-
-    
     }
 
-    
+
 
     onInputChange = (event) => {
         event.preventDefault();
-        
+
         this.setState({
             [event.target.name]: event.target.value
         })
     }
 
-    createUserAccount(){ 
+    createUserAccount(){
         this.setState({loadingSignUp:true})
         if(this.state.password === this.state.passwordretype){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
@@ -54,14 +54,15 @@ class SignUpForm extends Component{
                     isowner: false
                 }
                 console.log(user)
-                axios.post("https://xchedule-api.herokuapp.com/users", user).then((res)=>{
-                 console.log(res)    
+                axios.post("http://127.0.0.1:5000/users/insert", user).then((res)=>{
+                    this.setState({userSignedUp:true})
+                 console.log(res)
                 }).catch((err)=>{
-                 console.log(err)    
+                 console.log(err)
                 })
             }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
-    
+
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -70,7 +71,7 @@ class SignUpForm extends Component{
                 console.log(errorMessage);
               });
         }
-        
+
     }
 
     renderSignUpSpinner(){
@@ -89,6 +90,10 @@ class SignUpForm extends Component{
 
 
     render(){
+        if(this.state.userSignedUp){
+            return <Redirect to='/home'/>;
+
+        }
         return(
             <div className="signUp-form">
                 <p className="login-title">Create an Account</p>
@@ -135,16 +140,16 @@ class SignUpForm extends Component{
                         <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
-                    
+
                 </Container>
 
                 <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>
                     {this.renderSignUpSpinner()}
-                </Button>   
+                </Button>
 
-                {this.renderErrorMessage()}            
+                {this.renderErrorMessage()}
             </div>
-            
+
 
         )
     }
