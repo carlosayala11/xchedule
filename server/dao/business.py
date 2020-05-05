@@ -27,6 +27,13 @@ class BusinessDAO:
         result = cursor.fetchone()
         return result
 
+    def getBusinessByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select bid from business where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        return result
+
     def getServicesByBusinessId(self, bid):
         cursor = self.conn.cursor()
         result = []
@@ -91,9 +98,9 @@ class BusinessDAO:
         self.conn.commit()
         return bid
 
-    def update(self, bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
+    def update(self, bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):
         cursor = self.conn.cursor()
-        query = "update business set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s, workingDays = %s, baddress = %s, blocation = %s, timeRestriction= %s where bid = %s;"
-        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction, bid,))
+        query = "update business set uid = %s, bname = %s, twitter = %s, facebook = %s, instagram = %s, website_url = %s, workingHours = %s, workingDays = %s, baddress = %s, timeRestriction= %s where bid = %s;"
+        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction, bid,))
         self.conn.commit()
         return bid

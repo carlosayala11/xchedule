@@ -1,7 +1,7 @@
 import {Button, Col, Container, Input, Row, Spinner} from "reactstrap";
 import React, {Component} from 'react';
 import "flatpickr/dist/themes/dark.css";
-import '../styles/Business.css'
+import '../styles/CreateBusiness.css'
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as firebase from 'firebase';

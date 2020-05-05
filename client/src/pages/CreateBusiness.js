@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import '../styles/Business.css'
+import '../styles/CreateBusiness.css'
 import NavigationBar from "../components/NavigationBar";
 import CreateBusinessForm from "../components/CreateBusinessForm";
 
 
-class Business extends Component{
+class CreateBusiness extends Component{
     constructor(){
         super();
         this.state={
@@ -33,4 +33,4 @@ class Business extends Component{
             )
         }}
 
-export default Business;
+export default CreateBusiness;
