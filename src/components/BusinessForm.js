@@ -30,7 +30,7 @@ class BusinessForm extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:5000/business', {
+        axios.post('https://xchedule-api.herokuapp.com//business', {
             name: this.state.name,
             twitter: this.state.twitter,
             facebook: this.state.facebook,

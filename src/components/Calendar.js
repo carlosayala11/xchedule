@@ -99,7 +99,7 @@ class Calendar extends Component{
     firebase.auth().onAuthStateChanged((user) =>{
       if (true) {
         // User is signed in.  get their appointments
-        axios.get('http://localhost:5000/appointments',{
+        axios.get('https://xchedule-api.herokuapp.com//appointments',{
           params: {
               id: firebase.auth().currentUser.uid
           }
