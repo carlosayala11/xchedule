@@ -13,7 +13,7 @@ class BusinessDAO:
 
     def getAllBusiness(self):
         cursor = self.conn.cursor()
-        query = "select * from business;"
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url, workinghours, workingdays, baddress, timerestriction from business;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -22,7 +22,7 @@ class BusinessDAO:
 
     def getBusinessById(self, bid):
         cursor = self.conn.cursor()
-        query = "select * from business where bid = %s;"
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url, workinghours, workingdays, baddress, timerestriction from business where bid = %s;"
         cursor.execute(query, (bid,))
         result = cursor.fetchone()
         return result
@@ -39,7 +39,7 @@ class BusinessDAO:
     def getAppointmentsByBusinessId(self, bid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, adate, duration, enddate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s;"
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s;"
         cursor.execute(query, (bid,))
         for row in cursor:
             result.append(row)
@@ -61,13 +61,22 @@ class BusinessDAO:
             result.append(row)
         return result
 
-
-
-    def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction):
+    def getTopBusiness(self):
         cursor = self.conn.cursor()
-        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
-        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, blocation, timeRestriction))
+        query = "select bid, count(aid) as total, bname from business natural inner join schedules natural inner join requests natural inner join offers group by bid order by total desc fetch first 3 rows only;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):
+        cursor = self.conn.cursor()
+        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
+        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction))
         bid = cursor.fetchone()[0]
+        query = "update users set isOwner= TRUE where uid= %s;"
+        cursor.execute(query, (uid,))
         self.conn.commit()
         return bid
 

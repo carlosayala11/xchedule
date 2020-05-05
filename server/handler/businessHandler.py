@@ -13,8 +13,7 @@ class BusinessHandler:
         result['workingHours'] = row[7]
         result['workingDays'] = row[8]
         result['baddress'] = row[9]
-        result['blocation'] = row[10]
-        result['timeRestriction'] = row[11]
+        result['timeRestriction'] = row[10]
         return result
 
     def build_business_appointments_dict(self, row):
@@ -34,6 +33,13 @@ class BusinessHandler:
         result['sid'] = row[0]
         result['serviceType'] = row[1]
         result['serviceDetails'] = row[2]
+        return result
+
+    def build_topBusiness_dict(self, row):
+        result = {}
+        result['bid'] = row[0]
+        result['total_appointments'] = row[1]
+        result['bname'] = row[2]
         return result
 
     def getAllBusiness(self):
@@ -114,16 +120,14 @@ class BusinessHandler:
         facebook = json['facebook']
         instagram = json['instagram']
         website_url = json['website_url']
-        workingHours = json['workingHours']
+        workingHours = (json['sworkingHours'],json['eworkingHours'])
         workingDays = json['workingDays']
-        baddress = json['baddress']
-        blocation = json['blocation']
+        baddress = (json['baddress'],json['country'],json['city'],json['zip'])
         timeRestriction = json['timeRestriction']
         if uid and bname and twitter and facebook and instagram and website_url and workingHours \
-                and workingDays and baddress and blocation and timeRestriction:
+                and workingDays and baddress and timeRestriction:
             dao = BusinessDAO()
-            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
-                             workingDays, baddress, blocation, timeRestriction)
+            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
             result = {}
             result['bid'] = bid
             result['uid'] = uid
@@ -135,7 +139,6 @@ class BusinessHandler:
             result['workingHours'] = workingHours
             result['workingDays'] = workingDays
             result['baddress'] = baddress
-            result['blocation'] = blocation
             result['timeRestriction'] = timeRestriction
             return jsonify(Business=result), 201
         else:
@@ -163,12 +166,11 @@ class BusinessHandler:
             workingHours = json['workingHours']
             workingDays = json['workingDays']
             baddress = json['baddress']
-            blocation = json['blocation']
             timeRestriction = json['timeRestriction']
             if uid and bname and twitter and facebook and instagram and website_url and workingHours \
-                    and workingDays and baddress and blocation and timeRestriction:
+                    and workingDays and baddress and timeRestriction:
                 dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
-                           baddress, blocation, timeRestriction)
+                           baddress, timeRestriction)
                 result = {}
                 result['bid'] = bid
                 result['uid'] = uid
@@ -180,7 +182,6 @@ class BusinessHandler:
                 result['workingHours'] = workingHours
                 result['workingDays'] = workingDays
                 result['baddress'] = baddress
-                result['blocation'] = blocation
                 result['timeRestriction'] = timeRestriction
                 return jsonify(Business=result), 200
             else:
@@ -193,3 +194,13 @@ class BusinessHandler:
         else:
             aid = dao.approveAppointment(bid, aid)
             return jsonify(AppointmentIdApproved=aid), 201
+
+    def getTopBusiness(self):
+        dao = BusinessDAO()
+        business_list = dao.getTopBusiness()
+        result_list = []
+        for row in business_list:
+            result = self.build_topBusiness_dict(row)
+            result_list.append(result)
+        return jsonify(TopBusinessList=result_list)
+

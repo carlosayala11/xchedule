@@ -85,6 +85,10 @@ def getServicesByBusinessId(bid):
 def getAppointmentsByBusinessId(bid):
     return BusinessHandler().getAppointmentsByBusinessId(bid)
 
+@app.route('/business/top')
+def getTopBusiness():
+    return BusinessHandler().getTopBusiness()
+
 @app.route('/business/<int:bid>/approve/<int:aid>')
 def approveAppointment(bid, aid):
     return BusinessHandler().approveAppointment(bid,aid)

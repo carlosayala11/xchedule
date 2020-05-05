@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
+import moment from 'moment'
+
 import {
   Scheduler,
   DayView,
@@ -17,18 +19,29 @@ import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
 
+// supress warning for using moment()
+moment.suppressDeprecationWarnings = true;
+
+const mapAppointmentData = appointment => ({
+  startDate: appointment.startDate,
+  endDate: appointment.endDate,
+});
+
 class Calendar extends Component{
   constructor(){
     super();
     this.state={
       //holds data of all appointments
-      data:[
-        { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:20'},
-        { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' }
-      ],
+      // data:[
+      //   { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:20'},
+      //   { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' }
+      // ],
+      data: [],
       //decides if the calendar should be rendered or not
-      renderCalendar:false
+      renderCalendar:false,
+      loading: true,
     }
+    this.getUserAppointments = this.getUserAppointments.bind(this);
   }
 
   //Called when component loads on page
@@ -36,10 +49,15 @@ class Calendar extends Component{
     this.getUserAppointments()
   }
 
+  componentDidUpdate() {
+    this.getUserAppointments();
+  }
+
   //function to conditionally render the calendar or a message
   renderCalendar(data){
-    const currentDate = '2018-11-01';
-
+    // this throws a warning, deprecated
+    const currentDate = moment();
+    const{loading} = this.state;
     //if the calendar is supposed to be rendered (has appointments available to show), render it
     if(this.state.renderCalendar){
       return(
@@ -48,14 +66,14 @@ class Calendar extends Component{
           <ViewState
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Week"
-          />
+          /> 
           <DayView
             startDayHour={9}
             endDayHour={18}
           />
           <WeekView
             startDayHour={9}
-            endDayHour={18}
+            endDayHour={24}
           />
           <Toolbar />
           <DateNavigator />
@@ -81,15 +99,19 @@ class Calendar extends Component{
     firebase.auth().onAuthStateChanged((user) =>{
       if (true) {
         // User is signed in.  get their appointments
-        axios.get('http://localhost:5000/appointments').then((res)=>{
-          //change data to hold the appointment data, calendar should be rendered to change that state too
-          //this.setState({data:res.data.AppointmentsList)
-          this.setState({renderCalendar:true})
-
-          console.log(this.state.data)
+        axios.get('http://localhost:5000/appointments',{
+          params: {
+              id: firebase.auth().currentUser.uid
+          }
+        })
+        .then((res)=>{
+        //change data to hold the appointment data, calendar should be rendered to change that state too
+        this.setState({data: res.data.AppointmentsList})
+        this.setState({renderCalendar:true})
+          //console.log(this.state.data)
         }).catch((err)=>{
           console.log(err)
-      })
+        })
       } else {
         // No user is signed in.
         console.log("No user logged in.")
@@ -99,10 +121,16 @@ class Calendar extends Component{
   
 
   render(){
+    // this is the data
+    const {data} = this.state;
+    //console.log('data: ', data);
+    // formatted to render in the calendar
+    const formattedData = data ? data.map(mapAppointmentData) : [];
+    //console.log('formatted: ', formattedData);
     //conditionally render the calendar
     return(
       <div>
-        {this.renderCalendar(this.state.data)}
+        {this.renderCalendar(formattedData)}
       </div>
     )}
 }
