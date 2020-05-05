@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import axios from 'axios'
@@ -35,7 +36,7 @@ class AppointmentForm extends Component{
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
         
-        const endTime = moment(startTime, 'MM-DD-YYYYTHH:mm').add(durationInMinutes, 'minutes').format('MM-DD-YYYYTHH:mm');        
+        const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');        
         //this.setState({endDate:endTime})
         console.log("Start time: " + startTime)
         console.log("End Time:" + endTime)
@@ -56,7 +57,7 @@ class AppointmentForm extends Component{
             .catch(function (error) {
                 console.log(error);
         });
-
+        this.props.history.push('/home');
     } 
 
     render(){
@@ -73,7 +74,7 @@ class AppointmentForm extends Component{
                         name="date"
                         value={date}
                         onChange={date => {
-                            dt = moment(date[0]).format('MM-DD-YYYYTHH:mm');
+                            dt = moment(date[0]).format('YYYY-MM-DDTHH:mm');
                             // console.log(dt)
                             this.setState({ dt });
                           }}
@@ -100,4 +101,4 @@ class AppointmentForm extends Component{
 
 }
 
-export default AppointmentForm;
+export default withRouter(AppointmentForm);
