@@ -13,7 +13,7 @@ class BusinessDAO:
 
     def getAllBusiness(self):
         cursor = self.conn.cursor()
-        query = "select * from business;"
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url, workinghours, workingdays, baddress, timerestriction from business;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -22,7 +22,7 @@ class BusinessDAO:
 
     def getBusinessById(self, bid):
         cursor = self.conn.cursor()
-        query = "select * from business where bid = %s;"
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url, workinghours, workingdays, baddress, timerestriction from business where bid = %s;"
         cursor.execute(query, (bid,))
         result = cursor.fetchone()
         return result
