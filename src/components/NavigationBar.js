@@ -7,7 +7,8 @@ import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
     BrowserRouter as Router,
-    NavLink
+    NavLink,
+    Redirect
   } from "react-router-dom";
   var firebase = require('firebase');
 
