@@ -21,9 +21,11 @@ class SignUpForm extends Component{
             sex:'',
             country:'',
             city:'',
+            zipcode:'',
+            address:'',
             loadingSignUp:false,
             errorMessage:'',
-            userSignedUp:false
+            userSignedUp:false,
         }
     }
 
@@ -50,17 +52,17 @@ class SignUpForm extends Component{
                     phone: this.state.phoneNumber,
                     age: this.state.age,
                     gender: this.state.sex,
-                    uaddress: "(testaddress, country1, city2, 00958)",
+                    uaddress: (this.state.address,this.state.country, this.state.city, this.state.zipcode),
                     isowner: false
                 }
                 console.log(user)
-                axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
-                    console.log("POST REQUEST WORKED")
-                    this.setState({userSignedUp:true})
-                 console.log(res)    
-                }).catch((err)=>{
-                 console.log(err)    
-                })
+                // axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
+                //     console.log("POST REQUEST WORKED")
+                //     this.setState({userSignedUp:true})
+                //  console.log(res)    
+                // }).catch((err)=>{
+                //  console.log(err)    
+                // })
             }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
     
@@ -124,6 +126,7 @@ class SignUpForm extends Component{
 
                         </Col>
                     </Row>
+                    
                     <Row>
                         <Col>
                             <Input className="login-input" name="username" placeholder="username" onChange={this.onInputChange}/>
@@ -138,7 +141,15 @@ class SignUpForm extends Component{
                             <Input className="login-input" name="fullName" placeholder="Name" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                        <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
+                            <Input className="login-input" name="city" placeholder="City" onChange={this.onInputChange}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Input className="login-input" name="address" placeholder="address" onChange={this.onInputChange}/>
+                        </Col>
+                        <Col>
+                            <Input className="login-input" name="zipcode" placeholder="zipcode" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
                     
