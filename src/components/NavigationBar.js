@@ -22,6 +22,7 @@ class NavigationBar extends Component{
             loggedIn:false,
             username:"",
             popoverOpen:false,
+            signedOut:false
         }   
     }
 
@@ -47,7 +48,7 @@ class NavigationBar extends Component{
     signOut(){
         firebase.auth().signOut().then(()=> {
             // Sign-out successful.
-            this.setState({loggedIn:false})
+            this.setState({loggedIn:false, signedOut:true})
           }).catch(function(error) {
             // An error happened.
           });
@@ -75,7 +76,7 @@ class NavigationBar extends Component{
     }
 
     render(){
-        if (!this.state.loggedIn) {
+        if (this.state.signedOut) {
             return <Redirect to='/login'/>;
         }
         return(
