@@ -140,5 +140,5 @@ def getRouteFromUserToBusinessByAppointmentId(aid):
     return render_template('route.html',originlongitude=originlongitude,originlatitude=originlatitude,destlongitude=destlongitude,destlatitude=destlatitude)
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run()
