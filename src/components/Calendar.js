@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
-import moment from 'moment'
-
 import {
   Scheduler,
   DayView,
@@ -100,7 +98,7 @@ class Calendar extends Component{
     firebase.auth().onAuthStateChanged((user) =>{
       if (user) {
         // User is signed in.  get their appointments
-        axios.get('https://xchedule-api.herokuapp.com//appointments',{
+        axios.get('https://xchedule-api.herokuapp.com/appointments',{
           params: {
               id: firebase.auth().currentUser.uid
           }

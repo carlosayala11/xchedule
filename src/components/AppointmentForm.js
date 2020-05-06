@@ -42,7 +42,7 @@ class AppointmentForm extends Component{
         console.log("End Time:" + endTime)
 
         //falta cambiar la tabla de appointments para fit con este POST
-        axios.post('https://xchedule-api.herokuapp.com//appointments', {
+        axios.post('https://xchedule-api.herokuapp.com/appointments', {
             startDate: this.state.dt,
             endDate: endTime,
             duration: this.state.duration,
