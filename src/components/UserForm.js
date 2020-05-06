@@ -121,10 +121,10 @@ class UserForm extends Component{
                             </Input>
                     </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form action="https://xchedule-api.herokuapp.com/business">
+                    <Form action="/business">
                     <button type="submit">Create a Business</button>
                     </Form>
-                    <Form action="https://xchedule-api.herokuapp.com/business/update">
+                    <Form action="/business/update">
                     <button type="submit">Update Business</button>
                     </Form>
                 </Form>
