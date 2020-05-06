@@ -55,23 +55,26 @@ def getUserById(uid):
 def getAppointmentsByUserId(uid):
     return userHandler().getAppointmentsByUserId(uid)
 
-#-----Business-----
+#-----CreateBusiness-----
 @app.route('/business', methods=['GET', 'POST'])
 def getAllBusiness():
     if request.method == 'POST':
         return BusinessHandler().insertBusiness(request.json)
-    else:
+    elif request.method == 'GET':
         if not request.args:
             return BusinessHandler().getAllBusiness()
-        else:
-            return BusinessHandler().searchBusiness(request.args)
+        return BusinessHandler().getBusinessByUserId(request.args.get('id'))
+    else:
+        return BusinessHandler().searchBusiness(request.args)
 
-@app.route('/business/<int:bid>',methods=['GET', 'PUT', 'DELETE'])
+@app.route('/business/update', methods=['PUT'])
+def updateBusiness():
+    return BusinessHandler().updateBusiness(request.json)
+
+@app.route('/business/<int:bid>',methods=['GET', 'DELETE'])
 def getBusinessById(bid):
     if request.method == 'GET':
         return BusinessHandler().getBusinessById(bid)
-    elif request.method == 'PUT':
-        return BusinessHandler().updateBusiness(bid, request.json)
     elif request.method == 'DELETE':
         return BusinessHandler().deleteBusiness(bid)
     else:

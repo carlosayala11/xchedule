@@ -43,7 +43,10 @@ create table requests(
     sid integer constraint services_sid_fkey references services on delete cascade,
     primary key (aid, sid)
  );
-
+create type hours_item AS (
+    startTime TIME,
+    endTime TIME
+);
 
 create type address_item AS (
     address varchar(100),
