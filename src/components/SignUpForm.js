@@ -41,7 +41,7 @@ class SignUpForm extends Component{
         this.setState({loadingSignUp:true})
         if(this.state.password === this.state.passwordretype){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
-                console.log("User Creation Successful")
+                console.log("Firebase User Creation Successful")
                 var user = {
                     uid: firebase.auth().currentUser.uid,
                     fullname: this.state.fullName,
