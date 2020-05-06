@@ -98,7 +98,7 @@ class Calendar extends Component{
   getUserAppointments(){
     //check if a user is signed in
     firebase.auth().onAuthStateChanged((user) =>{
-      if (true) {
+      if (user) {
         // User is signed in.  get their appointments
         axios.get('http://localhost:5000/appointments',{
           params: {
