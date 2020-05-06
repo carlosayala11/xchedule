@@ -74,6 +74,9 @@ class NavigationBar extends Component{
     }
 
     render(){
+        if (!this.state.loggedIn) {
+            return <Redirect to='/login'/>;
+        }
         return(
             <div className="navigation-bar-container">
                 <Menu>
