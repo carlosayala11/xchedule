@@ -79,13 +79,20 @@ class BusinessDAO:
 
     def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):
         cursor = self.conn.cursor()
-        query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
-        cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction))
-        bid = cursor.fetchone()[0]
-        query = "update users set isOwner= TRUE where uid= %s;"
+        query = "select bid from business where uid = %s;"
         cursor.execute(query, (uid,))
-        self.conn.commit()
-        return bid
+        result = cursor.fetchone()
+        print(result)
+        if result:
+            return "Already owns"
+        else:
+            query = "insert into business(uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning bid;"
+            cursor.execute(query, (uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction))
+            bid = cursor.fetchone()[0]
+            query = "update users set isOwner= TRUE where uid= %s;"
+            cursor.execute(query, (uid,))
+            self.conn.commit()
+            return bid
 
     def delete(self, bid):
         cursor = self.conn.cursor()

@@ -139,19 +139,22 @@ class BusinessHandler:
                 and workingDays and baddress and timeRestriction:
             dao = BusinessDAO()
             bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
-            result = {}
-            result['bid'] = bid
-            result['uid'] = uid
-            result['bname'] = bname
-            result['twitter'] = twitter
-            result['facebook'] = facebook
-            result['instagram'] = instagram
-            result['website_url'] = website_url
-            result['workingHours'] = workingHours
-            result['workingDays'] = workingDays
-            result['baddress'] = baddress
-            result['timeRestriction'] = timeRestriction
-            return jsonify(Business=result), 201
+            if bid== "Already owns":
+                return jsonify(Error="User already owns a Business"), 400
+            else:
+                result = {}
+                result['bid'] = bid
+                result['uid'] = uid
+                result['bname'] = bname
+                result['twitter'] = twitter
+                result['facebook'] = facebook
+                result['instagram'] = instagram
+                result['website_url'] = website_url
+                result['workingHours'] = workingHours
+                result['workingDays'] = workingDays
+                result['baddress'] = baddress
+                result['timeRestriction'] = timeRestriction
+                return jsonify(Business=result), 201
         else:
             return jsonify('Unexpected attributes in post request'), 401
 
