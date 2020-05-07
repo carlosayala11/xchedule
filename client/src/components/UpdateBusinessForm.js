@@ -1,9 +1,8 @@
 import React, {Component, useState} from 'react';
 import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
-import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/dark.css";
-import moment from 'moment'
 import '../styles/UpdateBusiness.css'
+
 var axios = require('axios');
 var firebase = require('firebase');
 
@@ -11,20 +10,20 @@ class UpdateBusinessForm extends Component{
     constructor(){
         super();
         this.state={
-            bid: '',
-            name: '',
-            twitter: '',
-            facebook: '',
+            bid:'',
+            name:'',
+            twitter:'',
+            facebook:'',
             instagram: '',
-            website: '',
-            sworkingHours: '',
-            eworkingHours: '',
-            workingDays: '',
-            baddress: '',
-            country: '',
-            city: '',
-            zip: '',
-            timeRestriction: '',
+            website:'',
+            sworkingHours:'',
+            eworkingHours:'',
+            workingDays:'',
+            address:'',
+            country:'',
+            city:'',
+            zip:'',
+            timeRestriction:'',
             loggedIn:false
         };
     }
@@ -34,24 +33,6 @@ class UpdateBusinessForm extends Component{
         this.setState({
             [event.target.name]: event.target.value
         })
-    }
-
-    getBusiness() {
-        var id = firebase.auth().currentUser.uid;
-        console.log(this.state.id);
-        axios.get('http://localhost:5000/business', {
-            params: {
-                id: id
-            }
-        })
-        .then(res => {
-            var business = res.data.Business;
-            console.log("business",business);
-            this.setState({bid: business.bid})
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
     }
     getUser() {
         var id = firebase.auth().currentUser.uid;
@@ -76,15 +57,48 @@ class UpdateBusinessForm extends Component{
             console.log(error);
         });
     }
+    getBusiness() {
+        var id = firebase.auth().currentUser.uid;
+        console.log(this.state.id);
+        axios.get('http://localhost:5000/business',{
+            params: {
+                id: id
+            }
+        })
+        .then(res => {
+            var bus = res.data.Business;
+            console.log("business",bus);
+            this.setState({bid: bus.bid})
+            this.setState({name: bus.bname})
+            this.setState({twitter: bus.twitter})
+            this.setState({facebook: bus.facebook})
+            this.setState({twitter: bus.twitter})
+            this.setState({instagram: bus.instagram})
+            this.setState({website: bus.website_url})
+            this.setState({sworkingHours:bus.sworkingHours})
+            this.setState({eworkingHours: bus.eworkingHours})
+            this.setState({workingDays: bus.workingDays})
+            this.setState({address: bus.baddress})
+            this.setState({country: bus.country})
+            this.setState({city: bus.city})
+            this.setState({zip: bus.zip})
+            this.setState({timeRestriction: bus.timeRestriction})
+
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
 
     componentDidMount(){
-        firebase.auth().onAuthStateChanged((user) => {
+         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 console.log(user)
                 this.setState({username:user.email, loggedIn:true})
               // User is signed in.
-              this.getUser();
-              this.getBusiness();
+                this.getUser();
+                this.getBusiness();
+                console.log(this.state.bid);
             } else {
                 console.log("no user")
               // No user is signed in.
@@ -94,10 +108,9 @@ class UpdateBusinessForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.bid);
         axios.put('http://localhost:5000/business/update', {
             uid: firebase.auth().currentUser.uid,
-            bid: 6,
+            bid:this.state.bid,
             bname: this.state.name,
             twitter: this.state.twitter,
             facebook: this.state.facebook,
@@ -106,7 +119,7 @@ class UpdateBusinessForm extends Component{
             sworkingHours: this.state.sworkingHours,
             eworkingHours: this.state.eworkingHours,
             workingDays: this.state.workingDays,
-            baddress: this.state.baddress,
+            baddress: this.state.address,
             country: this.state.country,
             city: this.state.city,
             zip: this.state.zip,
@@ -125,7 +138,7 @@ class UpdateBusinessForm extends Component{
             <div className='form-container'>
                 <Form>
                     <FormGroup>
-                        <Label>Business Name</Label>
+                        <Label>Name</Label>
                         <Input name="name" className='input-form' placeholder={this.state.name} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
@@ -156,9 +169,9 @@ class UpdateBusinessForm extends Component{
                         <Label>Working Days</Label>
                         <Input name='workingDays' placeholder={this.state.workingDays} onChange={this.onInputChange}></Input>
                     </FormGroup>
-                    <FormGroup>
-                        <Label>Business Address</Label>
-                        <Input name='baddress' placeholder={this.state.baddress} onChange={this.onInputChange}></Input>
+                      <FormGroup>
+                        <Label>Address</Label>
+                        <Input name='address' placeholder={this.state.address} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
                         <Label>Country</Label>
@@ -169,11 +182,11 @@ class UpdateBusinessForm extends Component{
                         <Input name='city' placeholder={this.state.city} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
-                        <Label>Zip Code</Label>
+                        <Label>Zip code</Label>
                         <Input name='zip' placeholder={this.state.zip} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
-                        <Label>Time Restriction</Label>
+                        <Label>Time Restriction in Minutes</Label>
                         <Input name='timeRestriction' placeholder={this.state.timeRestriction} onChange={this.onInputChange}></Input>
                     </FormGroup>
                 </Form>

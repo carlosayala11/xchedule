@@ -10,10 +10,14 @@ class BusinessHandler:
         result['facebook'] = row[4]
         result['instagram'] = row[5]
         result['website_url'] = row[6]
-        result['workingHours'] = row[7]
-        result['workingDays'] = row[8]
-        result['baddress'] = row[9]
-        result['timeRestriction'] = row[10]
+        result['sworkingHours'] = str(row[7])
+        result['eworkingHours'] = str(row[8])
+        result['workingDays'] = row[9]
+        result['baddress'] = row[10]
+        result['country'] = row[11]
+        result['city'] = row[12]
+        result['zip'] = row[13]
+        result['timeRestriction'] = row[14]
         return result
 
     def build_business_appointments_dict(self, row):
@@ -45,6 +49,7 @@ class BusinessHandler:
     def getAllBusiness(self):
         dao = BusinessDAO()
         business_list = dao.getAllBusiness()
+        print(business_list)
         result_list = []
         for row in business_list:
             result = self.build_business_dict(row)
@@ -62,14 +67,26 @@ class BusinessHandler:
 
     def getBusinessByUserId(self, uid):
         dao = BusinessDAO()
-        business = dao.getBusinessByUserId(uid)
-        print(business)
-        if not business:
+        row = dao.getBusinessByUserId(uid)
+        if not row:
             return jsonify(Error="Business Not Found"), 404
         else:
             result = {}
-            result['bid'] = business[0]
-        return jsonify(Business=business)
+            result['bid'] = row[0]
+            result['bname'] = row[1]
+            result['twitter'] = row[2]
+            result['facebook'] = row[3]
+            result['instagram'] = row[4]
+            result['website_url'] = row[5]
+            result['sworkingHours'] = str(row[6])
+            result['eworkingHours'] = str(row[7])
+            result['workingDays'] = row[8]
+            result['baddress'] = row[9]
+            result['country'] = row[10]
+            result['city'] = row[11]
+            result['zip'] = row[12]
+            result['timeRestriction'] = row[13]
+        return jsonify(Business=result)
 
     def getBusinessByCity(self, city):
         dao = BusinessDAO()
@@ -170,7 +187,9 @@ class BusinessHandler:
         dao = BusinessDAO()
         print(json)
         bid = json['bid']
-        if not dao.getBusinessById(bid):
+        test = dao.getBusinessById(bid)
+        print(test)
+        if not test:
             return jsonify(Error="Business not found."), 404
         else:
             uid = json['uid']
