@@ -73,11 +73,11 @@ class Home extends Component{
                             <Card>
                                 <CardTitle className="card-title">Top Businesses</CardTitle>
                                 <CardBody>
-                                    <CardText>{this.state.bname1}</CardText>
-                                    <CardText>{this.state.bname2}</CardText>
-                                    <CardText>{this.state.bname3}</CardText>
+                                    <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
+                                    <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
+                                    <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
 
-                                    <Button className="all-business">View More</Button>
+                                    <Button className="all-business" >View More</Button>
                                 </CardBody>
                             </Card>
                             </Col>
