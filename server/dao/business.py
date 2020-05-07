@@ -75,6 +75,8 @@ class BusinessDAO:
         result = []
         for row in cursor:
             result.append(row)
+
+        print(row)
         return result
 
     def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):

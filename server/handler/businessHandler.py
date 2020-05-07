@@ -235,5 +235,6 @@ class BusinessHandler:
         for row in business_list:
             result = self.build_topBusiness_dict(row)
             result_list.append(result)
+        print(result_list)
         return jsonify(TopBusinessList=result_list)
 
