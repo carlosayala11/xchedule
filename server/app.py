@@ -71,12 +71,14 @@ def getAllBusiness():
 def updateBusiness():
     return BusinessHandler().updateBusiness(request.json)
 
-@app.route('/business/<int:bid>',methods=['GET', 'DELETE'])
+@app.route('/business/delete', methods=['DELETE'])
+def deleteBusiness():
+    return BusinessHandler().deleteBusiness(request.args.get('id'))
+
+@app.route('/business/<int:bid>',methods=['GET'])
 def getBusinessById(bid):
     if request.method == 'GET':
         return BusinessHandler().getBusinessById(bid)
-    elif request.method == 'DELETE':
-        return BusinessHandler().deleteBusiness(bid)
     else:
         return jsonify(Error = "Method not allowed"), 405
 

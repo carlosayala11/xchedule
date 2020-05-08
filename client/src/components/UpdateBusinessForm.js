@@ -2,6 +2,7 @@ import React, {Component, useState} from 'react';
 import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
 import "flatpickr/dist/themes/dark.css";
 import '../styles/UpdateBusiness.css'
+import {Redirect} from "react-router-dom";
 
 var axios = require('axios');
 var firebase = require('firebase');
@@ -24,6 +25,7 @@ class UpdateBusinessForm extends Component{
             city:'',
             zip:'',
             timeRestriction:'',
+            businessCreated:false,
             loggedIn:false
         };
     }
@@ -125,15 +127,18 @@ class UpdateBusinessForm extends Component{
             zip: this.state.zip,
             timeRestriction: this.state.timeRestriction
         })
-            .then(function(response){
-                console.log(response);
-            })
-            .catch(function (error) {
+            .then((res)=>{this.setState({businessCreated:true})
+            console.log(res)
+        }).catch((error) => {
                 console.log(error);
         });
     }
 
     render(){
+        if(this.state.businessCreated){
+            return <Redirect to='/profile'/>;
+
+        }
         return(
             <div className='form-container'>
                 <Form>

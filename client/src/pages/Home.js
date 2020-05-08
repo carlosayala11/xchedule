@@ -76,7 +76,7 @@ class Home extends Component{
                                     <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
                                     <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
                                     <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
-                                    <Form action="http://localhost:3000/business">
+                                    <Form action="http://localhost:3000/profile">
                                     <Button className="all-business" >View More</Button>
                                     </Form>
                                 </CardBody>
