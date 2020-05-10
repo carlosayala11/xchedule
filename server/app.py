@@ -98,6 +98,10 @@ def getTopBusiness():
 def approveAppointment(bid, aid):
     return BusinessHandler().approveAppointment(bid,aid)
 
+@app.route('/business/<string:param>')
+def searchBusinessByPrefix(param):
+    return BusinessHandler().searchBusinessByPrefix(param)
+
 #-----Appointments-----
 @app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
 def getAllAppointments():

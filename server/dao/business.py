@@ -79,6 +79,18 @@ class BusinessDAO:
         print(row)
         return result
 
+    def searchBusinessByPrefix(self, param):
+        cursor = self.conn.cursor()
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url,(workinghours).startTime, (workingHours).endTime, workingdays, (baddress).address, (baddress).country, (baddress).city, (baddress).zipcode, timerestriction  from business where bname like '"+param+"%';"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+
+        print(result)
+        return result
+
+
     def insert(self,uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays, baddress, timeRestriction):
         cursor = self.conn.cursor()
         query = "select bid from business where uid = %s;"
