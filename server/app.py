@@ -14,8 +14,6 @@ CORS(app)
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
 
-
-
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
@@ -33,6 +31,10 @@ def getAllUsers():
     else:
         return jsonify(Error = "Method not allowed."), 405
 
+@app.route('/users/insert', methods=['POST'])
+def insertUser():
+    return userHandler().insertUser(request.json)
+    
 @app.route('/users/update', methods=['PUT'])
 def updateUser():
     return userHandler().updateUser(request.json)
@@ -53,26 +55,30 @@ def getUserById(uid):
 def getAppointmentsByUserId(uid):
     return userHandler().getAppointmentsByUserId(uid)
 
-#-----Business-----
+#-----CreateBusiness-----
 @app.route('/business', methods=['GET', 'POST'])
 def getAllBusiness():
     if request.method == 'POST':
-        return BusinessHandler().insertBusiness(request.form)
-    else:
+        return BusinessHandler().insertBusiness(request.json)
+    elif request.method == 'GET':
         if not request.args:
             return BusinessHandler().getAllBusiness()
-        else:
-            return BusinessHandler().searchBusiness(request.args)
+        return BusinessHandler().getBusinessByUserId(request.args.get('id'))
+    else:
+        return BusinessHandler().searchBusiness(request.args)
 
-@app.route('/business/<int:bid>',
-           methods=['GET', 'PUT', 'DELETE'])
+@app.route('/business/update', methods=['PUT'])
+def updateBusiness():
+    return BusinessHandler().updateBusiness(request.json)
+
+@app.route('/business/delete', methods=['DELETE'])
+def deleteBusiness():
+    return BusinessHandler().deleteBusiness(request.args.get('id'))
+
+@app.route('/business/<int:bid>',methods=['GET'])
 def getBusinessById(bid):
     if request.method == 'GET':
         return BusinessHandler().getBusinessById(bid)
-    elif request.method == 'PUT':
-        return BusinessHandler().updateBusiness(bid, request.form)
-    elif request.method == 'DELETE':
-        return BusinessHandler().deleteBusiness(bid)
     else:
         return jsonify(Error = "Method not allowed"), 405
 
@@ -80,23 +86,21 @@ def getBusinessById(bid):
 def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)
 
-@app.route('/business/<int:bid>/location')
-def showLocationByBusinessId(bid):
-    class Map:
-        def __init__(self, name, lat, lng):
-            self.name = name
-            self.lat = lat
-            self.lng = lng
+@app.route('/business/<int:bid>/appointments')
+def getAppointmentsByBusinessId(bid):
+    return BusinessHandler().getAppointmentsByBusinessId(bid)
 
-    api_key = "AIzaSyCeHf-jcEx21QPuV7BZOUOukikZ-bQYxDA"
-    google = GoogleMaps(api_key)
-    location = BusinessHandler().showLocationByBusinessId(bid)
-    address = location[0] + ',' + location[1]
-    geocode_result = google.geocode(address)
-    latitude = geocode_result[0]['geometry']['location']['lat']
-    longitude = geocode_result[0]['geometry']['location']['lng']
-    Map = Map(address, latitude, longitude)
-    return render_template('map.html', map=Map)
+@app.route('/business/top')
+def getTopBusiness():
+    return BusinessHandler().getTopBusiness()
+
+@app.route('/business/<int:bid>/approve/<int:aid>')
+def approveAppointment(bid, aid):
+    return BusinessHandler().approveAppointment(bid,aid)
+
+@app.route('/business/<string:param>')
+def searchBusinessByPrefix(param):
+    return BusinessHandler().searchBusinessByPrefix(param)
 
 #-----Appointments-----
 @app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
@@ -124,6 +128,22 @@ def getAppointmentById(aid):
 @app.route('/service/<int:sid>/appointments')
 def getAppointmentsByServiceId(sid):
     return AppointmentsHandler().getAppointmentsByServiceId(sid)
+
+
+@app.route('/appointments/<int:aid>/route')
+def getRouteFromUserToBusinessByAppointmentId(aid):
+    api_key = "AIzaSyCeHf-jcEx21QPuV7BZOUOukikZ-bQYxDA"
+    google = GoogleMaps(api_key)
+    route = AppointmentsHandler().getRouteFromUserToBusinessByAppointmentId(aid)
+    originaddress = route[0] + ', ' + route[1]
+    destaddress = route[2] + ', ' + route[3]
+    geocode_origin_result = google.geocode(originaddress)
+    geocode_dest_result = google.geocode(destaddress)
+    originlatitude = geocode_origin_result[0]['geometry']['location']['lat']
+    originlongitude = geocode_origin_result[0]['geometry']['location']['lng']
+    destlatitude = geocode_dest_result[0]['geometry']['location']['lat']
+    destlongitude = geocode_dest_result[0]['geometry']['location']['lng']
+    return render_template('route.html',originlongitude=originlongitude,originlatitude=originlatitude,destlongitude=destlongitude,destlatitude=destlatitude)
 
 if __name__ == '__main__':
     app.debug = True

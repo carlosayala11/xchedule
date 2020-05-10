@@ -13,13 +13,16 @@ class UserForm extends Component{
         super();
         this.state={
             email:'',
+            bid:'',
             fullName:'',
             phoneNumber:'',
             username:'',
             age:'',
             gender:'',
             address:'',
-            loggedIn:false
+            loggedIn:false,
+            errorMessage:'',
+            businessCreated:false
         };
     }
 
@@ -53,7 +56,24 @@ class UserForm extends Component{
             console.log(error);
         });
     }
+    getBusiness() {
+        var id = firebase.auth().currentUser.uid;
+        console.log(this.state.id);
+        axios.get('http://localhost:5000/business',{
+            params: {
+                id: id
+            }
+        })
+        .then(res => {
+            var bus = res.data.Business;
+            console.log("business",bus);
+            this.setState({bid: bus.bid})
 
+        })
+        .catch((error) => {
+                this.setState({errorMessage: error.message})
+              });
+    }
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -66,6 +86,35 @@ class UserForm extends Component{
               // No user is signed in.
             }
           });
+    }
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            console.log(this.state.errorMessage)
+            return <p className="login-error-message">{this.state.errorMessage}</p>}
+        if(this.state.businessCreated) {
+            return <p className="login-error-message">Created</p>}
+
+        }
+
+    onDelete = (event) => {
+        event.preventDefault();
+        this.getBusiness();
+        var id = this.state.bid
+        if(id){
+        axios.delete('http://localhost:5000/business/delete', {
+            params: {
+                id: id
+            }
+        })
+            .then(res => {
+                console.log(res);
+                this.setState({businessCreated: true})
+            })
+            .catch((error) => {
+                this.setState({errorMessage: error.message})
+              });
+        }
+
     }
 
     onSubmit = (event) => {
@@ -81,12 +130,12 @@ class UserForm extends Component{
             address: "(testaddress, country1, city2, 00958)",
             isowner: false
         })
-            .then(function(response){
+            .then(function (response) {
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
-        });
+            });
     }
 
     render(){
@@ -121,6 +170,16 @@ class UserForm extends Component{
                             </Input>
                     </FormGroup>
                     <p>Selected: {this.state.gender}</p>
+                    <Form action="http://localhost:3000/business">
+                    <button type="submit">Create a Business</button>
+                    </Form>
+                    <Form action="http://localhost:3000/business/update">
+                    <button type="submit">Update Business</button>
+                    </Form>
+                    <Form>
+                    <button type="submit" onClick={this.onDelete.bind(this)}>Delete Business</button>
+                    </Form>
+                    {this.renderErrorMessage()}
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                
             </div>
