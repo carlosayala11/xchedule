@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, useState} from 'react';
 import axios from 'axios'
-import {Form} from "reactstrap";
+import { Button, Modal } from 'react-bootstrap';
 
 class BusinessList extends Component {
   state = {
@@ -27,17 +27,18 @@ class BusinessList extends Component {
     )
   }
 }
-
 const List = (props) => {
   const options = props.results.map(r => (
 
-    <li key={r.bid}>Business Name: {r.bname}
-      <ul>
-          <Form action="http://localhost:3000/business/search">
-              <button type="submit">View Business</button>
-            </Form>
-      </ul>
+    <li key={r.bid}>
+     <ul>
+         Business Name: {r.bname}
+     </ul>
+        <Button variant="primary">
+            View Business Information
+       </Button>
     </li>
+
   ))
   return <ul>{options}
   </ul>
