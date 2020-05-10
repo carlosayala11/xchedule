@@ -89,13 +89,13 @@ class CreateBusinessForm extends Component {
 
 
     render(){
-        if(this.state.businessCreated){
-            return <Redirect to='/profile'/>;
+        // if(this.state.businessCreated){
+        //     return <Redirect to='/profile'/>;
 
-        }
+        // }
         return(
             <div className="signUp-form">
-                <p className="login-title">Create an Business</p>
+                <p className="login-title">Create a Business</p>
                 <Container>
                     <Row>
                         <Col>

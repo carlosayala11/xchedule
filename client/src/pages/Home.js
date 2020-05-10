@@ -1,11 +1,15 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
 import Calendar from "../components/Calendar"
 import NavigationBar from '../components/NavigationBar'
-import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form} from 'reactstrap'
+import CreateBusinessForm from '../components/CreateBusinessForm'
+import UpddateBusinessForm from '../components/UpdateBusinessForm'
+import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form,
+         Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 var axios = require('axios');
+var firebase = require('firebase');
 
 class Home extends Component{
     constructor(){
@@ -19,11 +23,21 @@ class Home extends Component{
             bname3:'',
             total1:'',
             total2:'',
-            total3:''
+            total3:'',
+            modal: false,
+            isOwner: false,
+            loggedIn:false,
         }
-
+        this.toggle = this.toggle.bind(this);
     }
-     getBusinessList() {
+
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
+    getBusinessList() {
         axios.get('http://localhost:5000/business/top')
         .then(res => {
             var bus = res.data.TopBusinessList;
@@ -42,8 +56,37 @@ class Home extends Component{
             console.log(error);
         });
     }
+
+    checkIfIsOwner(){
+        var id = firebase.auth().currentUser.uid;
+        console.log(this.state.id);
+        axios.get('http://localhost:5000/users',{
+            params: {
+                id: id
+            }
+        })
+        .then(res => {
+            var user = res.data.User;
+            console.log("user",user);
+            this.setState({isOwner: user.isOwner})
+            console.log(this.state.isOwner)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    renderForm(){
+        if (!this.state.isOwner){
+            console.log(this.state.isOwner);
+            return <CreateBusinessForm></CreateBusinessForm>
+        }
+        else
+            return <UpddateBusinessForm></UpddateBusinessForm>
+    }
+
     render(){
-        this.getBusinessList();
+        //this.getBusinessList();
         return(
             <div className="home-page">
                 <NavigationBar/>
@@ -66,28 +109,43 @@ class Home extends Component{
                                     <div className="calendar">
                                         <Calendar></Calendar>
                                     </div>
-                                </Card>
-                                
+                                </Card>   
                             </Col>
                             <Col sm="4">
-                            <Card>
-                                <CardTitle className="card-title">Top Businesses</CardTitle>
-                                <CardBody>
-                                    <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
-                                    <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
-                                    <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
-                                    <Form action="http://localhost:3000/profile">
-                                    <Button className="all-business" >View More</Button>
-                                    </Form>
-                                </CardBody>
-                            </Card>
+                                <Card>
+                                    {/* Manage/Create Business Modal */}
+                                    <CardTitle className="card-title">Manage your Business</CardTitle>
+                                    <CardBody>
+                                        <CardText>
+                                            <Button onClick={this.toggle}>Create a Business</Button>
+                                            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                                                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                                                <ModalBody>
+                                                    {this.renderForm()}
+                                                </ModalBody>
+                                                <ModalFooter>
+                                                    <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                                                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                                                </ModalFooter>
+                                            </Modal>
+                                        </CardText>
+                                    </CardBody>
+                                </Card>
+                                <Card>
+                                    <CardTitle className="card-title">Top Businesses</CardTitle>
+                                    <CardBody>
+                                        <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
+                                        <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
+                                        <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
+                                        <Form action="http://localhost:3000/profile">
+                                        <Button className="all-business" >View More</Button>
+                                        </Form>
+                                    </CardBody>
+                                </Card>
                             </Col>
                         </Row>
                     </Container>
-                    
                 </div>
-                
-
             </div>
         )
     }
