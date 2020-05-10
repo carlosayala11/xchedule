@@ -56,22 +56,12 @@ class SignUpForm extends Component{
                     isowner: false
                 }
                 console.log(user)
-<<<<<<< HEAD
-                // axios.post("http://127.0.0.1:5000/users", user).then((res)=>{
-                //     console.log("POST REQUEST WORKED")
-                //     this.setState({userSignedUp:true})
-                //  console.log(res)    
-                // }).catch((err)=>{
-                //  console.log(err)    
-                // })
-=======
                 axios.post("http://127.0.0.1:5000/users/insert", user).then((res)=>{
                     this.setState({userSignedUp:true})
                  console.log(res)    
                 }).catch((err)=>{
                  console.log(err)    
                 })
->>>>>>> master
             }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
     
