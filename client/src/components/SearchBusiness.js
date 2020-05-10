@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Suggestions from '../components/Suggestions'
+import Suggestions from './Suggestions'
 
 class SearchBusiness extends Component {
   state = {
