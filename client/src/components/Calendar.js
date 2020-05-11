@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
-import moment from 'moment'
+//import moment from 'moment'
 
 import {
   Scheduler,
@@ -18,6 +18,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
+import moment from 'moment'
+
 
 // supress warning for using moment()
 moment.suppressDeprecationWarnings = true;
@@ -55,9 +57,8 @@ class Calendar extends Component{
 
   //function to conditionally render the calendar or a message
   renderCalendar(data){
-    // this throws a warning, deprecated
     const currentDate = moment();
-    const{loading} = this.state;
+
     //if the calendar is supposed to be rendered (has appointments available to show), render it
     if(this.state.renderCalendar){
       return(
@@ -97,7 +98,7 @@ class Calendar extends Component{
   getUserAppointments(){
     //check if a user is signed in
     firebase.auth().onAuthStateChanged((user) =>{
-      if (true) {
+      if (user) {
         // User is signed in.  get their appointments
         axios.get('http://localhost:5000/appointments',{
           params: {

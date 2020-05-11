@@ -10,10 +10,14 @@ class BusinessHandler:
         result['facebook'] = row[4]
         result['instagram'] = row[5]
         result['website_url'] = row[6]
-        result['workingHours'] = row[7]
-        result['workingDays'] = row[8]
-        result['baddress'] = row[9]
-        result['timeRestriction'] = row[10]
+        result['sworkingHours'] = str(row[7])
+        result['eworkingHours'] = str(row[8])
+        result['workingDays'] = row[9]
+        result['baddress'] = row[10]
+        result['country'] = row[11]
+        result['city'] = row[12]
+        result['zip'] = row[13]
+        result['timeRestriction'] = row[14]
         return result
 
     def build_business_appointments_dict(self, row):
@@ -45,6 +49,7 @@ class BusinessHandler:
     def getAllBusiness(self):
         dao = BusinessDAO()
         business_list = dao.getAllBusiness()
+        print(business_list)
         result_list = []
         for row in business_list:
             result = self.build_business_dict(row)
@@ -55,16 +60,39 @@ class BusinessHandler:
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
         if not business:
+            return jsonify(Error="CreateBusiness Not Found"), 404
+        else:
+            business = self.build_business_dict(business)
+        return jsonify(Business=business)
+
+    def getBusinessByUserId(self, uid):
+        dao = BusinessDAO()
+        row = dao.getBusinessByUserId(uid)
+        if not row:
             return jsonify(Error="Business Not Found"), 404
         else:
-            person = self.build_business_dict(business)
-        return jsonify(Business=business)
+            result = {}
+            result['bid'] = row[0]
+            result['bname'] = row[1]
+            result['twitter'] = row[2]
+            result['facebook'] = row[3]
+            result['instagram'] = row[4]
+            result['website_url'] = row[5]
+            result['sworkingHours'] = str(row[6])
+            result['eworkingHours'] = str(row[7])
+            result['workingDays'] = row[8]
+            result['baddress'] = row[9]
+            result['country'] = row[10]
+            result['city'] = row[11]
+            result['zip'] = row[12]
+            result['timeRestriction'] = row[13]
+        return jsonify(Business=result)
 
     def getBusinessByCity(self, city):
         dao = BusinessDAO()
         business_list = dao.getBusinessByCity(city)
         if not business_list:
-            return jsonify(Error="Business Not Found"), 404
+            return jsonify(Error="CreateBusiness Not Found"), 404
         else:
             result_list = []
             for row in business_list:
@@ -77,7 +105,7 @@ class BusinessHandler:
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
         if not business:
-            return jsonify(Error="Business Not Found"), 404
+            return jsonify(Error="CreateBusiness Not Found"), 404
         services_list = dao.getServicesByBusinessId(bid)
         result_list = []
         for row in services_list:
@@ -89,7 +117,7 @@ class BusinessHandler:
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
         if not business:
-            return jsonify(Error="Business Not Found"), 404
+            return jsonify(Error="CreateBusiness Not Found"), 404
         services_list = dao.getAppointmentsByBusinessId(bid)
         result_list = []
         for row in services_list:
@@ -108,7 +136,7 @@ class BusinessHandler:
                 result_list = []
                 for row in business_list:
                     result = self.build_business_dict(row)
-                    result_list.append(row)
+                    result_list.append(result)
                 return jsonify(BusinessList=result_list)
             else:
                 return jsonify(Error="Malformed search string."), 400
@@ -120,43 +148,49 @@ class BusinessHandler:
         facebook = json['facebook']
         instagram = json['instagram']
         website_url = json['website_url']
-        workingHours = json['workingHours']
+        workingHours = (json['sworkingHours'],json['eworkingHours'])
         workingDays = json['workingDays']
-        baddress = json['baddress']
+        baddress = (json['baddress'],json['country'],json['city'],json['zip'])
         timeRestriction = json['timeRestriction']
         if uid and bname and twitter and facebook and instagram and website_url and workingHours \
                 and workingDays and baddress and timeRestriction:
             dao = BusinessDAO()
-            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,
-                             workingDays, baddress, timeRestriction)
-            result = {}
-            result['bid'] = bid
-            result['uid'] = uid
-            result['bname'] = bname
-            result['twitter'] = twitter
-            result['facebook'] = facebook
-            result['instagram'] = instagram
-            result['website_url'] = website_url
-            result['workingHours'] = workingHours
-            result['workingDays'] = workingDays
-            result['baddress'] = baddress
-            result['timeRestriction'] = timeRestriction
-            return jsonify(Business=result), 201
+            bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
+            if bid== "Already owns":
+                return jsonify(Error="User already owns a Business"), 400
+            else:
+                result = {}
+                result['bid'] = bid
+                result['uid'] = uid
+                result['bname'] = bname
+                result['twitter'] = twitter
+                result['facebook'] = facebook
+                result['instagram'] = instagram
+                result['website_url'] = website_url
+                result['workingHours'] = workingHours
+                result['workingDays'] = workingDays
+                result['baddress'] = baddress
+                result['timeRestriction'] = timeRestriction
+                return jsonify(Business=result), 201
         else:
             return jsonify('Unexpected attributes in post request'), 401
 
     def deleteBusiness(self, bid):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
-            return jsonify(Error = "Business not found."), 404
+            return jsonify(Error = "CreateBusiness not found."), 404
         else:
             dao.delete(bid)
             return jsonify(DeleteStatus = "OK"), 200
 
-    def updateBusiness(self, bid, json):
+    def updateBusiness(self,json):
         dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error = "Business not found."), 404
+        print(json)
+        bid = json['bid']
+        test = dao.getBusinessById(bid)
+        print(test)
+        if not test:
+            return jsonify(Error="Business not found."), 404
         else:
             uid = json['uid']
             bname = json['bname']
@@ -164,16 +198,14 @@ class BusinessHandler:
             facebook = json['facebook']
             instagram = json['instagram']
             website_url = json['website_url']
-            workingHours = json['workingHours']
+            workingHours = (json['sworkingHours'], json['eworkingHours'])
             workingDays = json['workingDays']
-            baddress = json['baddress']
+            baddress = (json['baddress'], json['country'], json['city'], json['zip'])
             timeRestriction = json['timeRestriction']
-            if uid and bname and twitter and facebook and instagram and website_url and workingHours \
+            if bid and uid and bname and twitter and facebook and instagram and website_url and workingHours \
                     and workingDays and baddress and timeRestriction:
-                dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,
-                           baddress, timeRestriction)
+                dao.update(bid, uid, bname, twitter, facebook, instagram, website_url, workingHours, workingDays,baddress, timeRestriction)
                 result = {}
-                result['bid'] = bid
                 result['uid'] = uid
                 result['bname'] = bname
                 result['twitter'] = twitter
@@ -191,7 +223,7 @@ class BusinessHandler:
     def approveAppointment(self, bid, aid):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
-            return jsonify(Error="Business not found."), 404
+            return jsonify(Error="CreateBusiness not found."), 404
         else:
             aid = dao.approveAppointment(bid, aid)
             return jsonify(AppointmentIdApproved=aid), 201
@@ -203,5 +235,16 @@ class BusinessHandler:
         for row in business_list:
             result = self.build_topBusiness_dict(row)
             result_list.append(result)
+        print(result_list)
         return jsonify(TopBusinessList=result_list)
+
+    def searchBusinessByPrefix(self,param):
+        dao = BusinessDAO()
+        business_list = dao.searchBusinessByPrefix(param)
+        result_list = []
+        for row in business_list:
+            result = self.build_business_dict(row)
+            result_list.append(result)
+        return jsonify(BusinessList=result_list)
+
 
