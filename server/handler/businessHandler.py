@@ -238,3 +238,13 @@ class BusinessHandler:
         print(result_list)
         return jsonify(TopBusinessList=result_list)
 
+    def searchBusinessByPrefix(self,param):
+        dao = BusinessDAO()
+        business_list = dao.searchBusinessByPrefix(param)
+        result_list = []
+        for row in business_list:
+            result = self.build_business_dict(row)
+            result_list.append(result)
+        return jsonify(BusinessList=result_list)
+
+

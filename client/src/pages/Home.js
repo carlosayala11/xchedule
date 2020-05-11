@@ -109,7 +109,7 @@ class Home extends Component{
                                     <div className="calendar">
                                         <Calendar></Calendar>
                                     </div>
-                                </Card>   
+                                </Card>
                             </Col>
                             <Col sm="4">
                                 <Card>
