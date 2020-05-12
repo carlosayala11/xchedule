@@ -1,10 +1,13 @@
 import React, { Component, useState} from 'react';
 import axios from 'axios'
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
+import Modal from 'react-bootstrap/Modal'
+
 
 class BusinessList extends Component {
   state = {
     results: []
+
   }
 
   getAllBusiness = () => {
@@ -17,31 +20,36 @@ class BusinessList extends Component {
       })
   }
 
+  onSubmit(bid){
+        localStorage.setItem('bid', bid);
+        console.log(bid);
+
+    }
 
     render() {
-      this.getAllBusiness();
+
+    this.getAllBusiness();
     return (
       <form>
-        <List results={this.state.results} />
+      {this.state.results.map(r => (
+        <ul key={r.bid}>
+            <ul>Business Name:{r.bname}</ul>
+            <ul>Twitter:{r.twitter}</ul>
+            <ul>Facebook:{r.facebook}</ul>
+            <ul>Instagram:{r.instagram}</ul>
+            <ul>Start Time:{r.sworkingHours}</ul>
+            <ul>End Time:{r.eworkingHours}</ul>
+            <ul>Working days:{r.workingDays}</ul>
+            <ul>Time Restriction:{r.timeRestriction}</ul>
+            </ul>
+
+         ))}
       </form>
     )
   }
-}
-const List = (props) => {
-  const options = props.results.map(r => (
 
-    <li key={r.bid}>
-     <ul>
-         Business Name: {r.bname}
-     </ul>
-        <Button variant="primary">
-            View Business Information
-       </Button>
-    </li>
 
-  ))
-  return <ul>{options}
-  </ul>
+
 }
 
 export default BusinessList

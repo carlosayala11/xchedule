@@ -76,7 +76,6 @@ class BusinessDAO:
         for row in cursor:
             result.append(row)
 
-        print(row)
         return result
 
     def searchBusinessByPrefix(self, param):
@@ -96,7 +95,6 @@ class BusinessDAO:
         query = "select bid from business where uid = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
-        print(result)
         if result:
             return "Already owns"
         else:
