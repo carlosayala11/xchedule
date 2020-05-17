@@ -20,12 +20,6 @@ class BusinessList extends Component {
       })
   }
 
-  onSubmit(bid){
-        localStorage.setItem('bid', bid);
-        console.log(bid);
-
-    }
-
     render() {
 
     this.getAllBusiness();
