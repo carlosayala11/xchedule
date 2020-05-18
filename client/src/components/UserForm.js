@@ -170,7 +170,7 @@ class UserForm extends Component{
                             </Input>
                     </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form action="http://localhost:3000/business">
+                    <Form action="http://localhost:3000/business/create">
                     <button type="submit">Create a Business</button>
                     </Form>
                     <Form action="http://localhost:3000/business/update">

@@ -27,6 +27,13 @@ class ServicesDAO:
         result = cursor.fetchone()
         return result
 
+    def getBusinessByServiceId(self, sid):
+        cursor = self.conn.cursor()
+        query = 'select (workinghours).starttime, (workinghours).endtime from business natural inner join offers where sid=%s;'
+        cursor.execute(query, (sid,))
+        result = cursor.fetchone()
+        return result
+
     def insert(self, id, servicetype, servicedetails):
         cursor = self.conn.cursor()
         query = "insert into services(sid, servicetype, servicedetails) values (%s, %s, %s) returning sid;"

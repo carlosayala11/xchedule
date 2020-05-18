@@ -1,12 +1,18 @@
 from flask import jsonify
 from dao.services import ServicesDAO
 
-class serviceHandler:
+class servicesHandler:
     def build_service(self, row):
         services = {}
         services['sid'] = row[0]
         services['servicetype'] = row[1]
         services['servicedetails'] = row[2]
+        return services
+
+    def build_business(self, row):
+        services = {}
+        services['starttime'] = row[0]
+        services['endtime'] = row[1]
         return services
 
     def getAllServices(self):
@@ -21,7 +27,7 @@ class serviceHandler:
         else:
             return jsonify(ERROR='No services found.')
 
-    def getUserById(self, sid):
+    def getServiceById(self, sid):
         dao = ServicesDAO()
         service = dao.getServiceById(sid)
         if not service:
@@ -29,6 +35,17 @@ class serviceHandler:
         else:
             service = self.build_service(service)
         return jsonify(Service=service)
+
+    def getBusinessByServiceId(self, sid):
+        dao = ServicesDAO()
+        bus = dao.getBusinessByServiceId(sid)
+        result = []
+        if bus:
+            result = self.build_business(bus)
+            print(result)
+            return jsonify(BusinessHours=result)
+        else:
+            return jsonify(ERROR='No services found.')
 
     def insertService(self, json):
         sid = json['sid']
@@ -45,7 +62,7 @@ class serviceHandler:
         else:
             return jsonify('Unexpected attributes in post request.'), 401
 
-    def deleteUser(self, sid):
+    def deleteService(self, sid):
         dao = ServicesDAO()
         if not dao.getServiceById(sid):
             return jsonify(Error="Service not found."), 404
@@ -53,7 +70,7 @@ class serviceHandler:
             dao.delete(sid)
             return jsonify(DeleteStatus="OK"), 200
 
-    def updateUser(self, json):
+    def updateService(self, json):
         dao = ServicesDAO()
         sid = json['sid']
         if not dao.getServiceById(sid):

@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
+from handler.servicesHandler import servicesHandler
 from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
@@ -17,6 +18,35 @@ CORS(app)
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
+#-----Services-----
+@app.route('/services', methods=['GET', 'POST', 'PUT'])
+def getAllServices():
+    if not request.args:
+        return  servicesHandler().getAllServices()
+    elif request.method == 'GET':
+        return servicesHandler().getServiceById(request.args.get('id'))
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/services/insert', methods=['POST'])
+def insertService():
+    return servicesHandler().insertService(request.json)
+
+
+@app.route('/services/update', methods=['PUT'])
+def updateService():
+    return servicesHandler().updateService(request.json)
+
+
+@app.route('/services/<int:sid>',
+           methods=['GET', 'PUT', 'DELETE'])
+def deleteService(sid):
+    return servicesHandler().deleteService(sid)
+
+@app.route('/services/business/<int:sid>')
+def getBusinessByServiceId(sid):
+    return servicesHandler().getBusinessByServiceId(sid)
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
