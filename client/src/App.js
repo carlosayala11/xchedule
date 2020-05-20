@@ -1,13 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link,
-  Redirect
+  Route
+  //Link,
+  //Redirect
 } from "react-router-dom";
 import Login from './pages/Login.js'
 import LandingPage from './pages/LandingPage.js'

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import LandingPageSegment from '../components/LandingPageSegment'
-import { Jumbotron, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import '../styles/LandingPage.css'
 import logo_black_circle from '../logo_black_circle.png'
 import {NavLink } from 'react-router-dom'
@@ -30,7 +30,7 @@ class LandingPage extends Component{
                         <NavLink to="/login"> <Button>Login to Learn More</Button> </NavLink>
 
                     </div>
-                    <img src={logo_black_circle} className="landing-logo"/>
+                    <img src={logo_black_circle} className="landing-logo" alt="xchedule logo"/>
 
                 </div>
 

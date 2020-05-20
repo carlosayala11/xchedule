@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
+import { Button, Input, Label, FormGroup } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
@@ -61,7 +61,7 @@ class AppointmentForm extends Component{
     } 
 
     render(){
-        const {date, duration } = this.state;
+        const {date } = this.state;
         var dt;
         return(
             <div className="form-container">                

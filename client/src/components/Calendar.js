@@ -14,8 +14,8 @@ import {
   DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import { withStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
+//import { withStyles } from '@material-ui/core/styles';
+//import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
 
@@ -57,7 +57,7 @@ class Calendar extends Component{
   renderCalendar(data){
     // this throws a warning, deprecated
     const currentDate = moment();
-    const{loading} = this.state;
+    //const{loading} = this.state;
     //if the calendar is supposed to be rendered (has appointments available to show), render it
     if(this.state.renderCalendar){
       return(

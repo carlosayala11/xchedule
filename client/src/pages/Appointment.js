@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import AppointmentForm from '../components/AppointmentForm'
 import NavigationBar from '../components/NavigationBar'
-import { Button } from 'reactstrap';
+//import { Button } from 'reactstrap';
 import '../styles/Appointment.css'
-import logo_white from '../logo_white.png'
-import logo_black from '../logo_black.png'
+//import logo_white from '../logo_white.png'
+//import logo_black from '../logo_black.png'
 
 class Appointment extends Component{
     constructor(){
