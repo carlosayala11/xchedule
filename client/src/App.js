@@ -14,7 +14,10 @@ import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
 import Home from './pages/Home.js'
 import Appointment from './pages/Appointment.js'
-import Business from './pages/Business.js'
+import CreateBusiness from './pages/CreateBusiness.js'
+import UpdateBusiness from './pages/UpdateBusiness.js'
+import ViewAllBusiness from './pages/ViewAllBusiness.js'
+import Search from './pages/Search.js'
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -51,8 +54,17 @@ function App() {
           <Route exact path="/appointment">
             <Appointment />
           </Route>
-          <Route exact path="/business">
-            <Business />
+            <Route exact path="/business/all">
+            <ViewAllBusiness />
+          </Route>
+          <Route exact path="/business/create">
+            <CreateBusiness />
+          </Route>
+            <Route exact path="/business/update">
+            <UpdateBusiness />
+          </Route>
+            <Route exact path="/business/search">
+            <Search />
           </Route>
         </Switch>
       </Router>

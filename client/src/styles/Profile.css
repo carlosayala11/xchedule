@@ -39,3 +39,8 @@
     font-weight:bold;
     align-self: center;
 }
+
+.login-error-message{
+    color:red;
+    font-size:14px;
+}

@@ -1,7 +1,7 @@
 import {Button, Col, Container, Input, Row, Spinner} from "reactstrap";
 import React, {Component} from 'react';
 import "flatpickr/dist/themes/dark.css";
-import '../styles/Business.css'
+import '../styles/CreateBusiness.css'
 import {Redirect} from "react-router-dom";
 import axios from 'axios'
 import * as firebase from 'firebase';
@@ -12,24 +12,27 @@ class CreateBusinessForm extends Component {
     constructor() {
         super();
         this.state = {
-            name: '',
-            twitter: '',
-            facebook: '',
+            name:'',
+            twitter:'',
+            facebook:'',
             instagram: '',
-            website: '',
-            sworkingHours: '',
-            eworkingHours: '',
-            workingDays: '',
-            address: '',
-            country: '',
-            city: '',
-            zip: '',
-            timeRestriction: '',
+            website:'',
+            sworkingHours:'',
+            eworkingHours:'',
+            workingDays:'',
+            address:'',
+            country:'',
+            city:'',
+            zip:'',
+            timeRestriction:'',
             loadingBusinessCreation:false,
-            businessCreated:false
+            businessCreated:false,
+            hasBusiness:false,
+            errorMessage:'',
+            errorCode:''
         };
     }
-    onInputChange = (event) => {
+   onInputChange = (event) => {
         event.preventDefault();
 
         this.setState({
@@ -59,12 +62,22 @@ class CreateBusinessForm extends Component {
         axios.post('http://127.0.0.1:5000/business', business
         ).then((res)=>{this.setState({businessCreated:true})
             console.log(res)
-        }).catch(function (error) {
-                console.log(error);
-        });
+        }).catch((error) => {
+                this.setState({hasBusiness:true})
+                this.setState({errorMessage: error.message})
+                this.setState({errorCode: error.code})
+              });
 
 
     }
+
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            console.log(this.state.errorMessage)
+            return <p className="login-error-message">{this.state.errorMessage}</p>}
+
+        }
+
 
     renderCreateBusinessSpinner(){
         if(this.state.loadingBusinessCreation){
@@ -142,6 +155,7 @@ class CreateBusinessForm extends Component {
                 <Button className="login-button" color="primary" onClick={this.createBusinessAccount.bind(this)}>
                     {this.renderCreateBusinessSpinner()}
                 </Button>
+                {this.renderErrorMessage()}
 
             </div>
 

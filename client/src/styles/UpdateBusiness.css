@@ -1,16 +1,9 @@
-.appointment-page{
+.updateBusiness-page{
     display:flex;
-    flex-direction: column;
-    justify-content:center;
-    justify-items: center;
-    align-content: center;
+    flex-direction:column;
     background-color: rgb(238, 238, 238);
-    height:100vh;
-}
-
-.login-error-message{
-    color:red;
-    font-size:14px;
+    margin-top:10vh;
+    padding:1vh;
 }
 
 .logo{
@@ -33,27 +26,15 @@
     border-radius:10px;
 }
 
-.appointment-input{
-    margin-top: 15px;
-    margin-bottom:15px;
-    margin-left: left;
-    margin-right: auto;
-    width:50px;
+.input-form{
+    display: inline;
+    padding-inline: 10px;
 }
 
-.appointment-button{
+.save-button{
     width:300px;
     margin:20px;
     font-size:18px;
     font-weight:bold;
     align-self: center;
-}
-
-.appointment-label{
-    margin-top: 15px;
-    margin-left: left;
-}
-
-.date-box{
-    width: 350px;
 }
