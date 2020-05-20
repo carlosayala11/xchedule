@@ -1,7 +1,7 @@
-import React, { Component, useState} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios'
-import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
-import Modal from 'react-bootstrap/Modal'
+// import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
+// import Modal from 'react-bootstrap/Modal'
 
 
 class BusinessList extends Component {

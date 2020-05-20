@@ -110,7 +110,7 @@ class AppointmentForm extends Component{
 
     render(){
         this.getAllBusiness();
-        const {date, duration, sid, bid } = this.state;
+        const {date/*, duration, sid, bid*/ } = this.state;
         var dt;
         return(
             <div className="form-container">                
