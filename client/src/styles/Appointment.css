@@ -8,6 +8,11 @@
     height:100vh;
 }
 
+.login-error-message{
+    color:red;
+    font-size:14px;
+}
+
 .logo{
     height:300px;
     width:500px;

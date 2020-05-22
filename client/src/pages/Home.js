@@ -1,5 +1,5 @@
-import React, {Component, useState} from 'react';
-import logo_black_circle from "../logo_black_circle.png";
+import React, {Component} from 'react';
+//import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
 import Calendar from "../components/Calendar"

@@ -2,6 +2,7 @@ from flask import jsonify
 from dao.user import UsersDAO
 
 class userHandler:
+
     def build_user(self, row):
         users = {}
         users['uid'] = row[0]
@@ -113,6 +114,7 @@ class userHandler:
             return jsonify(User=result), 201
         else:
             return jsonify('Unexpected attributes in post request.'), 401
+
 
     def deleteUser(self, uid):
         dao = UsersDAO()
