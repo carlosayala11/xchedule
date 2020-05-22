@@ -91,6 +91,8 @@
 .appointments-title{
     font-size:32px;
     font-weight:bold;
+}
+
 .updateBusiness-page{
     display:flex;
     flex-direction:column;
