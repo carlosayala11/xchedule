@@ -15,8 +15,8 @@ class AppointmentForm extends Component{
             bid:'',
             sid:'',
             date: '',
-            start:'',
-            end:'',
+            start: '',//moment('8:00', 'HH:mm'),
+            end: '',//moment('18:00', 'HH:mm'),
             duration:'',
             completed:'',
             pending:'',
@@ -32,8 +32,13 @@ class AppointmentForm extends Component{
         this.setState({
             [event.target.name]: event.target.value
         })
-        axios.get(`http://localhost:5000/business/${this.state.bid}/services
-        `)
+        var id = event.target.value;
+        console.log(id);
+        axios.get(`http://localhost:5000/business/services`,{
+            params: {
+                id: id
+            }
+        })
       .then(res => {
           console.log(res.data)
         this.setState({
@@ -43,6 +48,7 @@ class AppointmentForm extends Component{
     }
     onInputChange = (event) => {
         event.preventDefault();
+        console.log(event.target.value);
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -53,7 +59,12 @@ class AppointmentForm extends Component{
         this.setState({
             [event.target.name]: event.target.value
         })
-        axios.get(`http://localhost:5000/services/business/${this.state.sid}`)
+        var id = event.target.value;
+        axios.get('http://localhost:5000/services/business',{
+            params: {
+                id: id
+            }
+        })
       .then(res => {
           console.log(res.data)
         this.setState({
@@ -79,10 +90,18 @@ class AppointmentForm extends Component{
         var id = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
-        const startA = moment(startTime, 'HH:mm')
-        const endA = moment(startTime, 'HH:mm').add(durationInMinutes, 'HH:mm').format('HH:mm');
-        if(startA < moment(this.start,'HH:mm') || endA > moment(this.end,'HH:mm'))
-            {return <p className="login-error-message">Invalid Hours for Appointment</p>}
+        const startA = moment(startTime, 'YYYY-MM-DDTHH:mm')
+        console.log(startA);
+        const endA = startA.add(durationInMinutes, 'YYYY-MM-DDTHH:mm').format('YYYY-MM-DDTHH:mm');
+        console.log(endA);
+        if(startA < moment(this.state.start,'YYYY-MM-DDTHH:mm')){
+            return <p>Invalid Hours for Appointment</p>}
+        if(startA > moment(this.state.end,'YYYY-MM-DDTHH:mm')){
+            return <p>Invalid Hours for Appointment</p>}
+        if(endA < moment(this.state.start,'YYYY-MM-DDTHH:mm')){
+            return <p>Invalid Hours for Appointment</p>}
+        if(endA > moment(this.state.end,'YYYY-MM-DDTHH:mm')){
+            return <p>Invalid Hours for Appointment</p>}
         else{
             const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
             //this.setState({endDate:endTime})
@@ -97,7 +116,7 @@ class AppointmentForm extends Component{
                 completed: 'False',
                 pending: 'True',
                 canceled: 'False',
-                sid: this.state.sid,
+                sid: 1,
                 uid: id
             }).then(function(response){
                     console.log(response);
@@ -107,10 +126,13 @@ class AppointmentForm extends Component{
             });
             this.props.history.push('/home');
     }}
-
+    componentDidMount(){
+       this.getAllBusiness();
+       console.log(this.state.start);
+        console.log(this.state.end);
+    }
     render(){
-        this.getAllBusiness();
-        const {date/*, duration, sid, bid*/ } = this.state;
+        const {date, duration, sid, bid } = this.state;
         var dt;
         return(
             <div className="form-container">                
@@ -129,20 +151,33 @@ class AppointmentForm extends Component{
                           }}
                     /> 
                     </div>
+                {/*<FormGroup>*/}
+                {/*<Label>Business</Label>*/}
+                {/*<Input name="bid" type="select" value={this.state.bid}>*/}
+                {/*  {this.state.business.map((data,i) => (*/}
+                {/*    <option onChange={() => this.getServicesByBusiness}>{data.bid}</option>*/}
+                {/*  ))}*/}
+                {/*</Input>*/}
+                {/*</FormGroup>*/}
+                {/*<FormGroup>*/}
+                {/*    <Label>Service Type</Label>*/}
+                {/*    <Input name="sid" type="select" value={this.state.sid}>*/}
+                {/*       {this.state.services.map((data,i) => (*/}
+                {/*    <option onChange={() => this.getHours}>{data.sid}</option>*/}
+                {/*           ))}*/}
+                {/*    </Input>*/}
+                {/*</FormGroup>*/}
+
                 <FormGroup>
-                <Label>Business</Label>
-                <Input name="bid" type="select" value={this.state.bid}>
-                  {this.state.business.map((data,i) => (
-                    <option onChange={() => this.getServicesByBusiness}>{data.bid}</option>
-                  ))}
-                </Input>
+                    <Label>Business</Label>
+                    <Input name="bid" type="select" value={this.state.bid} onChange={this.getServicesByBusiness}>
+                        {this.state.business.map(bus => <option>{bus.bid}</option>)}
+                    </Input>
                 </FormGroup>
                 <FormGroup>
-                    <Label>Service Type</Label>
-                    <Input name="sid" type="select" value={this.state.sid} onChange={() => this.getHours}>
-                       {this.state.services.map((data,i) => (
-                    <option onChange={() => this.getServicesByBusiness}>{data.sid}</option>
-                           ))}
+                    <Label>Services</Label>
+                    <Input name="sid" type="select" value={this.state.sid} onChange={this.getHours}>
+                        {this.state.services.map(ser => <option>{ser.sid}</option>)}
                     </Input>
                 </FormGroup>
                 <FormGroup>

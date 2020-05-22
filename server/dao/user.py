@@ -39,11 +39,12 @@ class UsersDAO:
     def getAppointmentsByUserID(self, uid):
         cursor = self.conn.cursor()
         result = []
-        query = "select aid, date, duration, completed from users natural inner join appointments natural inner join schedules where uid =%s;"
+        query = "select aid, date, duration, completed from users natural inner join appointments natural inner join schedules where uid =%s and canceled = false;"
         cursor.execute(query, (uid,))
         for row in cursor:
             result.append(row)
         return result
+
 
     def insert(self, id, full_name, username, email, phone_number, age, gender, uaddress, isowner):
         cursor = self.conn.cursor()

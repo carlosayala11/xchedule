@@ -222,10 +222,26 @@ class BusinessHandler:
     def approveAppointment(self, bid, aid):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
-            return jsonify(Error="CreateBusiness not found."), 404
+            return jsonify(Error="Business not found."), 404
         else:
             aid = dao.approveAppointment(bid, aid)
             return jsonify(AppointmentIdApproved=aid), 201
+
+    def cancelAppointment(self, bid, aid):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error="Business not found."), 404
+        else:
+            aid = dao.cancelAppointment(bid, aid)
+            return jsonify(AppointmentIdCanceled=aid), 201
+
+    def completeAppointment(self, bid, aid):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error="Business not found."), 404
+        else:
+            aid = dao.completeAppointment(bid, aid)
+            return jsonify(AppointmentIdCompleted=aid), 201
 
     def getTopBusiness(self):
         dao = BusinessDAO()

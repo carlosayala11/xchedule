@@ -26,7 +26,7 @@ class AppointmentsDAO:
 
     def getAllAppointments(self):
         cursor = self.conn.cursor()
-        query = "select * from appointments;"
+        query = "select * from appointments where canceled= false;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -51,7 +51,7 @@ class AppointmentsDAO:
 
     def getAppointmentsByUserId(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from appointments natural inner join schedules where uid=%s;"
+        query = "select * from appointments natural inner join schedules where uid=%s and canceled = false;"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:

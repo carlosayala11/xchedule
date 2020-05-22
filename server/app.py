@@ -44,9 +44,9 @@ def updateService():
 def deleteService(sid):
     return servicesHandler().deleteService(sid)
 
-@app.route('/services/business/<int:sid>')
-def getBusinessByServiceId(sid):
-    return servicesHandler().getBusinessByServiceId(sid)
+@app.route('/services/business')
+def getBusinessByServiceId():
+    return servicesHandler().getBusinessByServiceId(request.args.get('id'))
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
@@ -70,20 +70,9 @@ def updateUser():
     return userHandler().updateUser(request.json)
 
 @app.route('/users/<string:uid>',
-           methods=['GET', 'PUT', 'DELETE'])
+           methods=['DELETE'])
 def getUserById(uid):
-    if request.method == 'GET':
-        return userHandler().getUserById(uid)
-    elif request.method == 'PUT':
-        return userHandler().updateUser(uid, request.json)
-    elif request.method == 'DELETE':
-        return userHandler().deleteUser(uid)
-    else:
-        return jsonify(Error = "Method not allowed."), 405
-
-@app.route('/users/<int:uid>/appointments')
-def getAppointmentsByUserId(uid):
-    return userHandler().getAppointmentsByUserId(uid)
+    return userHandler().deleteUser(uid)
 
 #-----CreateBusiness-----
 @app.route('/business', methods=['GET', 'POST'])
@@ -112,9 +101,9 @@ def getBusinessById(bid):
     else:
         return jsonify(Error = "Method not allowed"), 405
 
-@app.route('/business/<int:bid>/services')
-def getServicesByBusinessId(bid):
-    return BusinessHandler().getServicesByBusinessId(bid)
+@app.route('/business/services')
+def getServicesByBusinessId():
+    return BusinessHandler().getServicesByBusinessId(request.args.get('id'))
 
 @app.route('/business/<int:bid>/appointments')
 def getAppointmentsByBusinessId(bid):
@@ -127,6 +116,14 @@ def getTopBusiness():
 @app.route('/business/<int:bid>/approve/<int:aid>')
 def approveAppointment(bid, aid):
     return BusinessHandler().approveAppointment(bid,aid)
+
+@app.route('/business/<int:bid>/complete/<int:aid>')
+def completeAppointment(bid, aid):
+    return BusinessHandler().completeAppointment(bid,aid)
+
+@app.route('/business/<int:bid>/cancel/<int:aid>')
+def cancelAppointment(bid, aid):
+    return BusinessHandler().cancelAppointment(bid,aid)
 
 @app.route('/business/<string:param>')
 def searchBusinessByPrefix(param):
