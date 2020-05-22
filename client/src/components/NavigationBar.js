@@ -21,6 +21,7 @@ class NavigationBar extends Component{
             loggedIn:false,
             username:"",
             popoverOpen:false,
+            businessExists: false
         }   
     }
 
@@ -52,23 +53,25 @@ class NavigationBar extends Component{
           });
     }
 
-    renderProfileOrLogin(){
-        if(this.state.loggedIn){
-            return (<div className="nav-bar-user">
-                <Button id="Popover1" type="button">
-                    {this.state.username}
-                </Button>
-                <Popover className="popover" placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover.bind(this)}>
-                    <PopoverHeader>Manage Account</PopoverHeader>
-                    <PopoverBody>
-                        <NavLink to="/profile">Go to Profile</NavLink>
-                        <Button color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
-                    </PopoverBody>
-                    
-                </Popover>
+    renderViewOrCreateBusiness(){
+        if(this.state.businessExists){
+            return (<div>
+                <NavLink className="burger-menu-item" to="/business">BUSINESS NAME</NavLink>
             </div>)
         }else{
-            return <NavLink className="nav-bar-user" to="/login">Sign In/Sign Up</NavLink>
+            return (<div>
+                <NavLink className="burger-menu-item" to="/business/create">+ Add Business</NavLink>
+            </div>)
+        }
+    }
+
+    renderProfileOrLogin(){
+        if(this.state.loggedIn){
+            return (<div>
+                <Button color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
+            </div>)
+        }else{
+            return 
 
         }
     }
@@ -77,11 +80,13 @@ class NavigationBar extends Component{
         return(
             <div className="navigation-bar-container">
                 <Menu>
+                    
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>
+                    {this.renderViewOrCreateBusiness()}
+                    {this.renderProfileOrLogin()}
                 </Menu>
-                {this.renderProfileOrLogin()}
             </div>
             
         )

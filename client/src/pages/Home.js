@@ -22,6 +22,11 @@ class Home extends Component{
             total3:''
         }
 
+        this.getBusinessList = this.getBusinessList.bind(this)
+    }
+
+    componentDidMount(){
+        this.getBusinessList();
     }
      getBusinessList() {
         axios.get('http://localhost:5000/business/top')
@@ -43,7 +48,6 @@ class Home extends Component{
         });
     }
     render(){
-        this.getBusinessList();
         return(
             <div className="home-page">
                 <NavigationBar/>

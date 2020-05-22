@@ -14,8 +14,6 @@ import {
   DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import { withStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
 import moment from 'moment'
@@ -29,7 +27,7 @@ const mapAppointmentData = appointment => ({
   endDate: appointment.endDate,
 });
 
-class Calendar extends Component{
+class BusinessCalendar extends Component{
   constructor(){
     super();
     this.state={
@@ -43,15 +41,28 @@ class Calendar extends Component{
       renderCalendar:false,
       loading: true,
     }
-    this.getUserAppointments = this.getUserAppointments.bind(this);
+
+    this.getBusinessAppointments = this.getBusinessAppointments.bind(this)
   }
 
   //Called when component loads on page
   componentDidMount(){
-    this.getUserAppointments()
+    this.getBusinessAppointments()
   }
 
+  getBusinessAppointments(){
+    axios.get("http://localhost:5000/business/1/appointments").then((res)=>{
 
+      this.setState({data:res.data.AppointmentsByBusinessID})
+      this.setState({renderCalendar:true})
+      console.log(this.state.data)
+
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }
+
+  //function to conditionally render the calendar or a message
   //function to conditionally render the calendar or a message
   renderCalendar(data){
     const currentDate = moment();
@@ -91,36 +102,12 @@ class Calendar extends Component{
       }
   }
 
-  //function to get appointments from DB
-  getUserAppointments(){
-    //check if a user is signed in
-    firebase.auth().onAuthStateChanged((user) =>{
-      if (user) {
-        // User is signed in.  get their appointments
-        axios.get('http://localhost:5000/appointments',{
-          params: {
-              id: firebase.auth().currentUser.uid
-          }
-        })
-        .then((res)=>{
-        //change data to hold the appointment data, calendar should be rendered to change that state too
-        this.setState({data: res.data.AppointmentsList})
-        this.setState({renderCalendar:true})
-          //console.log(this.state.data)
-        }).catch((err)=>{
-          console.log(err)
-        })
-      } else {
-        // No user is signed in.
-        console.log("No user logged in.")
-      }
-    });
-  }
+  
   
 
   render(){
     // this is the data
-    const {data} = this.state;
+    const {data} = this.state.data;
     //console.log('data: ', data);
     // formatted to render in the calendar
     const formattedData = data ? data.map(mapAppointmentData) : [];
@@ -134,4 +121,4 @@ class Calendar extends Component{
 }
 
 
-export default Calendar;
+export default BusinessCalendar;
