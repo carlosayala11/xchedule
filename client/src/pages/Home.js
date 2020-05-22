@@ -12,7 +12,7 @@ var axios = require('axios');
 var firebase = require('firebase');
 
 class Home extends Component{
-    constructor(){
+    constructor(){ 
         super();
         this.state={
             bid1:'',
@@ -27,8 +27,20 @@ class Home extends Component{
             modal: false,
             isOwner: false,
             loggedIn:false,
+            labelName:''
         }
         this.toggle = this.toggle.bind(this);
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              this.checkIfIsOwner();
+              this.getBusinessList();
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
     }
 
     toggle() {
@@ -69,21 +81,41 @@ class Home extends Component{
             var user = res.data.User;
             console.log("user",user);
             this.setState({isOwner: user.isOwner})
-            console.log(this.state.isOwner)
+            if (this.state.isOwner){
+                this.state.labelName = 'Update Business';
+            }
+            else{
+                this.state.labelName = 'Create Business';
+            }
+            console.log('owner',this.state.isOwner)
         })
         .catch(function (error) {
             console.log(error);
         });
     }
 
-    renderForm(){
+    renderBusinessForm(){
         if (!this.state.isOwner){
-            console.log(this.state.isOwner);
+           // console.log(this.state.isOwner);
             return <CreateBusinessForm></CreateBusinessForm>
         }
-        else
+        else{
             return <UpddateBusinessForm></UpddateBusinessForm>
+        }
     }
+
+    // componentDidMount(){
+    //     firebase.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //           // User is signed in.
+    //           this.checkIfIsOwner();
+    //           this.getBusinessList();
+    //         } else {
+    //             console.log("no user")
+    //           // No user is signed in.
+    //         }
+    //       });
+    // }
 
     render(){
         //this.getBusinessList();
@@ -117,14 +149,14 @@ class Home extends Component{
                                     <CardTitle className="card-title">Manage your Business</CardTitle>
                                     <CardBody>
                                         <CardText>
-                                            <Button onClick={this.toggle}>Create a Business</Button>
-                                            <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                                                <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                                            <Button onClick={this.toggle}>{this.state.labelName}</Button>
+                                            <Modal modalClassName="business-modal" isOpen={this.state.modal} toggle={this.toggle}>
+                                                <ModalHeader toggle={this.toggle}>{this.state.labelName}</ModalHeader>
                                                 <ModalBody>
-                                                    {this.renderForm()}
+                                                    {this.renderBusinessForm()} 
                                                 </ModalBody>
                                                 <ModalFooter>
-                                                    <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                                                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
                                                     <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                                                 </ModalFooter>
                                             </Modal>

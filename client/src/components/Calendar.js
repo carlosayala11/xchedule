@@ -51,9 +51,9 @@ class Calendar extends Component{
     this.getUserAppointments()
   }
 
-  componentDidUpdate() {
-    this.getUserAppointments();
-  }
+  // componentDidUpdate() {
+  //   this.getUserAppointments();
+  // }
 
   //function to conditionally render the calendar or a message
   renderCalendar(data){

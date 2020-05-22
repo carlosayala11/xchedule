@@ -66,3 +66,10 @@
 .home-bottom-container{
     margin-top:30px;
 }
+
+.business-modal{
+    display: flex;
+    text-align: center;
+    margin-top: 10vh;
+    padding-bottom: 30vh;
+}
