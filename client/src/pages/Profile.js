@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import '../styles/Profile.css'
 import UserForm from '../components/UserForm'
 import NavigationBar from '../components/NavigationBar'
-import {Button, Input} from 'reactstrap';
-import {NavLink} from "react-router-dom";
-import logo_black_circle from "../logo_black_circle.png";
+//import {Button, Input} from 'reactstrap';
+//import {NavLink} from "react-router-dom";
+//import logo_black_circle from "../logo_black_circle.png";
 
 
 class Profile extends Component{

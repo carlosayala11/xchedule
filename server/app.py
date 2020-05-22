@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
+from handler.servicesHandler import servicesHandler
 from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
@@ -17,6 +18,35 @@ CORS(app)
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
+#-----Services-----
+@app.route('/services', methods=['GET', 'POST', 'PUT'])
+def getAllServices():
+    if not request.args:
+        return  servicesHandler().getAllServices()
+    elif request.method == 'GET':
+        return servicesHandler().getServiceById(request.args.get('id'))
+    else:
+        return jsonify(Error="Method not allowed."), 405
+
+
+@app.route('/services/insert', methods=['POST'])
+def insertService():
+    return servicesHandler().insertService(request.json)
+
+
+@app.route('/services/update', methods=['PUT'])
+def updateService():
+    return servicesHandler().updateService(request.json)
+
+
+@app.route('/services/<int:sid>',
+           methods=['GET', 'PUT', 'DELETE'])
+def deleteService(sid):
+    return servicesHandler().deleteService(sid)
+
+@app.route('/services/business')
+def getBusinessByServiceId():
+    return servicesHandler().getBusinessByServiceId(request.args.get('id'))
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
@@ -40,20 +70,9 @@ def updateUser():
     return userHandler().updateUser(request.json)
 
 @app.route('/users/<string:uid>',
-           methods=['GET', 'PUT', 'DELETE'])
+           methods=['DELETE'])
 def getUserById(uid):
-    if request.method == 'GET':
-        return userHandler().getUserById(uid)
-    elif request.method == 'PUT':
-        return userHandler().updateUser(uid, request.json)
-    elif request.method == 'DELETE':
-        return userHandler().deleteUser(uid)
-    else:
-        return jsonify(Error = "Method not allowed."), 405
-
-@app.route('/users/<int:uid>/appointments')
-def getAppointmentsByUserId(uid):
-    return userHandler().getAppointmentsByUserId(uid)
+    return userHandler().deleteUser(uid)
 
 #-----CreateBusiness-----
 @app.route('/business', methods=['GET', 'POST'])
@@ -82,9 +101,9 @@ def getBusinessById(bid):
     else:
         return jsonify(Error = "Method not allowed"), 405
 
-@app.route('/business/<int:bid>/services')
-def getServicesByBusinessId(bid):
-    return BusinessHandler().getServicesByBusinessId(bid)
+@app.route('/business/services')
+def getServicesByBusinessId():
+    return BusinessHandler().getServicesByBusinessId(request.args.get('id'))
 
 @app.route('/business/<int:bid>/appointments')
 def getAppointmentsByBusinessId(bid):
@@ -97,6 +116,14 @@ def getTopBusiness():
 @app.route('/business/<int:bid>/approve/<int:aid>')
 def approveAppointment(bid, aid):
     return BusinessHandler().approveAppointment(bid,aid)
+
+@app.route('/business/<int:bid>/complete/<int:aid>')
+def completeAppointment(bid, aid):
+    return BusinessHandler().completeAppointment(bid,aid)
+
+@app.route('/business/<int:bid>/cancel/<int:aid>')
+def cancelAppointment(bid, aid):
+    return BusinessHandler().cancelAppointment(bid,aid)
 
 @app.route('/business/<string:param>')
 def searchBusinessByPrefix(param):

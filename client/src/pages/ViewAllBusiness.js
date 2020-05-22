@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavigationBar from "../components/NavigationBar";
 import BusinessList from "../components/BusinessList";
-import '../styles/Search.css'
+import '../styles/Profile.css'
 
 
 class ViewAllBusiness extends Component{

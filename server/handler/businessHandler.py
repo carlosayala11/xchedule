@@ -59,6 +59,7 @@ class BusinessHandler:
     def getBusinessById(self, bid):
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
+        print(business)
         if not business:
             return jsonify(Error="CreateBusiness Not Found"), 404
         else:
@@ -69,7 +70,7 @@ class BusinessHandler:
         dao = BusinessDAO()
         row = dao.getBusinessByUserId(uid)
         if not row:
-            return jsonify(Error="Business Not Found"), 404
+            return jsonify(Error="BusinessInfo Not Found"), 404
         else:
             result = {}
             result['bid'] = row[0]
@@ -157,7 +158,7 @@ class BusinessHandler:
             dao = BusinessDAO()
             bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
             if bid== "Already owns":
-                return jsonify(Error="User already owns a Business"), 400
+                return jsonify(Error="User already owns a BusinessInfo"), 400
             else:
                 result = {}
                 result['bid'] = bid
@@ -185,12 +186,10 @@ class BusinessHandler:
 
     def updateBusiness(self,json):
         dao = BusinessDAO()
-        print(json)
         bid = json['bid']
         test = dao.getBusinessById(bid)
-        print(test)
         if not test:
-            return jsonify(Error="Business not found."), 404
+            return jsonify(Error="BusinessInfo not found."), 404
         else:
             uid = json['uid']
             bname = json['bname']
@@ -223,10 +222,26 @@ class BusinessHandler:
     def approveAppointment(self, bid, aid):
         dao = BusinessDAO()
         if not dao.getBusinessById(bid):
-            return jsonify(Error="CreateBusiness not found."), 404
+            return jsonify(Error="Business not found."), 404
         else:
             aid = dao.approveAppointment(bid, aid)
             return jsonify(AppointmentIdApproved=aid), 201
+
+    def cancelAppointment(self, bid, aid):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error="Business not found."), 404
+        else:
+            aid = dao.cancelAppointment(bid, aid)
+            return jsonify(AppointmentIdCanceled=aid), 201
+
+    def completeAppointment(self, bid, aid):
+        dao = BusinessDAO()
+        if not dao.getBusinessById(bid):
+            return jsonify(Error="Business not found."), 404
+        else:
+            aid = dao.completeAppointment(bid, aid)
+            return jsonify(AppointmentIdCompleted=aid), 201
 
     def getTopBusiness(self):
         dao = BusinessDAO()

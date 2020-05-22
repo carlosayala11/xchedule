@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import LoginForm from '../components/LoginForm'
-import SignUpForm from '../components/SignUpForm'
-import { Jumbotron, Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import logo_white from '../logo_white.png'
+//import LoginForm from '../components/LoginForm'
+//import SignUpForm from '../components/SignUpForm'
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+//import logo_white from '../logo_white.png'
 import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
-    BrowserRouter as Router,
+    //BrowserRouter as Router,
     NavLink
   } from "react-router-dom";
   var firebase = require('firebase');

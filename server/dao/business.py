@@ -46,7 +46,7 @@ class BusinessDAO:
     def getAppointmentsByBusinessId(self, bid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s;"
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s and canceled=false;"
         cursor.execute(query, (bid,))
         for row in cursor:
             result.append(row)
@@ -55,6 +55,20 @@ class BusinessDAO:
     def approveAppointment(self, bid, aid):
         cursor = self.conn.cursor()
         query = "update appointments set pending=false where aid = %s;"
+        cursor.execute(query, (aid,))
+        self.conn.commit()
+        return aid
+
+    def completeAppointment(self, bid, aid):
+        cursor = self.conn.cursor()
+        query = "update appointments set completed=true where aid = %s;"
+        cursor.execute(query, (aid,))
+        self.conn.commit()
+        return aid
+
+    def cancelAppointment(self, bid, aid):
+        cursor = self.conn.cursor()
+        query = "update appointments set canceled=true where aid = %s;"
         cursor.execute(query, (aid,))
         self.conn.commit()
         return aid
@@ -76,7 +90,6 @@ class BusinessDAO:
         for row in cursor:
             result.append(row)
 
-        print(row)
         return result
 
     def searchBusinessByPrefix(self, param):
@@ -96,7 +109,6 @@ class BusinessDAO:
         query = "select bid from business where uid = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
-        print(result)
         if result:
             return "Already owns"
         else:
