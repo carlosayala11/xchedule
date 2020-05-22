@@ -7,7 +7,8 @@ import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
     BrowserRouter as Router,
-    NavLink
+    NavLink,
+    Redirect
   } from "react-router-dom";
 import axios from 'axios';
   var firebase = require('firebase');
@@ -22,7 +23,8 @@ class NavigationBar extends Component{
             loggedIn:false,
             username:"",
             popoverOpen:false,
-            businessExists: false
+            businessExists: false,
+            signedOut:false
         }   
     }
 
@@ -57,7 +59,7 @@ class NavigationBar extends Component{
     signOut(){
         firebase.auth().signOut().then(()=> {
             // Sign-out successful.
-            this.setState({loggedIn:false})
+            this.setState({loggedIn:false, signedOut:true})
           }).catch(function(error) {
             // An error happened.
           });
@@ -87,6 +89,9 @@ class NavigationBar extends Component{
     }
 
     render(){
+        if (this.state.signedOut) {
+            return <Redirect to='/login'/>;
+        }
         return(
             <div className="navigation-bar-container">
                 <Menu>

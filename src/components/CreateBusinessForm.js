@@ -59,7 +59,7 @@ class CreateBusinessForm extends Component {
                     timeRestriction: this.state.timeRestriction
                 }
         console.log(business)
-        axios.post('http://127.0.0.1:5000/business', business
+        axios.post('https://xchedule-api.herokuapp.com/business', business
         ).then((res)=>{this.setState({businessCreated:true})
             console.log(res)
         }).catch((error) => {

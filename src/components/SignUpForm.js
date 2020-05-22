@@ -29,17 +29,17 @@ class SignUpForm extends Component{
         }
     }
 
-    
+
 
     onInputChange = (event) => {
         event.preventDefault();
-        
+
         this.setState({
             [event.target.name]: event.target.value
         })
     }
 
-    createUserAccount(){ 
+    createUserAccount(){
         this.setState({loadingSignUp:true})
         if(this.state.password === this.state.passwordretype){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(()=>{
@@ -56,15 +56,15 @@ class SignUpForm extends Component{
                     isowner: false
                 }
                 console.log(user)
-                axios.post("http://127.0.0.1:5000/users/insert", user).then((res)=>{
+                axios.post("https://xchedule-api.herokuapp.com/users/insert", user).then((res)=>{
                     this.setState({userSignedUp:true})
-                 console.log(res)    
+                 console.log(res)
                 }).catch((err)=>{
-                 console.log(err)    
+                 console.log(err)
                 })
             }).catch((error) => {
                 this.setState({loadingSignUp:false, errorMessage:error.message})
-    
+
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
@@ -73,7 +73,7 @@ class SignUpForm extends Component{
                 console.log(errorMessage);
               });
         }
-        
+
     }
 
     renderSignUpSpinner(){
@@ -94,7 +94,7 @@ class SignUpForm extends Component{
     render(){
         if(this.state.userSignedUp){
             return <Redirect to='/home'/>;
-            
+
         }
         return(
             <div className="signUp-form">
@@ -151,16 +151,16 @@ class SignUpForm extends Component{
                             <Input className="login-input" name="zipcode" placeholder="zipcode" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
-                    
+
                 </Container>
 
                 <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>
                     {this.renderSignUpSpinner()}
-                </Button>   
+                </Button>
 
-                {this.renderErrorMessage()}            
+                {this.renderErrorMessage()}
             </div>
-            
+
 
         )
     }

@@ -28,7 +28,7 @@
     "reactstrap": "^8.4.1",
     "typescript": "^3.8.3"
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "https://xchedule-api.herokuapp.com/appointments",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

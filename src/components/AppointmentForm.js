@@ -79,46 +79,42 @@ class AppointmentForm extends Component{
         var id = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
-        const startA = moment(startTime, 'HH:mm')
-        const endA = moment(startTime, 'HH:mm').add(durationInMinutes, 'HH:mm').format('HH:mm');
-        if(startA < moment(this.start,'HH:mm') || endA > moment(this.end,'HH:mm'))
-            {return <p className="login-error-message">Invalid Hours for Appointment</p>}
-        else{
-            const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
-            //this.setState({endDate:endTime})
-            console.log("Start time: " + startTime)
-            console.log("End Time:" + endTime)
 
-            //falta cambiar la tabla de appointments para fit con este POST
-            axios.post('http://localhost:5000/appointments', {
-                startDate: this.state.dt,
-                endDate: endTime,
-                duration: this.state.duration,
-                completed: 'False',
-                pending: 'True',
-                canceled: 'False',
-                sid: this.state.sid,
-                uid: id
-            }).then(function(response){
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-            });
-            this.props.history.push('/home');
-    }}
+        const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
+        //this.setState({endDate:endTime})
+        console.log("Start time: " + startTime)
+        console.log("End Time:" + endTime)
+
+        //falta cambiar la tabla de appointments para fit con este POST
+        axios.post('https://xchedule-api.herokuapp.com/appointments', {
+            startDate: this.state.dt,
+            endDate: endTime,
+            duration: this.state.duration,
+            completed: 'False',
+            pending: 'True',
+            canceled: 'False',
+            sid: 1,
+            uid: id
+        }).then(function(response){
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+        });
+        this.props.history.push('/home');
+    }
 
     render(){
         this.getAllBusiness();
         const {date, duration, sid, bid } = this.state;
         var dt;
         return(
-            <div className="form-container">                
+            <div className="form-container">
                 <form>
                     <Label>Date</Label>
                     <div>
                     <Flatpickr
-                        data-enable-time 
+                        data-enable-time
                         placeholder="Please select a date"
                         name="date"
                         value={date}
@@ -127,24 +123,9 @@ class AppointmentForm extends Component{
                             // console.log(dt)
                             this.setState({ dt });
                           }}
-                    /> 
+                    />
                     </div>
-                <FormGroup>
-                <Label>Business</Label>
-                <Input name="bid" type="select" value={this.state.bid}>
-                  {this.state.business.map((data,i) => (
-                    <option onChange={() => this.getServicesByBusiness}>{data.bid}</option>
-                  ))}
-                </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Service Type</Label>
-                    <Input name="sid" type="select" value={this.state.sid} onChange={() => this.getHours}>
-                       {this.state.services.map((data,i) => (
-                    <option onChange={() => this.getServicesByBusiness}>{data.sid}</option>
-                           ))}
-                    </Input>
-                </FormGroup>
+
                 <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
                     <Input name="duration" type="select" value={this.state.duration} onChange={this.onInputChange}>
@@ -156,9 +137,9 @@ class AppointmentForm extends Component{
                     </Input>
                 </FormGroup>
                 </form>
-                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}                
+                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}
             </div>
-            
+
 
         )
     }

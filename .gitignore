@@ -27,9 +27,6 @@ yarn-debug.log*
 yarn-error.log*
 *.pyc
 
-server/handler/__pycache__/
-server/dao/__pycache__/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

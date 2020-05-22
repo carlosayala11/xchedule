@@ -36,7 +36,7 @@ class UserForm extends Component{
     getUser() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/users',{
+        axios.get('https://xchedule-api.herokuapp.com/users',{
             params: {
                 id: id
             }
@@ -119,7 +119,7 @@ class UserForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        axios.put('http://localhost:5000/users/update', {
+        axios.put('https://xchedule-api.herokuapp.com/users/update', {
             uid: firebase.auth().currentUser.uid,
             fullname: this.state.fullName,
             username: this.state.username,
@@ -170,10 +170,10 @@ class UserForm extends Component{
                             </Input>
                     </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form action="http://localhost:3000/business/create">
+                    <Form action="/business">
                     <button type="submit">Create a Business</button>
                     </Form>
-                    <Form action="http://localhost:3000/business/update">
+                    <Form action="/business/update">
                     <button type="submit">Update Business</button>
                     </Form>
                     <Form>
