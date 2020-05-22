@@ -141,6 +141,9 @@ class Home extends Component{
                                     <div className="calendar">
                                         <Calendar></Calendar>
                                     </div>
+                                    <Form action="http://localhost:3000/appointment">
+                                    <Button className="all-business" >Schedule</Button>
+                                    </Form>
                                 </Card>
                             </Col>
                             <Col sm="4">

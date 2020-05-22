@@ -18,7 +18,12 @@ CORS(app)
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
+
 #-----Services-----
+@app.route('/service', methods=['GET'])
+def getService():
+    return servicesHandler().getService(request.args.get('name'))
+
 @app.route('/services', methods=['GET', 'POST', 'PUT'])
 def getAllServices():
     if not request.args:
@@ -45,8 +50,8 @@ def deleteService(sid):
     return servicesHandler().deleteService(sid)
 
 @app.route('/services/business')
-def getBusinessByServiceId():
-    return servicesHandler().getBusinessByServiceId(request.args.get('id'))
+def getBusinessByServiceName():
+    return servicesHandler().getBusinessByServiceName(request.args.get('name'))
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
@@ -102,8 +107,8 @@ def getBusinessById(bid):
         return jsonify(Error = "Method not allowed"), 405
 
 @app.route('/business/services')
-def getServicesByBusinessId():
-    return BusinessHandler().getServicesByBusinessId(request.args.get('id'))
+def getServicesByBusinessName():
+    return BusinessHandler().getServicesByBusinessName(request.args.get('name'))
 
 @app.route('/business/<int:bid>/appointments')
 def getAppointmentsByBusinessId(bid):

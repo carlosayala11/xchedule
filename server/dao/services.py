@@ -27,10 +27,17 @@ class ServicesDAO:
         result = cursor.fetchone()
         return result
 
-    def getBusinessByServiceId(self, sid):
+    def getService(self, name):
         cursor = self.conn.cursor()
-        query = 'select (workinghours).starttime, (workinghours).endtime from business natural inner join offers where sid=%s;'
-        cursor.execute(query, (sid,))
+        query = "select sid from services where serviceType = %s;"
+        cursor.execute(query, (name,))
+        result = cursor.fetchone()
+        return result
+
+    def getBusinessByServiceName(self, name):
+        cursor = self.conn.cursor()
+        query = 'select sid, (workinghours).starttime, (workinghours).endtime from business natural inner join offers natural inner join services where serviceType=%s;'
+        cursor.execute(query, (name,))
         result = cursor.fetchone()
         return result
 

@@ -11,9 +11,21 @@ class servicesHandler:
 
     def build_business(self, row):
         services = {}
-        services['starttime'] = row[0]
-        services['endtime'] = row[1]
+        services['sid'] = row[0]
+        services['starttime'] = row[1]
+        services['endtime'] = row[2]
         return services
+
+    def getService(self, name):
+        dao = ServicesDAO()
+        service = dao.getService(name)
+        if not service:
+            return jsonify(Error="Service Not Found."), 404
+        else:
+            result = {}
+            result['sid'] = service[0]
+        return jsonify(Service=result)
+
 
     def getAllServices(self):
         dao = ServicesDAO()
@@ -36,13 +48,12 @@ class servicesHandler:
             service = self.build_service(service)
         return jsonify(Service=service)
 
-    def getBusinessByServiceId(self, sid):
+    def getBusinessByServiceName(self, name):
         dao = ServicesDAO()
-        bus = dao.getBusinessByServiceId(sid)
+        bus = dao.getBusinessByServiceName(name)
         result = []
         if bus:
             result = self.build_business(bus)
-            print(result)
             return jsonify(BusinessHours=result)
         else:
             return jsonify(ERROR='No services found.')

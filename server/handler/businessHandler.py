@@ -49,7 +49,6 @@ class BusinessHandler:
     def getAllBusiness(self):
         dao = BusinessDAO()
         business_list = dao.getAllBusiness()
-        print(business_list)
         result_list = []
         for row in business_list:
             result = self.build_business_dict(row)
@@ -59,7 +58,6 @@ class BusinessHandler:
     def getBusinessById(self, bid):
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
-        print(business)
         if not business:
             return jsonify(Error="CreateBusiness Not Found"), 404
         else:
@@ -102,17 +100,17 @@ class BusinessHandler:
             return jsonify(BusinessList=result_list)
 
 
-    def getServicesByBusinessId(self, bid):
+    def getServicesByBusinessName(self, name):
         dao = BusinessDAO()
-        business = dao.getBusinessById(bid)
+        business = dao.getBusinessByName(name)
         if not business:
-            return jsonify(Error="CreateBusiness Not Found"), 404
-        services_list = dao.getServicesByBusinessId(bid)
+            return jsonify(Error="Business Not Found"), 404
+        services_list = dao.getServicesByBusinessName(name)
         result_list = []
         for row in services_list:
             result = self.build_service_dict(row)
             result_list.append(result)
-        return jsonify(ServicesByBusinessID=result_list)
+        return jsonify(ServicesByBusinessName=result_list)
 
     def getAppointmentsByBusinessId(self, bid):
         dao = BusinessDAO()
@@ -250,7 +248,6 @@ class BusinessHandler:
         for row in business_list:
             result = self.build_topBusiness_dict(row)
             result_list.append(result)
-        print(result_list)
         return jsonify(TopBusinessList=result_list)
 
     def searchBusinessByPrefix(self,param):

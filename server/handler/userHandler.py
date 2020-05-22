@@ -87,15 +87,6 @@ class userHandler:
         gender = json['gender']
         uaddress = json['uaddress']
         isowner = json['isowner']
-        print(uid)
-        print(fullname)
-        print(username)
-        print(email)
-        print(phone)
-        print(age)
-        print(gender)
-        print(uaddress)
-        print(isowner)
         if uid and fullname and username and email and phone and age and gender and uaddress:
             print("ENTERED IF")
             dao = UsersDAO()

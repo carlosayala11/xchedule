@@ -27,6 +27,13 @@ class BusinessDAO:
         result = cursor.fetchone()
         return result
 
+    def getBusinessByName(self, name):
+        cursor = self.conn.cursor()
+        query = "select bid, uid, bname, twitter, facebook, instagram, website_url, (workinghours).startTime, (workingHours).endTime, workingdays, (baddress).address, (baddress).country, (baddress).city, (baddress).zipcode, timerestriction from business where bname = %s;"
+        cursor.execute(query, (name,))
+        result = cursor.fetchone()
+        return result
+
     def getBusinessByUserId(self, uid):
         cursor = self.conn.cursor()
         query = "select bid, bname, twitter, facebook, instagram, website_url, (workinghours).startTime, (workingHours).endTime, workingdays, (baddress).address, (baddress).country, (baddress).city, (baddress).zipcode, timerestriction from business where uid = %s;"
@@ -34,11 +41,11 @@ class BusinessDAO:
         result = cursor.fetchone()
         return result
 
-    def getServicesByBusinessId(self, bid):
+    def getServicesByBusinessName(self, name):
         cursor = self.conn.cursor()
         result = []
-        query = "select sid, serviceType, serviceDetails from business natural inner join services natural inner join offers where bid =%s;"
-        cursor.execute(query, (bid,))
+        query = "select sid, serviceType, serviceDetails from business natural inner join services natural inner join offers where bname =%s;"
+        cursor.execute(query, (name,))
         for row in cursor:
             result.append(row)
         return result
