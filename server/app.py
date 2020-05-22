@@ -112,6 +112,13 @@ def getBusinessById(bid):
     else:
         return jsonify(Error = "Method not allowed"), 405
 
+@app.route('/business/user/<uid>',methods=['GET'])
+def getBusinessByUserId(uid):
+    if request.method == 'GET':
+        return BusinessHandler().getBusinessByUserId(uid)
+    else:
+        return jsonify(Error = "Method not allowed"), 405
+
 @app.route('/business/<int:bid>/services')
 def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)

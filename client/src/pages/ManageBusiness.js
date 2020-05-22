@@ -6,6 +6,7 @@ import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form} 
 import {
     Link
   } from "react-router-dom";
+import * as firebase from 'firebase'
 var axios = require('axios');
 
 
@@ -19,17 +20,22 @@ class ManageBusiness extends Component{
     }
     
     componentDidMount(){
-        axios.get('http://localhost:5000/business', {
-            params: {
-              id: 1
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // console.log(user)
+                const query = "http://localhost:5000/business/user/" + user.uid
+                axios.get(query).then((res)=>{
+                    console.log(res.data.Business)
+                    this.setState({businessData: res.data.Business})
+                }).catch((err)=>{
+                    console.log(err)
+                })
+
+              // User is signed in.
+            } else {
+                console.log("no user")
+              // No user is signed in.
             }
-          })
-          .then((response) =>{
-            console.log(response);
-            this.setState({businessData:response.data.Business})
-          })
-          .catch(function (error) {
-            console.log(error);
           });
     }
  

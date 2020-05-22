@@ -3,7 +3,7 @@ import NavigationBar from "../components/NavigationBar";
 import BusinessList from "../components/BusinessList";
 import SearchBusiness from "../components/SearchBusiness"
 import '../styles/AllBusiness.css'
-import {NavLink} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import axios from 'axios'
 
@@ -16,9 +16,10 @@ class ViewAllBusiness extends Component{
         this.state={
             results: [],
             data: '',
-            filtered:''
+            filtered:'',
+            businessSelected:false
         }
-
+        this.passBusinessId = this.passBusinessId.bind(this)
     }
 
     componentDidMount(){
@@ -71,8 +72,19 @@ class ViewAllBusiness extends Component{
         });
     }
 
+    passBusinessId(bid){
+        sessionStorage.setItem('bid', bid)
+        this.setState({businessSelected:true})
+    }
+
 
     render(){
+
+        if(this.state.businessSelected){
+            return(
+                <Redirect to="/business/details"/>
+            )
+        }
         const businesses = Array.from(this.state.filtered);
         const listItems = businesses.map((business) =>
             <Card key={business.bid}>
@@ -81,12 +93,7 @@ class ViewAllBusiness extends Component{
                 <p className="working-hours">Working Hours:</p>
                 <p className="hours">{business.sworkingHours} - {business.eworkingHours}</p>
                 <p className="working-days">{business.workingDays}</p>
-                <NavLink className="view-business-button"
-                    to={{
-                        pathname: "/business/details",
-                        state: [{id: 1, name: 'Ford', color: 'red'}]
-                    }}
-                >View More</NavLink>
+                <Button onClick={() => this.passBusinessId(business.bid)}>View More</Button>
             </Card>
         );
 
@@ -100,7 +107,6 @@ class ViewAllBusiness extends Component{
                     className="search-bar"
                 />
                 <div className="cards-container">
-                
                     {listItems}
                 </div>
             </div>

@@ -65,26 +65,24 @@ class Home extends Component{
                     <Container className="home-bottom-container">
                         <Row>
                             <Col sm="8">
-                                <Card>
-                                    <p className="card-title">Today's Appointments</p>
-                                    <div className="calendar">
-                                        <Calendar></Calendar>
-                                    </div>
-                                </Card>
+                                <p className="card-title">Today's Appointments</p>
+                                <div className="calendar">
+                                    <Calendar></Calendar>
+                                </div>
                                 
                             </Col>
                             <Col sm="4">
-                            <Card>
-                                <CardTitle className="card-title">Top Businesses</CardTitle>
-                                <CardBody>
-                                    <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
-                                    <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
-                                    <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
-                                    <Form action="http://localhost:3000/business/all">
-                                    <Button className="all-business" >View More</Button>
-                                    </Form>
-                                </CardBody>
-                            </Card>
+                                <Card>
+                                    <CardTitle className="card-title">Top Businesses</CardTitle>
+                                    <CardBody>
+                                        <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
+                                        <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
+                                        <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
+                                        <Form action="http://localhost:3000/business/all">
+                                        <Button className="all-business" >View More</Button>
+                                        </Form>
+                                    </CardBody>
+                                </Card>
                             </Col>
                         </Row>
                     </Container>

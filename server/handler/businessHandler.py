@@ -126,6 +126,15 @@ class BusinessHandler:
             result_list.append(result)
         return jsonify(AppointmentsByBusinessID=result_list)
 
+    def getBusinessByUserId(self, uid):
+        dao = BusinessDAO()
+        business = dao.getBusinessByUserId(uid)
+        if not business:
+            return jsonify(Error="User Not Found"), 404
+        else:
+            business = self.build_business_dict(business)
+        return jsonify(Business=business)
+
     def searchBusiness(self, args):
         if len(args) > 1:
             return jsonify(Error = "Malformed search string."), 400

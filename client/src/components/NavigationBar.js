@@ -9,6 +9,7 @@ import {
     BrowserRouter as Router,
     NavLink
   } from "react-router-dom";
+import axios from 'axios';
   var firebase = require('firebase');
 
 
@@ -25,17 +26,26 @@ class NavigationBar extends Component{
         }   
     }
 
-    componentWillMount(){
+    componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                console.log(user)
+                // console.log(user)
                 this.setState({username:user.email, loggedIn:true})
+                const query = "http://localhost:5000/business/user/" + user.uid
+                axios.get(query).then((res)=>{
+                    console.log(res.data.Business)
+                    this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
+                }).catch((err)=>{
+                    console.log(err)
+                })
+
               // User is signed in.
             } else {
                 console.log("no user")
               // No user is signed in.
             }
           });
+        
     }
 
     togglePopover(){
@@ -56,7 +66,7 @@ class NavigationBar extends Component{
     renderViewOrCreateBusiness(){
         if(this.state.businessExists){
             return (<div>
-                <NavLink className="burger-menu-item" to="/business">BUSINESS NAME</NavLink>
+                <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
             </div>)
         }else{
             return (<div>
