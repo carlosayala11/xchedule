@@ -13,7 +13,7 @@ class UsersDAO:
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
-        query = "select * from users;"
+        query = "select uid, full_name, username, email, phone_number, age, gender, (uaddress).address, (uaddress).country, (uaddress).city, (uaddress).zipcode, isowner from users;"
         cursor.execute(query)
         result = []
         for row in cursor:
@@ -22,7 +22,7 @@ class UsersDAO:
 
     def getUserById(self, uid):
         cursor = self.conn.cursor()
-        query = "select * from users where uid = %s;"
+        query = "select uid, full_name, username, email, phone_number, age, gender, (uaddress).address, (uaddress).country, (uaddress).city, (uaddress).zipcode, isowner from users where uid = %s;"
         cursor.execute(query, (uid,))
         result = cursor.fetchone()
         return result

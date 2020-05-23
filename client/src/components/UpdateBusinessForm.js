@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
+import React, {Component, useState} from 'react';
+import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
 import "flatpickr/dist/themes/dark.css";
 import '../styles/UpdateBusiness.css'
 import {Redirect} from "react-router-dom";
@@ -39,7 +39,7 @@ class UpdateBusinessForm extends Component{
     getUser() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/users',{
+        axios.get('https://localhost:5000/business', {
             params: {
                 id: id
             }
@@ -62,7 +62,7 @@ class UpdateBusinessForm extends Component{
     getBusiness() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/business',{
+        axios.get('https://localhost:5000/users',{
             params: {
                 id: id
             }
@@ -110,7 +110,8 @@ class UpdateBusinessForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        axios.put('http://localhost:5000/business/update', {
+        console.log(this.state.bid);
+        axios.put('https://localhost:5000/business/update', {
             uid: firebase.auth().currentUser.uid,
             bid:this.state.bid,
             bname: this.state.name,

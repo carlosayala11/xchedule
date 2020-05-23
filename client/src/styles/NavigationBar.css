@@ -106,3 +106,18 @@ Note: Beware of modifying this element as it can break the animations - you shou
     display:flex;
     flex-direction: column;
 }
+
+.profile-img{
+    height:150px;
+    width:150px;
+    border-radius:50px;
+}
+
+.profile-div{
+  background-color:white;
+  width:100%;
+}
+
+.profile-name{
+  color:black;
+}

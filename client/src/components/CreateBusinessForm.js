@@ -59,7 +59,7 @@ class CreateBusinessForm extends Component {
                     timeRestriction: this.state.timeRestriction
                 }
         console.log(business)
-        axios.post('http://127.0.0.1:5000/business', business
+        axios.post('https://localhost:5000/business', business
         ).then((res)=>{this.setState({businessCreated:true})
             console.log(res)
         }).catch((error) => {
@@ -89,13 +89,13 @@ class CreateBusinessForm extends Component {
 
 
     render(){
-        // if(this.state.businessCreated){
-        //     return <Redirect to='/profile'/>;
+        if(this.state.businessCreated){
+            return <Redirect to='/profile'/>;
 
-        // }
+        }
         return(
             <div className="signUp-form">
-                <p className="login-title">Create a Business</p>
+                <p className="login-title">Create an Business</p>
                 <Container>
                     <Row>
                         <Col>

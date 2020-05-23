@@ -13,7 +13,10 @@ class userHandler:
         users['age'] = row[5]
         users['gender'] = row[6]
         users['address'] = row[7]
-        users['isOwner'] = row[8]
+        users['country'] = row[8]
+        users['city'] = row[9]
+        users['zip'] = row[10]
+        users['isOwner'] = row[11]
         return users
 
     def getAllUsers(self):
@@ -85,7 +88,7 @@ class userHandler:
         phone = json['phone']
         age = json['age']
         gender = json['gender']
-        uaddress = json['uaddress']
+        uaddress = (json['address'],json['country'],json['city'],json['zip'])
         isowner = json['isowner']
         if uid and fullname and username and email and phone and age and gender and uaddress:
             print("ENTERED IF")
@@ -127,7 +130,7 @@ class userHandler:
             phone = json['phone']
             age = json['age']
             gender = json['gender']
-            uaddress = json['address']
+            uaddress = (json['address'],json['country'],json['city'],json['zip'])
             isowner = json['isowner']
             if uid and fullname and username and email and phone and age and gender and uaddress:
                 dao.update(uid, fullname, username, email, phone, age, gender, uaddress, isowner)
