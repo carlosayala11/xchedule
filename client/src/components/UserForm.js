@@ -36,7 +36,6 @@ class UserForm extends Component{
 
     getUser() {
         var id = firebase.auth().currentUser.uid;
-        console.log(this.state.id);
         axios.get('http://localhost:5000/users',{
             params: {
                 id: id

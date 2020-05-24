@@ -84,7 +84,6 @@ class ManageBusiness extends Component{
                             </Col>
                         </Row>
                     </Container>
-
                 </div>
             </div>
         )

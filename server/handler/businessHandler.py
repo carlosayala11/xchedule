@@ -26,9 +26,9 @@ class BusinessHandler:
         result['aid'] = row[1]
         result['sid'] = row[2]
         result['uid'] = row[3]
-        result['startdate'] = row[4]
+        result['startDate'] = row[4]
         result['duration'] = row[5]
-        result['enddate'] = row[6]
+        result['endDate'] = row[6]
         result['servicetype'] = row[7]
         return result
     
@@ -100,17 +100,17 @@ class BusinessHandler:
             return jsonify(BusinessList=result_list)
 
 
-    def getAppointmentsByBusinessId(self, bid):
+    def getAppointmentsByBusinessId(self, uid):
         dao = BusinessDAO()
-        business = dao.getBusinessById(bid)
+        business = dao.getBusinessByUserId(uid)
         if not business:
-            return jsonify(Error="CreateBusiness Not Found"), 404
-        services_list = dao.getAppointmentsByBusinessId(bid)
+            return jsonify(Error="Business Not Found"), 404
+        services_list = dao.getAppointmentsByBusinessId(uid)
         result_list = []
         for row in services_list:
             result = self.build_business_appointments_dict(row)
             result_list.append(result)
-        return jsonify(AppointmentsByBusinessID=result_list)
+        return jsonify(Appointments=result_list)
 
     def searchBusiness(self, args):
         if len(args) > 1:

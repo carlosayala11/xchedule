@@ -111,9 +111,9 @@ def getBusinessById(bid):
     else:
         return jsonify(Error = "Method not allowed"), 405
 
-@app.route('/business/<int:bid>/appointments')
-def getAppointmentsByBusinessId(bid):
-    return BusinessHandler().getAppointmentsByBusinessId(bid)
+@app.route('/business/appointments')
+def getAppointmentsByBusinessId():
+    return BusinessHandler().getAppointmentsByBusinessId(request.args.get('id'))
 
 @app.route('/business/top')
 def getTopBusiness():
@@ -140,8 +140,6 @@ def searchBusinessByPrefix(param):
 def getAllAppointments():
     if request.method == 'GET' and not request.args:
         return AppointmentsHandler().getAllAppointments()
-    elif request.method == 'GET' and request.args:
-        return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
     elif request.method == 'DELETE':
         return AppointmentsHandler().deleteAppointment()
 
@@ -150,6 +148,10 @@ def getAllAppointments():
 @app.route('/appointment/insert', methods=['POST'])
 def insertAppointment():
     return AppointmentsHandler().insertAppointmentJson(request.json)
+
+@app.route('/appointments/user', methods=['GET'])
+def getAppointmentsByUserId():
+    return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
 
 
 @app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])

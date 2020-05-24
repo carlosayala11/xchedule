@@ -42,11 +42,11 @@ class BusinessDAO:
         return result
 
 
-    def getAppointmentsByBusinessId(self, bid):
+    def getAppointmentsByBusinessId(self, uid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join schedules where bid=%s and canceled=false;"
-        cursor.execute(query, (bid,))
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join business where uid=%s and canceled=false;"
+        cursor.execute(query, (uid,))
         for row in cursor:
             result.append(row)
         return result
@@ -83,7 +83,7 @@ class BusinessDAO:
 
     def getTopBusiness(self):
         cursor = self.conn.cursor()
-        query = "select bid, count(aid) as total, bname from schedules natural inner join business natural inner join appointments natural inner join requests natural inner join offers where canceled = false group by bid order by total desc fetch first 3 rows only;"
+        query = "select bid, count(aid) as total, bname from business natural inner join appointments natural inner join requests natural inner join offers where canceled = false group by bid order by total desc fetch first 3 rows only;"
         cursor.execute(query)
         result = []
         for row in cursor:

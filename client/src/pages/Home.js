@@ -136,12 +136,10 @@ class Home extends Component{
                     <Container className="home-bottom-container">
                         <Row>
                             <Col sm="8">
-                                <Card>
                                     <p className="card-title">Today's Appointments</p>
                                     <div className="calendar">
                                         <Calendar></Calendar>
                                     </div>
-                                </Card>
                             </Col>
                             <Col sm="4">
                                 <Card>
