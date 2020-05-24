@@ -1,11 +1,10 @@
-
 import React, {Component} from 'react';
 import NavigationBar from "../components/NavigationBar";
-import BusinessList from "../components/BusinessList";
-import SearchBusiness from "../components/SearchBusiness"
+//import BusinessList from "../components/BusinessList";
+//import SearchBusiness from "../components/SearchBusiness"
 import '../styles/AllBusiness.css'
 import {Redirect} from 'react-router-dom'
-import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+import { Card, CardTitle, Button } from 'reactstrap';
 import axios from 'axios'
 
 
@@ -43,7 +42,6 @@ class ViewAllBusiness extends Component{
         let currentList = [];
             // Variable to hold the filtered list before putting into state
         let newList = [];
-
             // If the search bar isn't empty
         if (e.target.value !== "") {
                 // Assign the original list to currentList
@@ -74,6 +72,7 @@ class ViewAllBusiness extends Component{
     }
 
     passBusinessId(bid){
+        console.log(bid)
         sessionStorage.setItem('bid', bid)
         this.setState({businessSelected:true})
     }
@@ -83,7 +82,7 @@ class ViewAllBusiness extends Component{
 
         if(this.state.businessSelected){
             return(
-                <Redirect to="/business/details"/>
+                <Redirect to="/service/all"/>
             )
         }
         const businesses = Array.from(this.state.filtered);
@@ -94,7 +93,7 @@ class ViewAllBusiness extends Component{
                 <p className="working-hours">Working Hours:</p>
                 <p className="hours">{business.sworkingHours} - {business.eworkingHours}</p>
                 <p className="working-days">{business.workingDays}</p>
-                <Button onClick={() => this.passBusinessId(business.bid)}>View More</Button>
+                <Button onClick={() => this.passBusinessId(business.bid)}>View Services</Button>
             </Card>
         );
 

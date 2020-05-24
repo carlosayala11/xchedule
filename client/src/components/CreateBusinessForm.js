@@ -41,33 +41,32 @@ class CreateBusinessForm extends Component {
     }
 
    createBusinessAccount(){
-        this.setState({loadingBusinessCreation:true})
+        this.setState({loadingBusinessCreation:true});
         var business = {
-                    uid: firebase.auth().currentUser.uid,
-                    bname: this.state.name,
-                    twitter: this.state.twitter,
-                    facebook: this.state.facebook,
-                    instagram: this.state.instagram,
-                    website_url: this.state.website,
-                    sworkingHours: this.state.sworkingHours,
-                    eworkingHours: this.state.eworkingHours,
-                    workingDays: this.state.workingDays,
-                    baddress: this.state.address,
-                    country: this.state.country,
-                    city: this.state.city,
-                    zip: this.state.zip,
-                    timeRestriction: this.state.timeRestriction
+                   uid: firebase.auth().currentUser.uid,
+                   bname: this.state.name,
+                   twitter: this.state.twitter,
+                   facebook: this.state.facebook,
+                   instagram: this.state.instagram,
+                   website_url: this.state.website,
+                   sworkingHours: this.state.sworkingHours,
+                   eworkingHours: this.state.eworkingHours,
+                   workingDays: this.state.workingDays,
+                   baddress: this.state.address,
+                   country: this.state.country,
+                   city: this.state.city,
+                   zip: this.state.zip,
+                   timeRestriction: this.state.timeRestriction
                 }
-        console.log(business)
-        axios.post('https://localhost:5000/business', business
-        ).then((res)=>{this.setState({businessCreated:true})
-            console.log(res)
-        }).catch((error) => {
+                console.log(business)
+                axios.post("http://127.0.0.1:5000/business/insert", business).then((res)=>{
+                    this.setState({businessCreated:true})
+                 console.log(res)
+                }).catch((error) => {
                 this.setState({hasBusiness:true})
                 this.setState({errorMessage: error.message})
                 this.setState({errorCode: error.code})
               });
-
 
     }
 

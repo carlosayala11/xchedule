@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import LoginForm from '../components/LoginForm'
-import SignUpForm from '../components/SignUpForm'
-import { Jumbotron, Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import logo_white from '../logo_white.png'
+import {Button} from 'reactstrap';
 import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
-    BrowserRouter as Router,
     NavLink,
     Redirect
   } from "react-router-dom";

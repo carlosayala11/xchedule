@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input, Label, FormGroup } from 'reactstrap';
+import {Button, Input, Label, FormGroup, Form} from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
@@ -12,40 +12,34 @@ class AppointmentForm extends Component{
     constructor(){
         super();
         this.state={
-            bname:'',
-            bid:'',
-            serviceid:'',
-            serviceType:'',
             date: '',
-            start: '',
-            end: '',
             duration:'',
             completed:'',
             pending:'',
             canceled:'',
             endDate:'',
-            services: [],
-            business: []
+            start:'',
+            end:''
         };
     }
 
-    getServicesByBusiness = (event) =>{
-        event.preventDefault();
-        console.log(event.target.value);
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-        axios.get(`http://localhost:5000/business/services`,{
+    getHours = () =>{
+        var id = sessionStorage.getItem('sid');
+        console.log(id);
+        axios.get('http://127.0.0.1:5000/services/hours',{
             params: {
-                name: event.target.value
+                id: id
             }
         })
       .then(res => {
           console.log(res.data)
         this.setState({
-          services: res.data.ServicesByBusinessName
-        })
-      })
+          start: res.data.Service.starttime
+        });
+        this.setState({
+          end: res.data.Service.endtime
+        });
+      });
     }
     onInputChange = (event) => {
         event.preventDefault();
@@ -54,91 +48,60 @@ class AppointmentForm extends Component{
             [event.target.name]: event.target.value
         })
     }
+    componentDidMount(){
+        this.getHours();
 
-    getAllBusiness = () => {
-    axios.get(`http://localhost:5000/business`)
-      .then(res => {
-          console.log(res.data)
-        this.setState({
-          business: res.data.BusinessList
-        })
-      })
-    }
-    getHours = (event) => {
-        event.preventDefault();
-        console.log(event.target.value)
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-        axios.get('http://localhost:5000/service',{
-            params: {
-                name: event.target.value
-            }
-        })
-        .then(res => {
-          console.log(res.data)
-          this.setState({
-            serviceid: res.data.Service.sid
-          })
-        })
-        axios.get('http://localhost:5000/services/business',{
-            params: {
-                name: event.target.value
-            }
-        })
-      .then(res => {
-        this.setState({
-          start: res.data.BusinessHours.starttime
-        })
-        this.setState({
-          end: res.data.BusinessHours.endtime
-        })
-        })
-        }
+      }
 
     onSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.serviceid);
+        var sid = sessionStorage.getItem('sid');
+        console.log(sid);
         // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
         var id = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
         const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
 
-        if(startTime < moment(this.state.start,'YYYY-MM-DDTHH:mm')){
+        /*if(moment(startTime,'HH:mm') < moment(this.state.start,'HH:mm')){
             return <p>Invalid Hours for Appointment</p>}
-        if(startTime > moment(this.state.end,'YYYY-MM-DDTHH:mm')){
+        if(moment(startTime,'HH:mm') > moment(this.state.end,'HH:mm')){
             return <p>Invalid Hours for Appointment</p>}
-        if(endTime < moment(this.state.start,'YYYY-MM-DDTHH:mm')){
+        if(moment(endTime,'HH:mm') < moment(this.state.start,'HH:mm')){
             return <p>Invalid Hours for Appointment</p>}
-        if(endTime > moment(this.state.end,'YYYY-MM-DDTHH:mm')){
-            return <p>Invalid Hours for Appointment</p>}
+        if(moment(endTime,'HH:mm') > moment(this.state.end,'HH:mm')){
+            return <p>Invalid Hours for Appointment</p>}*/
 
         //this.setState({endDate:endTime})
         console.log("Start time: " + startTime)
         console.log("End Time:" + endTime)
+        var appointment = {
+                   uid: id,
+                   sid: sid,
+                   pending: true,
+                   completed: false,
+                   canceled: false,
+                   duration: durationInMinutes,
+                   startDate: startTime,
+                   endDate: endTime
+                }
 
-        //falta cambiar la tabla de appointments para fit con este POST
-        axios.post('http://localhost:5000/appointments', {
-            startDate: this.state.dt,
-            endDate: endTime,
-            duration: this.state.duration,
-            completed: 'False',
-            pending: 'True',
-            canceled: 'False',
-            sid: this.state.serviceid,
-            uid: id
-        }).then(function(response){
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+                console.log(appointment)
+        axios.post('http://127.0.0.1:5000/appointment/insert', appointment).then((res)=>{
+                 console.log(res)
+                }).catch((error) => {
+                this.setState({errorMessage: error.message})
+                this.setState({errorCode: error.code})
         });
+        sessionStorage.clear();
         this.props.history.push('/home');
     }
-    componentDidMount(){
-       this.getAllBusiness();
-    }
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            console.log(this.state.errorMessage)
+            return <p className="login-error-message">{this.state.errorMessage}</p>}
+
+        }
     render(){
         const {date, duration, bname, serviceType } = this.state;
         var dt;
@@ -160,18 +123,6 @@ class AppointmentForm extends Component{
                     /> 
                     </div>
                 <FormGroup>
-                    <Label>Business</Label>
-                    <Input name="bname" type="select" value={this.state.bname} onChange={this.getServicesByBusiness}>
-                        {this.state.business.map(bus => <option>{bus.bname}</option>)}
-                    </Input>
-                </FormGroup>
-                <FormGroup>
-                    <Label>Services</Label>
-                    <Input name="serviceType" type="select" value={this.state.serviceType} onChange={this.getHours}>
-                        {this.state.services.map(ser => <option>{ser.serviceType}</option>)}
-                    </Input>
-                </FormGroup>
-                <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
                     <Input name="duration" type="select" value={this.state.duration} onChange={this.onInputChange}>
                         <option>10</option>
@@ -182,7 +133,8 @@ class AppointmentForm extends Component{
                     </Input>
                 </FormGroup>
                 </form>
-                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}                
+                <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}
+                {this.renderErrorMessage()}
             </div>
             
 

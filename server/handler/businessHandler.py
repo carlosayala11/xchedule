@@ -100,18 +100,6 @@ class BusinessHandler:
             return jsonify(BusinessList=result_list)
 
 
-    def getServicesByBusinessName(self, name):
-        dao = BusinessDAO()
-        business = dao.getBusinessByName(name)
-        if not business:
-            return jsonify(Error="Business Not Found"), 404
-        services_list = dao.getServicesByBusinessName(name)
-        result_list = []
-        for row in services_list:
-            result = self.build_service_dict(row)
-            result_list.append(result)
-        return jsonify(ServicesByBusinessName=result_list)
-
     def getAppointmentsByBusinessId(self, bid):
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
@@ -156,7 +144,7 @@ class BusinessHandler:
             dao = BusinessDAO()
             bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
             if bid== "Already owns":
-                return jsonify(Error="User already owns a BusinessInfo"), 400
+                return jsonify(Error="User already owns a Business"), 400
             else:
                 result = {}
                 result['bid'] = bid

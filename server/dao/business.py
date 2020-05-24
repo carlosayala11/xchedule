@@ -41,14 +41,6 @@ class BusinessDAO:
         result = cursor.fetchone()
         return result
 
-    def getServicesByBusinessName(self, name):
-        cursor = self.conn.cursor()
-        result = []
-        query = "select sid, serviceType, serviceDetails from business natural inner join services natural inner join offers where bname =%s;"
-        cursor.execute(query, (name,))
-        for row in cursor:
-            result.append(row)
-        return result
 
     def getAppointmentsByBusinessId(self, bid):
         cursor = self.conn.cursor()
@@ -91,7 +83,7 @@ class BusinessDAO:
 
     def getTopBusiness(self):
         cursor = self.conn.cursor()
-        query = "select bid, count(aid) as total, bname from business natural inner join schedules natural inner join requests natural inner join offers group by bid order by total desc fetch first 3 rows only;"
+        query = "select bid, count(aid) as total, bname from schedules natural inner join business natural inner join appointments natural inner join requests natural inner join offers where canceled = false group by bid order by total desc fetch first 3 rows only;"
         cursor.execute(query)
         result = []
         for row in cursor:

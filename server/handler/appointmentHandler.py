@@ -23,7 +23,6 @@ class AppointmentsHandler:
         return result
     
     def insertAppointmentJson(self, json):
-        print(json)
         duration = json['duration']
         date = json['startDate']
         pending = json['pending']
@@ -32,9 +31,10 @@ class AppointmentsHandler:
         enddate = json['endDate']
         sid = json['sid']
         uid = json['uid']
-        if duration and date and sid and uid:
+
+        if duration and date and sid and uid and enddate:
             dao = AppointmentsDAO()
-            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid, enddate)
+            aid = dao.insert(date, duration, pending, completed, canceled, int(sid), uid, enddate)
             list = []
             list.extend((aid, duration, date, pending, completed, canceled, enddate))
             result = self.build_appointment_dict(list)

@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import NavigationBar from "../components/NavigationBar";
-import BusinessList from "../components/BusinessList";
-import '../styles/AllBusiness.css'
-import {Link} from 'react-router-dom'
-import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+//import NavigationBar from "../components/NavigationBar";
+//import BusinessList from "../components/BusinessList";
+import '../styles/Business.css'
+//import {Link} from 'react-router-dom'
+//import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import axios from 'axios'
 
 
 
 
-class ViewAllBusiness extends Component{
+class ViewBusiness extends Component{
     constructor(){
         super();
         this.state={
@@ -57,4 +57,4 @@ class ViewAllBusiness extends Component{
 }
 
 
-export default ViewAllBusiness;
+export default ViewBusiness;

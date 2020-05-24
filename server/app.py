@@ -20,9 +20,15 @@ def hello_world():
     return 'Welcome to XChedule!'
 
 #-----Services-----
-@app.route('/service', methods=['GET'])
-def getService():
-    return servicesHandler().getService(request.args.get('name'))
+
+@app.route('/business/services/all')
+def getServicesByBusinessId():
+    return servicesHandler().getServicesByBusinessId(request.args.get('id'))
+
+@app.route('/services/hours')
+def getHours():
+    return servicesHandler().getHours(request.args.get('id'))
+
 
 @app.route('/services', methods=['GET', 'POST', 'PUT'])
 def getAllServices():
@@ -44,14 +50,11 @@ def updateService():
     return servicesHandler().updateService(request.json)
 
 
-@app.route('/services/<int:sid>',
-           methods=['GET', 'PUT', 'DELETE'])
+@app.route('/services/delete',
+           methods=['DELETE'])
 def deleteService(sid):
     return servicesHandler().deleteService(sid)
 
-@app.route('/services/business')
-def getBusinessByServiceName():
-    return servicesHandler().getBusinessByServiceName(request.args.get('name'))
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
@@ -80,11 +83,9 @@ def getUserById(uid):
     return userHandler().deleteUser(uid)
 
 #-----CreateBusiness-----
-@app.route('/business', methods=['GET', 'POST'])
+@app.route('/business', methods=['GET'])
 def getAllBusiness():
-    if request.method == 'POST':
-        return BusinessHandler().insertBusiness(request.json)
-    elif request.method == 'GET':
+    if request.method == 'GET':
         if not request.args:
             return BusinessHandler().getAllBusiness()
         return BusinessHandler().getBusinessByUserId(request.args.get('id'))
@@ -94,6 +95,10 @@ def getAllBusiness():
 @app.route('/business/update', methods=['PUT'])
 def updateBusiness():
     return BusinessHandler().updateBusiness(request.json)
+
+@app.route('/business/insert', methods=['POST'])
+def insertBusiness():
+    return BusinessHandler().insertBusiness(request.json)
 
 @app.route('/business/delete', methods=['DELETE'])
 def deleteBusiness():
@@ -105,10 +110,6 @@ def getBusinessById(bid):
         return BusinessHandler().getBusinessById(bid)
     else:
         return jsonify(Error = "Method not allowed"), 405
-
-@app.route('/business/services')
-def getServicesByBusinessName():
-    return BusinessHandler().getServicesByBusinessName(request.args.get('name'))
 
 @app.route('/business/<int:bid>/appointments')
 def getAppointmentsByBusinessId(bid):
@@ -135,18 +136,21 @@ def searchBusinessByPrefix(param):
     return BusinessHandler().searchBusinessByPrefix(param)
 
 #-----Appointments-----
-@app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
+@app.route('/appointments', methods=['GET','DELETE'])
 def getAllAppointments():
     if request.method == 'GET' and not request.args:
         return AppointmentsHandler().getAllAppointments()
     elif request.method == 'GET' and request.args:
         return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
-    elif request.method == 'POST':
-        return AppointmentsHandler().insertAppointmentJson(request.json)
     elif request.method == 'DELETE':
         return AppointmentsHandler().deleteAppointment()
 
     return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/appointment/insert', methods=['POST'])
+def insertAppointment():
+    return AppointmentsHandler().insertAppointmentJson(request.json)
+
 
 @app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])
 def getAppointmentById(aid):

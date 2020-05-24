@@ -141,9 +141,6 @@ class Home extends Component{
                                     <div className="calendar">
                                         <Calendar></Calendar>
                                     </div>
-                                    <Form action="http://localhost:3000/appointment">
-                                    <Button className="all-business" >Schedule</Button>
-                                    </Form>
                                 </Card>
                             </Col>
                             <Col sm="4">
@@ -156,7 +153,7 @@ class Home extends Component{
                                             <Modal modalClassName="business-modal" isOpen={this.state.modal} toggle={this.toggle}>
                                                 <ModalHeader toggle={this.toggle}>{this.state.labelName}</ModalHeader>
                                                 <ModalBody>
-                                                    {this.renderBusinessForm()} 
+                                                    {this.renderBusinessForm()}
                                                 </ModalBody>
                                                 <ModalFooter>
                                                     {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}

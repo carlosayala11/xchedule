@@ -20,6 +20,13 @@ class ServicesDAO:
             result.append(row)
         return result
 
+    def getHours(self, sid):
+        cursor = self.conn.cursor()
+        query = "select (workinghours).startTime, (workingHours).endTime from offers natural inner join business where sid = %s;"
+        cursor.execute(query, (sid,))
+        result = cursor.fetchone()
+        return result
+
     def getServiceById(self, sid):
         cursor = self.conn.cursor()
         query = "select * from services where sid = %s;"
@@ -27,25 +34,23 @@ class ServicesDAO:
         result = cursor.fetchone()
         return result
 
-    def getService(self, name):
+    def getServicesByBusinessId(self, bid):
         cursor = self.conn.cursor()
-        query = "select sid from services where serviceType = %s;"
-        cursor.execute(query, (name,))
-        result = cursor.fetchone()
+        result = []
+        query = "select sid, serviceType, serviceDetails from business natural inner join services natural inner join offers where bid =%s;"
+        cursor.execute(query, (bid,))
+        for row in cursor:
+            result.append(row)
         return result
 
-    def getBusinessByServiceName(self, name):
-        cursor = self.conn.cursor()
-        query = 'select sid, (workinghours).starttime, (workinghours).endtime from business natural inner join offers natural inner join services where serviceType=%s;'
-        cursor.execute(query, (name,))
-        result = cursor.fetchone()
-        return result
 
     def insert(self, id, servicetype, servicedetails):
         cursor = self.conn.cursor()
-        query = "insert into services(sid, servicetype, servicedetails) values (%s, %s, %s) returning sid;"
-        cursor.execute(query, (id, servicetype, servicedetails))
+        query = "insert into services(servicetype, servicedetails) values (%s, %s) returning sid;"
+        cursor.execute(query, (servicetype, servicedetails,))
         sid = cursor.fetchone()[0]
+        query1 = "insert into offers (bid, sid) values(%s, %s);"
+        cursor.execute(query1, (id, sid,))
         self.conn.commit()
         return sid
 

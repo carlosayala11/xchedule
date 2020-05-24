@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
+import '../styles/CreateBusiness.css'
 import NavigationBar from "../components/NavigationBar";
-import SearchBusiness from "../components/SearchBusiness";
-import '../styles/Search.css'
+import ServiceForm from "../components/ServiceForm";
 
 
-class Search extends Component{
+class AddService extends Component{
     constructor(){
         super();
         this.state={
@@ -15,7 +15,7 @@ class Search extends Component{
     renderForm(){
 
         return(
-            <SearchBusiness></SearchBusiness>
+            <ServiceForm></ServiceForm>
         )
 
     }
@@ -24,7 +24,7 @@ class Search extends Component{
 
     render(){
             return(
-                <div className='searchBusiness-page'>
+                <div className='createBusiness-page'>
                     {/* <img src={logo_black} className="logo"/> */}
                     <NavigationBar></NavigationBar>
                     {/* <h1>Create New Appointment</h1> */}
@@ -33,4 +33,4 @@ class Search extends Component{
             )
         }}
 
-export default Search;
+export default AddService;

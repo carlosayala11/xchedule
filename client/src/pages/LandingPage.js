@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import LandingPageSegment from '../components/LandingPageSegment'
-import { Jumbotron, Button } from 'reactstrap';
+import {Button } from 'reactstrap';
 import '../styles/LandingPage.css'
-import logo_black_circle from '../logo_black_circle.png'
 import {NavLink } from 'react-router-dom'
 
 

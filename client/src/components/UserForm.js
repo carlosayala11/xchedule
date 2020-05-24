@@ -1,8 +1,6 @@
-import React, {Component, useState} from 'react';
-import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
-import Flatpickr from "react-flatpickr";
+import React, {Component} from 'react';
+import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
 import "flatpickr/dist/themes/dark.css";
-import moment from 'moment'
 import '../styles/Profile.css'
 
 var axios = require('axios');
@@ -195,12 +193,6 @@ class UserForm extends Component{
                             </Input>
                   </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                     <Form action="/business">
-                    <button type="submit">Create a Business</button>
-                    </Form>
-                    <Form action="/business/update">
-                    <button type="submit">Update Business</button>
-                    </Form>
                     <Form>
                     <button type="submit" onClick={this.onDelete.bind(this)}>Delete Business</button>
                     </Form>
