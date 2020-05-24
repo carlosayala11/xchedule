@@ -18,6 +18,7 @@ import CreateBusiness from './pages/CreateBusiness.js'
 import UpdateBusiness from './pages/UpdateBusiness.js'
 import ViewAllBusiness from './pages/ViewAllBusiness.js'
 import Search from './pages/Search.js'
+import Messages from './components/Messages.js'
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -54,17 +55,20 @@ function App() {
           <Route exact path="/appointment">
             <Appointment />
           </Route>
-            <Route exact path="/business/all">
+          <Route exact path="/business/all">
             <ViewAllBusiness />
           </Route>
           <Route exact path="/business/create">
             <CreateBusiness />
           </Route>
-            <Route exact path="/business/update">
+          <Route exact path="/business/update">
             <UpdateBusiness />
           </Route>
-            <Route exact path="/business/search">
+          <Route exact path="/business/search">
             <Search />
+          </Route>
+          <Route exact path="/messages">
+            <Messages />
           </Route>
         </Switch>
       </Router>

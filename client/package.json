@@ -20,6 +20,7 @@
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.1",
     "react-burger-menu": "^2.6.13",
+    "react-chat-plugin": "^0.1.2",
     "react-dom": "^16.13.0",
     "react-flatpickr": "^3.10.0",
     "react-router": "^5.1.2",

@@ -4,6 +4,7 @@ from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
 from handler.servicesHandler import servicesHandler
+from handler.messagesHandler import MessagesHandler
 from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
@@ -171,6 +172,24 @@ def getRouteFromUserToBusinessByAppointmentId(aid):
     destlatitude = geocode_dest_result[0]['geometry']['location']['lat']
     destlongitude = geocode_dest_result[0]['geometry']['location']['lng']
     return render_template('route.html',originlongitude=originlongitude,originlatitude=originlatitude,destlongitude=destlongitude,destlatitude=destlatitude)
+
+# ---------- Messages -----------
+@app.route('/messages', methods=['GET', 'POST'])
+def getAllMessages():
+    if not request.args:
+        return MessagesHandler().getAllMessages()
+
+    elif request.args and request.method == 'GET':
+        print(len(request.args))
+        return MessagesHandler().getMessagesByUserIdAndBusinessId(request.args.get('uid'), request.args.get('bid'), request.args.get('owner'))
+    
+    elif request.method == 'POST':
+        return MessagesHandler().insert(request.json)
+
+@app.route('/messages/add', methods=['POST'])
+def addMessage():
+    return MessagesHandler().insert(request.json)
+
 
 if __name__ == '__main__':
     app.debug = True

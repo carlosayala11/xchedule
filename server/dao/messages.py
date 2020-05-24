@@ -1,0 +1,40 @@
+import psycopg2
+
+class MessagesDAO:
+    def __init__(self):
+        DATABASE_URL = 'postgres://ridrboqkilxrvh:d973fc864df2f973135c7280756679636ae84f8964f56e5882aa1291b0719c24@ec2-52-73-247-67.compute-1.amazonaws.com:5432/df6hbif2dks1kv'
+        self.conn = psycopg2.connect(DATABASE_URL)
+
+    def getAllMessages(self):
+        cursor = self.conn.cursor()
+        query = "select uid, body, mdate from messages;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getMessagesByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select uid, body, mdate from messages where uid = %s;"
+        cursor.execute(query, (uid,))
+        result = cursor.fetchone()
+        return result
+
+    def getMessagesByUserIdAndBusinessId(self, uid, bid, owner):
+        cursor = self.conn.cursor()
+        query = "select uid, body, mdate from messages where (uid=%s or uid=%s) and bid=%s;"
+        cursor.execute(query, (uid, owner, bid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+    
+    def insert(self, uid, bid, body, mdate, mtype):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO messages (uid, bid, body, mdate, mtype) VALUES(%s, %s, %s, %s, %s) returning mid;"
+        cursor.execute(query, (uid, bid, body, mdate, mtype,))
+        mid = cursor.fetchone()[0]
+        self.conn.commit()
+        return mid
+
