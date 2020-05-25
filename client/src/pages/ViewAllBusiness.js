@@ -4,10 +4,10 @@ import NavigationBar from "../components/NavigationBar";
 //import SearchBusiness from "../components/SearchBusiness"
 import '../styles/AllBusiness.css'
 import {Redirect} from 'react-router-dom'
-import { Card, CardTitle, Button } from 'reactstrap';
+import { Card, CardTitle, Button, Form} from 'reactstrap';
 import axios from 'axios'
 
-
+var firebase = require('firebase');
 
 
 class ViewAllBusiness extends Component{
@@ -17,9 +17,11 @@ class ViewAllBusiness extends Component{
             results: [],
             data: '',
             filtered:'',
-            businessSelected:false
+            route:'',
+            businessSelected:false,
         }
         this.passBusinessId = this.passBusinessId.bind(this)
+        this.passRoute = this.passRoute.bind(this)
     }
 
     componentDidMount(){
@@ -77,6 +79,13 @@ class ViewAllBusiness extends Component{
         this.setState({businessSelected:true})
     }
 
+    passRoute(bid){
+        console.log(bid)
+        var id = firebase.auth().currentUser.uid;
+        console.log(id);
+        this.setState({route:`http://localhost:5000/route/${bid}/${id}`})
+    }
+
 
     render(){
 
@@ -86,16 +95,22 @@ class ViewAllBusiness extends Component{
             )
         }
         const businesses = Array.from(this.state.filtered);
+
         const listItems = businesses.map((business) =>
-            <Card key={business.bid}>
+           <Card key={business.bid}>
                 <img className="business-img" src="https://via.placeholder.com/150x150"></img>
                 <CardTitle>{business.bname}</CardTitle>
                 <p className="working-hours">Working Hours:</p>
                 <p className="hours">{business.sworkingHours} - {business.eworkingHours}</p>
                 <p className="working-days">{business.workingDays}</p>
+                <Form>
                 <Button onClick={() => this.passBusinessId(business.bid)}>View Services</Button>
-            </Card>
-        );
+                </Form>
+                <Form onClick={() => this.passRoute(business.bid)} action={this.state.route}>
+                <Button>View Route</Button>
+                </Form>
+            </Card>);
+
 
         return(
             <div className='all-business-page'>

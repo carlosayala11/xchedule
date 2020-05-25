@@ -24,7 +24,7 @@ class ViewAllServices extends Component{
         this.getServicesByBusinessID();
       }
 
-      getServicesByBusinessID = () => {
+    getServicesByBusinessID = () => {
         var id = sessionStorage.getItem('bid');
         console.log(id);
         axios.get(`http://localhost:5000/business/services/all`, {
@@ -33,7 +33,7 @@ class ViewAllServices extends Component{
             }
         })
           .then(res => {
-              console.log(res.data)
+            console.log(res.data)
             this.setState({
               data: res.data.ServicesByBusinessId
             })

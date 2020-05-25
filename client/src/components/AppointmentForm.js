@@ -57,20 +57,22 @@ class AppointmentForm extends Component{
         event.preventDefault();
         var sid = sessionStorage.getItem('sid');
         console.log(sid);
-        // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        console.log(moment(this.state.start,'hh:mm'));
+        console.log(moment(this.state.end,'hh:mm'));
         var id = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
-        const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
-
-        /*if(moment(startTime,'HH:mm') < moment(this.state.start,'HH:mm')){
-            return <p>Invalid Hours for Appointment</p>}
-        if(moment(startTime,'HH:mm') > moment(this.state.end,'HH:mm')){
-            return <p>Invalid Hours for Appointment</p>}
-        if(moment(endTime,'HH:mm') < moment(this.state.start,'HH:mm')){
-            return <p>Invalid Hours for Appointment</p>}
-        if(moment(endTime,'HH:mm') > moment(this.state.end,'HH:mm')){
-            return <p>Invalid Hours for Appointment</p>}*/
+        const endTime = moment(startTime, 'YYYY-MM-DDThh:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDThh:mm');
+        console.log(moment(startTime,'hh:mm'));
+        console.log(moment(endTime,'hh:mm'));
+        if(moment(startTime,'hh:mm') < moment(this.state.start,'hh:mm')){
+            this.setState({errorMessage: 'Invalid Start Time: Earlier than allowed'})}
+        if(moment(startTime,'hh:mm') > moment(this.state.end,'hh:mm')){
+            this.setState({errorMessage: 'Invalid Start Time: Later than allowed'})}
+        if(moment(endTime,'hh:mm') < moment(this.state.start,'hh:mm')){
+            this.setState({errorMessage: 'Invalid End Time: Earlier than allowed'})}
+        if(moment(endTime,'hh:mm') > moment(this.state.end,'hh:mm')){
+            this.setState({errorMessage: 'Invalid End Time: Later than allowed'})}
 
         //this.setState({endDate:endTime})
         console.log("Start time: " + startTime)
@@ -116,7 +118,7 @@ class AppointmentForm extends Component{
                         name="date"
                         value={date}
                         onChange={date => {
-                            dt = moment(date[0]).format('YYYY-MM-DDTHH:mm');
+                            dt = moment(date[0]).format('YYYY-MM-DDThh:mm');
                             // console.log(dt)
                             this.setState({ dt });
                           }}

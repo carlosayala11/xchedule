@@ -83,15 +83,14 @@ class AppointmentsHandler:
             result_list.append(result)
         return jsonify(AppointmentsList=result_list)
 
-    def getRouteFromUserToBusinessByAppointmentId(self, aid):
+    def getRoute(self, bid, uid):
         dao = AppointmentsDAO()
-        route = dao.getRouteFromUserToBusinessByAppointmentId(aid)
+        route = dao.getRoute(bid, uid)
         result = []
         result.append(route[0][0])
         result.append(route[0][1])
         result.append(route[0][2])
         result.append(route[0][3])
-        print(result)
         return result
 
 

@@ -16,9 +16,9 @@ import axios from 'axios';
 import * as firebase from 'firebase';
 import moment from 'moment'
 
-
 // supress warning for using moment()
 moment.suppressDeprecationWarnings = true;
+
 
 const mapAppointmentData = appointment => ({
   startDate: appointment.startDate,

@@ -32,18 +32,19 @@ class ServiceForm extends Component {
    createService(){
         this.setState({loadingServiceCreation:true});
         var service = {
-                   bid: 1,
+                   bid: sessionStorage.getItem('bid'),
                    serviceType: this.state.serviceType,
                    serviceDetails: this.state.serviceDetails
                 }
                 console.log(service)
-                axios.post("http://127.0.0.1:5000/services/insert", service).then((res)=>{
+       axios.post("http://127.0.0.1:5000/services/insert", service).then((res)=>{
                     this.setState({serviceCreated:true})
                  console.log(res)
                 }).catch((error) => {
                 this.setState({errorMessage: error.message})
                 this.setState({errorCode: error.code})
               });
+       sessionStorage.clear();
 
     }
 

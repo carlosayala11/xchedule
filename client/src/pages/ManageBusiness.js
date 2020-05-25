@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import '../styles/Business.css'
 import BusinessCalendar from "../components/BusinessCalendar"
 import NavigationBar from '../components/NavigationBar'
-import {Container, Row, Col, Card, CardTitle, Button, CardBody} from 'reactstrap'
+import {Container, Row, Col, Card, CardTitle, Button, CardBody, Form} from 'reactstrap'
 import {
-    Link
-  } from "react-router-dom";
+    Link, Redirect
+} from "react-router-dom";
 import * as firebase from 'firebase'
 var axios = require('axios');
 
@@ -14,9 +14,10 @@ class ManageBusiness extends Component{
     constructor(){
         super();
         this.state={
-            businessData:''
+            businessData:'',
+            businessSelected:false
         }
-
+     this.passBusinessId = this.passBusinessId.bind(this)
     }
 
     componentDidMount(){
@@ -41,8 +42,18 @@ class ManageBusiness extends Component{
           });
     }
 
-
+    passBusinessId(bid){
+        console.log(bid)
+        sessionStorage.setItem('bid', bid)
+        this.setState({businessSelected:true})
+    }
     render(){
+
+        if(this.state.businessSelected){
+            return(
+                <Redirect to="/service/create"/>
+            )
+        }
         return(
             <div className="business-page">
                 <NavigationBar/>
@@ -71,8 +82,9 @@ class ManageBusiness extends Component{
                                             <p className="social-media-text">Facebook: {this.state.businessData.facebook}</p>
                                         </div>
                                         <Button className="update-business-button">
-                                            <Link to="/business/update">Update Business</Link>
+                                            <Link to="/business/appointments">View Appointments</Link>
                                         </Button>
+                                        <Button className="update-business-button" onClick={() => this.passBusinessId(this.state.businessData.bid)}>Add Service</Button>
                                     </CardBody>
                                 </Card>
                             </Col>

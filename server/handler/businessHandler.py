@@ -29,7 +29,7 @@ class BusinessHandler:
         result['startDate'] = row[4]
         result['duration'] = row[5]
         result['endDate'] = row[6]
-        result['servicetype'] = row[7]
+        result['serviceType'] = row[7]
         return result
     
     def build_service_dict(self, row):
@@ -205,29 +205,20 @@ class BusinessHandler:
             else:
                 return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def approveAppointment(self, bid, aid):
+    def approveAppointment(self,aid):
         dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error="Business not found."), 404
-        else:
-            aid = dao.approveAppointment(bid, aid)
-            return jsonify(AppointmentIdApproved=aid), 201
+        aid = dao.approveAppointment(aid)
+        return jsonify(AppointmentIdApproved=aid), 201
 
-    def cancelAppointment(self, bid, aid):
+    def cancelAppointment(self, aid):
         dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error="Business not found."), 404
-        else:
-            aid = dao.cancelAppointment(bid, aid)
-            return jsonify(AppointmentIdCanceled=aid), 201
+        aid = dao.cancelAppointment(aid)
+        return jsonify(AppointmentIdCanceled=aid), 201
 
-    def completeAppointment(self, bid, aid):
+    def completeAppointment(self, aid):
         dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error="Business not found."), 404
-        else:
-            aid = dao.completeAppointment(bid, aid)
-            return jsonify(AppointmentIdCompleted=aid), 201
+        aid = dao.completeAppointment(aid)
+        return jsonify(AppointmentIdCompleted=aid), 201
 
     def getTopBusiness(self):
         dao = BusinessDAO()

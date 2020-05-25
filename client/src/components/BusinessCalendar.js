@@ -107,7 +107,6 @@ class BusinessCalendar extends Component{
 
 
 
-
   render(){
     // this is the data
     const {data} = this.state;

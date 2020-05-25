@@ -99,27 +99,6 @@ class UserForm extends Component{
 
         }
 
-    onDelete = (event) => {
-        event.preventDefault();
-        this.getBusiness();
-        var id = this.state.bid
-        if(id){
-        axios.delete('http://localhost:5000/delete', {
-            params: {
-                id: id
-            }
-        })
-            .then(res => {
-                console.log(res);
-                this.setState({businessCreated: true})
-            })
-            .catch((error) => {
-                this.setState({errorMessage: error.message})
-              });
-        }
-
-    }
-
     onSubmit = (event) => {
         event.preventDefault();
         axios.put('http://localhost:5000/users/update', {
@@ -192,9 +171,6 @@ class UserForm extends Component{
                             </Input>
                   </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form>
-                    <button type="submit" onClick={this.onDelete.bind(this)}>Delete Business</button>
-                    </Form>
                     {this.renderErrorMessage()}
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                

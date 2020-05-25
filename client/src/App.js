@@ -15,9 +15,10 @@ import CreateBusiness from './pages/CreateBusiness.js'
 import UpdateBusiness from './pages/UpdateBusiness.js'
 import ViewAllBusiness from './pages/ViewAllBusiness.js'
 import ManageBusiness from './pages/ManageBusiness.js'
-import ViewBusiness from './pages/ViewBusiness.js'
+//import ViewBusiness from './pages/ViewBusiness.js'
 import AddService from './pages/AddService.js'
 import ViewAllServices from './pages/ViewAllServices.js'
+import ViewAllAppointments from './pages/ViewAllAppointments.js'
 
 var firebase = require('firebase');
 
@@ -67,14 +68,17 @@ function App() {
           <Route exact path="/business/manage">
             <ManageBusiness />
           </Route>
-          <Route exact path="/business/details">
+          {/*<Route exact path="/business/details">
             <ViewBusiness />
-          </Route>
+          </Route>*/}
           <Route exact path="/service/create">
             <AddService />
           </Route>
           <Route exact path="/service/all">
             <ViewAllServices />
+          </Route>
+          <Route exact path="/business/appointments">
+            <ViewAllAppointments />
           </Route>
         </Switch>
       </Router>

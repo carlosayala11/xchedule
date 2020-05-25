@@ -119,17 +119,17 @@ def getAppointmentsByBusinessId():
 def getTopBusiness():
     return BusinessHandler().getTopBusiness()
 
-@app.route('/business/<int:bid>/approve/<int:aid>')
-def approveAppointment(bid, aid):
-    return BusinessHandler().approveAppointment(bid,aid)
+@app.route('/approve')
+def approveAppointment():
+    return BusinessHandler().approveAppointment(request.args.get('id'))
 
-@app.route('/business/<int:bid>/complete/<int:aid>')
-def completeAppointment(bid, aid):
-    return BusinessHandler().completeAppointment(bid,aid)
+@app.route('/complete')
+def completeAppointment():
+    return BusinessHandler().completeAppointment(request.args.get('id'))
 
-@app.route('/business/<int:bid>/cancel/<int:aid>')
-def cancelAppointment(bid, aid):
-    return BusinessHandler().cancelAppointment(bid,aid)
+@app.route('/cancel')
+def cancelAppointment():
+    return BusinessHandler().cancelAppointment(request.args.get('id'))
 
 @app.route('/business/<string:param>')
 def searchBusinessByPrefix(param):
@@ -168,11 +168,11 @@ def getAppointmentsByServiceId(sid):
     return AppointmentsHandler().getAppointmentsByServiceId(sid)
 
 
-@app.route('/appointments/<int:aid>/route')
-def getRouteFromUserToBusinessByAppointmentId(aid):
+@app.route('/route/<int:bid>/<string:uid>')
+def getRoute(bid,uid):
     api_key = "AIzaSyCeHf-jcEx21QPuV7BZOUOukikZ-bQYxDA"
     google = GoogleMaps(api_key)
-    route = AppointmentsHandler().getRouteFromUserToBusinessByAppointmentId(aid)
+    route = AppointmentsHandler().getRoute(bid, uid)
     originaddress = route[0] + ', ' + route[1]
     destaddress = route[2] + ', ' + route[3]
     geocode_origin_result = google.geocode(originaddress)

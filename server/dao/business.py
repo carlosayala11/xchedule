@@ -45,27 +45,27 @@ class BusinessDAO:
     def getAppointmentsByBusinessId(self, uid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join business where uid=%s and canceled=false;"
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join business where uid=%s and canceled=false and completed=false;"
         cursor.execute(query, (uid,))
         for row in cursor:
             result.append(row)
         return result
 
-    def approveAppointment(self, bid, aid):
+    def approveAppointment(self, aid):
         cursor = self.conn.cursor()
         query = "update appointments set pending=false where aid = %s;"
         cursor.execute(query, (aid,))
         self.conn.commit()
         return aid
 
-    def completeAppointment(self, bid, aid):
+    def completeAppointment(self, aid):
         cursor = self.conn.cursor()
         query = "update appointments set completed=true where aid = %s;"
         cursor.execute(query, (aid,))
         self.conn.commit()
         return aid
 
-    def cancelAppointment(self, bid, aid):
+    def cancelAppointment(self, aid):
         cursor = self.conn.cursor()
         query = "update appointments set canceled=true where aid = %s;"
         cursor.execute(query, (aid,))
