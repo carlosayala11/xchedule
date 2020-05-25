@@ -56,6 +56,10 @@ class ServicesDAO:
 
     def delete(self, sid):
         cursor = self.conn.cursor()
+        query1 = "delete from appointments as a using requests as r where r.aid=a.aid and r.sid=%s;"
+        cursor.execute(query1, (sid,))
+        query1 = "delete from offers where sid = %s;"
+        cursor.execute(query1, (sid,))
         query1 = "delete from services where sid = %s;"
         cursor.execute(query1, (sid,))
         self.conn.commit()

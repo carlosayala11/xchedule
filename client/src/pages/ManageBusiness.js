@@ -15,9 +15,13 @@ class ManageBusiness extends Component{
         super();
         this.state={
             businessData:'',
-            businessSelected:false
+            businessSelected:false,
+            businessDeleted:false,
+            servicesSelected:false
         }
-     this.passBusinessId = this.passBusinessId.bind(this)
+    this.passBusinessId = this.passBusinessId.bind(this)
+    this.servicesFromBusiness = this.servicesFromBusiness.bind(this)
+    this.deleteBusiness = this.deleteBusiness.bind(this)
     }
 
     componentDidMount(){
@@ -41,17 +45,46 @@ class ManageBusiness extends Component{
             }
           });
     }
+    deleteBusiness(bid){
+        console.log(bid)
+        axios.delete('http://localhost:5000/business/delete',{
+                    params: {
+                        id: bid
+                            }
+                }).then((res)=>{
+                    this.setState({businessDeleted: true})
+                }).catch((err)=>{
+                    console.log(err)
+                });
+    }
 
     passBusinessId(bid){
         console.log(bid)
         sessionStorage.setItem('bid', bid)
         this.setState({businessSelected:true})
     }
+
+    servicesFromBusiness(bid){
+        console.log(bid)
+        sessionStorage.setItem('bid', bid)
+        this.setState({servicesSelected:true})
+    }
     render(){
 
         if(this.state.businessSelected){
             return(
                 <Redirect to="/service/create"/>
+            )
+        }
+        if(this.state.businessDeleted){
+            return(
+                <Redirect to="/home"/>
+            )
+        }
+
+        if(this.state.servicesSelected){
+            return(
+                <Redirect to="/business/services"/>
             )
         }
         return(
@@ -85,6 +118,8 @@ class ManageBusiness extends Component{
                                             <Link to="/business/appointments">View Appointments</Link>
                                         </Button>
                                         <Button className="update-business-button" onClick={() => this.passBusinessId(this.state.businessData.bid)}>Add Service</Button>
+                                        <Button className="update-business-button" onClick={() => this.servicesFromBusiness(this.state.businessData.bid)}>View Services From Business</Button>
+                                        <Button className="update-business-button" onClick={() => this.deleteBusiness(this.state.businessData.bid)}>Delete Business</Button>
                                     </CardBody>
                                 </Card>
                             </Col>

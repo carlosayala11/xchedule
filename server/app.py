@@ -50,10 +50,9 @@ def updateService():
     return servicesHandler().updateService(request.json)
 
 
-@app.route('/services/delete',
-           methods=['DELETE'])
-def deleteService(sid):
-    return servicesHandler().deleteService(sid)
+@app.route('/services/delete', methods=['DELETE'])
+def deleteService():
+    return servicesHandler().deleteService(request.args.get('id'))
 
 
 #-----Users-----

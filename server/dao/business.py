@@ -121,7 +121,9 @@ class BusinessDAO:
 
     def delete(self, bid):
         cursor = self.conn.cursor()
-        query1 = "delete from appointments as a using services as s, requests as r, offers as o where o.bid= %s and o.sid = s.sid and r.sid = s.sid and r.aid = a.aid;"
+        query = "with subquery as (select uid, isowner from users natural inner join business where bid=%s) update users set isowner = false from subquery where users.uid = subquery.uid;"
+        cursor.execute(query, (bid,))
+        query1 = "delete from appointments as a using requests as r, offers as o where o.bid=%s and o.sid=r.sid and r.aid=a.aid;"
         cursor.execute(query1, (bid,))
         query2 = "delete from services as s using offers as o where s.sid = o.sid and o.bid = %s;"
         cursor.execute(query2, (bid,))

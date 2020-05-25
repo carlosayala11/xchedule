@@ -9,7 +9,7 @@ import {Redirect} from "react-router-dom";
 
 
 
-class ViewAllServices extends Component{
+class ViewServicesFromBusiness extends Component{
     constructor(){
         super();
         this.state={
@@ -17,7 +17,7 @@ class ViewAllServices extends Component{
             data: '',
             businessSelected:false
         }
-        this.passServiceId = this.passServiceId.bind(this)
+        this.deleteService = this.deleteService.bind(this)
     }
 
     componentDidMount(){
@@ -40,16 +40,24 @@ class ViewAllServices extends Component{
           })
           sessionStorage.clear();
       }
-    passServiceId(sid){
+    deleteService(sid){
         console.log(sid)
-        sessionStorage.setItem('sid', sid)
-        this.setState({businessSelected:true})
+        axios.delete('http://localhost:5000/services/delete',{
+                    params: {
+                        id: sid
+                            }
+                }).then((res)=>{
+                    this.setState({businessSelected:true})
+                }).catch((err)=>{
+                    console.log(err)
+                });
+
     }
 
     render(){
         if(this.state.businessSelected){
             return(
-                <Redirect to="/appointment"/>
+                <Redirect to="/home"/>
             )
         }
         const services = Array.from(this.state.data);
@@ -59,7 +67,7 @@ class ViewAllServices extends Component{
                 <p className="type">{service.servicetype}</p>
                 <p className="details">Service Details:</p>
                 <p className="info">{service.servicedetails}</p>
-                <Button onClick={() => this.passServiceId(service.sid)}>Schedule</Button>
+                <Button onClick={() => this.deleteService(service.sid)}>Delete</Button>
             </Card>
         );
 
@@ -76,4 +84,4 @@ class ViewAllServices extends Component{
 }
 
 
-export default ViewAllServices;
+export default ViewServicesFromBusiness;
