@@ -157,9 +157,17 @@ def getAllAppointments():
 def insertAppointment():
     return AppointmentsHandler().insertAppointmentJson(request.json)
 
+@app.route('/appointment/update', methods=['PUT'])
+def updateAppointment():
+    return AppointmentsHandler().updateAppointmentJson(request.json)
+
 @app.route('/appointments/user', methods=['GET'])
 def getAppointmentsByUserId():
     return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
+
+@app.route('/appointments/canceled', methods=['GET'])
+def getCanceledAppointmentsByUserId():
+    return AppointmentsHandler().getCanceledAppointmentsByUserId(request.args.get('id'))
 
 
 @app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])

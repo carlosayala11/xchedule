@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 //import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
-import Slideshow from "../components/Carousel";
 import Calendar from "../components/Calendar"
 import NavigationBar from '../components/NavigationBar'
 import CreateBusinessForm from '../components/CreateBusinessForm'
@@ -9,6 +8,7 @@ import UpddateBusinessForm from '../components/UpdateBusinessForm'
 import {Redirect} from 'react-router-dom'
 import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form,
          Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import {Redirect} from "react-router-dom";
 var axios = require('axios');
 var firebase = require('firebase');
 
@@ -28,9 +28,13 @@ class Home extends Component{
             modal: false,
             isOwner: false,
             loggedIn:false,
-            labelName:''
+            labelName:'',
+            data: '',
+            businessCanceled:false
         }
         this.toggle = this.toggle.bind(this);
+        this.cancelAppointment = this.cancelAppointment.bind(this)
+        this.getUserAppointments = this.getUserAppointments.bind(this);
 
         this.getBusinessList = this.getBusinessList.bind(this)
     }
@@ -48,6 +52,48 @@ class Home extends Component{
               // No user is signed in.
             }
           });
+    }
+
+    componentDidMount(){
+    this.getUserAppointments()
+    }
+
+    getUserAppointments(){
+        //check if a user is signed in
+        firebase.auth().onAuthStateChanged((user) =>{
+          if (user) {
+            // User is signed in.  get their appointments
+                var id = firebase.auth().currentUser.uid;
+                axios.get('http://127.0.0.1:5000/appointments/user', {
+                    params: {
+                        id: id
+                    }
+                }).then((res)=>{
+                    this.setState({data:res.data.Appointments})
+                    console.log(res)
+                    }).catch((error) => {
+                    console.log(error)
+                  });
+              }
+          else {
+                // No user is signed in.
+                console.log("No user logged in.")
+              }
+            });
+    }
+
+    cancelAppointment(aid){
+        console.log(aid)
+        axios.get(`http://localhost:5000/cancel`, {
+            params: {
+                id: aid
+            }
+        })
+          .then(res => {
+            console.log(res.data)
+            this.setState({businessCanceled:true})
+          })
+
     }
 
     toggle() {
@@ -129,7 +175,16 @@ class Home extends Component{
             return <Redirect to="/login"/>
         }
         //this.getBusinessList();
+
+        if(this.state.businessCanceled){
+            return(
+                <Redirect to="/profile"/>
+            )
+        }
+
+        const appointments = Array.from(this.state.data);
         return(
+
             <div className="home-page">
                 <NavigationBar/>
                 {/* <div className="lheader">
@@ -139,10 +194,25 @@ class Home extends Component{
                     <br/><br/><br/><h1 className="h1">Xchedule</h1>
                     <h2 className="h2">Organize your appointments effectively.</h2><br/>
                 </div> */}
-                <div className="home-body-container">
-                    <div className="carousel">
-                        <Slideshow></Slideshow>
-                    </div>
+                <div className="home-top-container">
+                    {appointments.map((appointment) =>
+                       <div className="scrollmenu">
+                       <a>
+                        <Card key={appointment.aid}>
+                            <CardTitle></CardTitle>
+                            <p className="working-hours">Service Type:</p>
+                            <p className="hours">{appointment.serviceType}</p>
+                            <p className="working-hours">Appointment Time:</p>
+                            <p className="hours">{appointment.startDate}</p>
+                            <p className="hours">{appointment.endDate}</p>
+                            <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
+                        </Card>
+                        </a>
+                        </div>
+
+                        )}
+                </div>
+                    <div className="home-body-container">
                     <Container className="home-bottom-container">
                         <Row>
                             <Col sm="8">
@@ -152,6 +222,9 @@ class Home extends Component{
                                     </div>
                             </Col>
                             <Col sm="4">
+                                <Form action="http://localhost:3000/canceled/appointments">
+                                  <Button className="all-business" >View Canceled Appointments</Button>
+                                </Form>
                                 <Card>
                                     {/* Manage/Create Business Modal */}
                                     <CardTitle className="card-title">Manage your Business</CardTitle>

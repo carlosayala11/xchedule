@@ -118,6 +118,8 @@ class ViewAllAppointments extends Component{
         const listItems = appointments.map((appointment) =>
             <Card key={appointment.aid}>
                 <CardTitle></CardTitle>
+                <p className="working-hours">Service Type:</p>
+                <p className="hours">{appointment.serviceType}</p>
                 <p className="working-hours">Appointment Time:</p>
                 <p className="hours">{appointment.startDate}</p>
                 <p className="hours">{appointment.endDate}</p>

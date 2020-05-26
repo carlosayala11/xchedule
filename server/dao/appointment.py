@@ -17,6 +17,13 @@ class AppointmentsDAO:
         self.conn.commit()
         return aid
 
+    def update(self, aid, date, duration, pending, completed, canceled, enddate):
+        cursor = self.conn.cursor()
+        query = "update appointments set sdate = %s, duration = %s, pending = %s, completed = %s, canceled = %s, edate = %s where aid = %s;"
+        cursor.execute(query, (date, duration, pending, completed, canceled, enddate,aid,))
+        self.conn.commit()
+        return aid
+
     def delete(self, aid):
         cursor = self.conn.cursor()
         query = "delete from appointments where aid = %s;"
@@ -52,6 +59,15 @@ class AppointmentsDAO:
     def getAppointmentsByUserId(self, uid):
         cursor = self.conn.cursor()
         query = "select aid, sdate, duration, pending, completed, canceled, edate, servicetype  from appointments natural inner join schedules natural inner join requests natural inner join services where uid=%s and canceled = false and completed=false;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getCanceledAppointmentsByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select aid, sdate, duration, pending, completed, canceled, edate, servicetype, sid  from appointments natural inner join schedules natural inner join requests natural inner join services where uid=%s and canceled = true;"
         cursor.execute(query, (uid,))
         result = []
         for row in cursor:

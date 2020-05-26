@@ -8,7 +8,7 @@ import moment from 'moment'
 
 var firebase = require('firebase');
 
-class AppointmentForm extends Component{
+class UpdateAppointmentForm extends Component{
     constructor(){
         super();
         this.state={
@@ -22,6 +22,7 @@ class AppointmentForm extends Component{
             end:''
         };
     }
+
 
     getHours = () =>{
         var id = sessionStorage.getItem('sid');
@@ -55,8 +56,8 @@ class AppointmentForm extends Component{
 
     onSubmit = (event) => {
         event.preventDefault();
-        var sid = sessionStorage.getItem('sid');
-        console.log(sid);
+        var aid = sessionStorage.getItem('aid');
+        console.log(aid);
         console.log(moment(this.state.start,'HH:mm'));
         console.log(moment(this.state.end,'HH:mm'));
         var id = firebase.auth().currentUser.uid;
@@ -78,8 +79,7 @@ class AppointmentForm extends Component{
         console.log("Start time: " + startTime)
         console.log("End Time:" + endTime)
         var appointment = {
-                   uid: id,
-                   sid: sid,
+                   aid: aid,
                    pending: true,
                    completed: false,
                    canceled: false,
@@ -89,7 +89,7 @@ class AppointmentForm extends Component{
                 }
 
                 console.log(appointment)
-        axios.post('http://127.0.0.1:5000/appointment/insert', appointment).then((res)=>{
+        axios.put('http://127.0.0.1:5000/appointment/update', appointment).then((res)=>{
                  console.log(res)
                 }).catch((error) => {
                 this.setState({errorMessage: error.message})
@@ -145,4 +145,4 @@ class AppointmentForm extends Component{
 
 }
 
-export default withRouter(AppointmentForm);
+export default withRouter(UpdateAppointmentForm);
