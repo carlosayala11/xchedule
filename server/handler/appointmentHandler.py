@@ -41,7 +41,27 @@ class AppointmentsHandler:
             return jsonify(Appointment=result), 201
         else:
             return jsonify(Error="Unexpected attributes in appointment request"), 400
-    
+
+    def updateAppointmentJson(self, json):
+        print(json)
+        duration = json['duration']
+        date = json['startDate']
+        pending = json['pending']
+        completed = json['completed']
+        canceled = json['canceled']
+        enddate = json['endDate']
+        aid = json['aid']
+
+        if duration and date and aid and enddate:
+            dao = AppointmentsDAO()
+            dao.update(aid, date, duration, pending, completed, canceled, enddate)
+            list = []
+            list.extend((aid, duration, date, pending, completed, canceled, enddate))
+            result = self.build_appointment_dict(list)
+            return jsonify(Appointment=result), 200
+        else:
+            return jsonify(Error="Unexpected attributes in appointment request"), 400
+
     def deleteAppointment(self, aid):
         dao = AppointmentsDAO()
         if not dao.getAppointmentById(aid):
@@ -88,6 +108,24 @@ class AppointmentsHandler:
             result['canceled'] = row[5]
             result['endDate'] = row[6]
             result['serviceType'] = row[7]
+            result_list.append(result)
+        return jsonify(Appointments=result_list)
+
+    def getCanceledAppointmentsByUserId(self, uid):
+        dao = AppointmentsDAO()
+        appointments_list = dao.getCanceledAppointmentsByUserId(uid)
+        result_list = []
+        for row in appointments_list:
+            result = {}
+            result['aid'] = row[0]
+            result['startDate'] = row[1]
+            result['duration'] = row[2]
+            result['pending'] = row[3]
+            result['completed'] = row[4]
+            result['canceled'] = row[5]
+            result['endDate'] = row[6]
+            result['serviceType'] = row[7]
+            result['sid'] = row[8]
             result_list.append(result)
         return jsonify(Appointments=result_list)
 

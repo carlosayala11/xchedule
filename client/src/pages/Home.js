@@ -212,6 +212,9 @@ class Home extends Component{
                                     </div>
                             </Col>
                             <Col sm="4">
+                                <Form action="http://localhost:3000/canceled/appointments">
+                                  <Button className="all-business" >View Canceled Appointments</Button>
+                                </Form>
                                 <Card>
                                     {/* Manage/Create Business Modal */}
                                     <CardTitle className="card-title">Manage your Business</CardTitle>

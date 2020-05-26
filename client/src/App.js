@@ -11,6 +11,7 @@ import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
 import Home from './pages/Home.js'
 import Appointment from './pages/Appointment.js'
+import UpdateAppointment from './pages/UpdateAppointment.js'
 import CreateBusiness from './pages/CreateBusiness.js'
 import UpdateBusiness from './pages/UpdateBusiness.js'
 import ViewAllBusiness from './pages/ViewAllBusiness.js'
@@ -19,6 +20,7 @@ import ManageBusiness from './pages/ManageBusiness.js'
 import AddService from './pages/AddService.js'
 import ViewAllServices from './pages/ViewAllServices.js'
 import ViewAllAppointments from './pages/ViewAllAppointments.js'
+import ViewCanceledAppointments from './pages/ViewCanceledAppointments.js'
 import ViewServicesFromBusiness from './pages/ViewServicesFromBusiness.js'
 
 var firebase = require('firebase');
@@ -57,6 +59,9 @@ function App() {
           <Route exact path="/appointment">
             <Appointment />
           </Route>
+          <Route exact path="/appointment/reschedule">
+            <UpdateAppointment />
+          </Route>
             <Route exact path="/business/all">
             <ViewAllBusiness />
           </Route>
@@ -80,6 +85,9 @@ function App() {
           </Route>
           <Route exact path="/business/appointments">
             <ViewAllAppointments />
+          </Route>
+          <Route exact path="/canceled/appointments">
+            <ViewCanceledAppointments />
           </Route>
           <Route exact path="/business/services">
             <ViewServicesFromBusiness />

@@ -51,19 +51,27 @@ class Calendar extends Component{
   }
 
   getUserAppointments(){
-    var id = firebase.auth().currentUser.uid;
-    axios.get('http://127.0.0.1:5000/appointments/user', {
-        params: {
-            id: id
+      firebase.auth().onAuthStateChanged((user) =>{
+      if (user) {
+        var id = firebase.auth().currentUser.uid;
+        axios.get('http://127.0.0.1:5000/appointments/user', {
+            params: {
+                id: id
+            }
+        }).then((res)=>{
+            this.setState({renderCalendar:true})
+            this.setState({data:res.data.Appointments})
+            console.log(res)
+            }).catch((error) => {
+            console.log(error)
+          });
+         } else {
+        // No user is signed in.
+        console.log("No user logged in.")
         }
-    }).then((res)=>{
-        this.setState({renderCalendar:true})
-        this.setState({data:res.data.Appointments})
-        console.log(res)
-        }).catch((error) => {
-        console.log(error)
-      });
-  }
+        });
+      }
+
 
   //function to conditionally render the calendar or a message
   //function to conditionally render the calendar or a message
