@@ -16,6 +16,7 @@ class ViewCanceledAppointments extends Component{
             results: [],
             data: '',
             rescheduleSelected:false,
+            loggedIn:false
         }
         this.passIDs = this.passIDs.bind(this)
 
@@ -44,6 +45,8 @@ class ViewCanceledAppointments extends Component{
       } else {
         // No user is signed in.
         console.log("No user logged in.")
+        this.setState({loggedIn:false})
+
         }
         });
       }
@@ -59,6 +62,9 @@ class ViewCanceledAppointments extends Component{
 
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         if(this.state.rescheduleSelected){
             return(
                 <Redirect to="/appointment/reschedule"/>

@@ -20,6 +20,7 @@ class ViewAllBusiness extends Component{
             filtered:'',
             route:'',
             businessSelected:false,
+            loggedIn:true
         }
         this.passBusinessId = this.passBusinessId.bind(this)
         this.passRoute = this.passRoute.bind(this)
@@ -27,6 +28,17 @@ class ViewAllBusiness extends Component{
 
     componentDidMount(){
         this.getAllBusiness();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in.
+                
+            } else {
+                console.log("no user")
+                this.setState({loggedIn:false})
+
+                // No user is signed in.
+            }
+            });
       }
 
       getAllBusiness = () => {
@@ -89,7 +101,9 @@ class ViewAllBusiness extends Component{
 
 
     render(){
-
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         if(this.state.businessSelected){
             return(
                 <Redirect to="/service/all"/>

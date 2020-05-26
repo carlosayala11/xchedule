@@ -17,7 +17,7 @@ class ViewServicesFromBusiness extends Component{
             results: [],
             data: '',
             businessSelected:false,
-            loggedIn:false
+            loggedIn:true
         }
         this.deleteService = this.deleteService.bind(this)
     }
@@ -28,9 +28,10 @@ class ViewServicesFromBusiness extends Component{
             if (user) {
               // User is signed in.
               
-              this.setState({loggedIn:true})
             } else {
                 console.log("no user")
+                this.setState({loggedIn:false})
+
               // No user is signed in.
             }
           });
@@ -39,7 +40,7 @@ class ViewServicesFromBusiness extends Component{
     getServicesByBusinessID = () => {
         var id = sessionStorage.getItem('bid');
         console.log(id);
-        axios.get(`http://localhost:5000/business/services/all`, {
+        axios.get('http://localhost:5000/business/services/all', {
             params: {
                 id: id
             }
