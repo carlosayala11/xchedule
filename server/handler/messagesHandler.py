@@ -64,14 +64,14 @@ class MessagesHandler:
             result_list.append(result)
         return jsonify(Chats=result_list)
     
-    # def getChatsByBusinessId(self, bid):
-    #     dao = MessagesDAO()
-    #     chat_list = dao.getChatsByBusinessId(bid)
-    #     result_list = []
-    #     for row in chat_list:
-    #         result = self.chat_business_dict(row)
-    #         result_list.append(result)
-    #     return jsonify(Chats=result_list)
+    def getChatsByBusinessId(self, bid):
+        dao = MessagesDAO()
+        chat_list = dao.getChatsByBusinessId(bid)
+        result_list = []
+        for row in chat_list:
+            result = self.chat_business_dict(row)
+            result_list.append(result)
+        return jsonify(Chats=result_list)
 
     def getMessagesByUserIdAndBusinessId(self, uid, bid, owner):
         print(uid, bid, owner)
@@ -83,14 +83,14 @@ class MessagesHandler:
             result_list.append(result)
         return jsonify(MessagesList=result_list)
 
-    def getMessagesByBusinessId(self, uid):
-        dao = MessagesDAO()
-        messages_list = dao.getMessagesByBusinessId(uid)
-        result_list = []
-        for row in messages_list:
-            result = self.message_dict(row)
-            result_list.append(result)
-        return jsonify(MessagesList=result_list)
+    # def getMessagesByBusinessId(self, uid):
+    #     dao = MessagesDAO()
+    #     messages_list = dao.getMessagesByBusinessId(uid)
+    #     result_list = []
+    #     for row in messages_list:
+    #         result = self.message_dict(row)
+    #         result_list.append(result)
+    #     return jsonify(MessagesList=result_list)
 
     def insert(self, json):
         print(json)
