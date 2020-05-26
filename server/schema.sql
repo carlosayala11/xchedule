@@ -69,3 +69,12 @@ create table business (
     baddress address_item,
     timeRestriction int
 );
+
+create table messages (
+    mid serial not null constraint messages_pkey primary key,
+    uid varchar(30) constraint user_uid_fkey references users,
+    bid int constraint business_bid_fkey references business,
+    body varchar(140) not null,
+    mdate varchar(20) not null, 
+    mtype varchar(15) not null
+);

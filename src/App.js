@@ -26,6 +26,7 @@ import ViewAllAppointments from './pages/ViewAllAppointments.js'
 import ViewCanceledAppointments from './pages/ViewCanceledAppointments.js'
 import ViewServicesFromBusiness from './pages/ViewServicesFromBusiness.js'
 
+import Chat from './components/Chat.js'
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -103,6 +104,9 @@ function App() {
           </Route>
           <Route exact path="/business/details">
             <ViewBusiness />
+          </Route>
+          <Route exact path="/messages">
+            <Chat />
           </Route>
         </Switch>
       </Router>

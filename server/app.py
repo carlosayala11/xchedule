@@ -4,6 +4,7 @@ from handler.userHandler import userHandler
 from handler.businessHandler import BusinessHandler
 from handler.appointmentHandler import AppointmentsHandler
 from handler.servicesHandler import servicesHandler
+from handler.messagesHandler import MessagesHandler
 from googlemaps import Client as GoogleMaps
 from flask_cors import CORS, cross_origin
 import psycopg2
@@ -206,6 +207,37 @@ def getRoute(bid,uid):
     destlatitude = geocode_dest_result[0]['geometry']['location']['lat']
     destlongitude = geocode_dest_result[0]['geometry']['location']['lng']
     return render_template('route.html',originlongitude=originlongitude,originlatitude=originlatitude,destlongitude=destlongitude,destlatitude=destlatitude)
+
+# ---------- Messages -----------
+@app.route('/messages', methods=['GET', 'POST'])
+def getAllMessages():
+    if not request.args:
+        return MessagesHandler().getAllMessages()
+
+    elif len(request.args) == 3 and request.method == 'GET':
+        print(len(request.args))
+        return MessagesHandler().getMessagesByUserIdAndBusinessId(request.args.get('uid'), request.args.get('bid'), request.args.get('owner'))
+    
+    elif len(request.args) == 1 and request.method == 'GET':        
+        return MessagesHandler().getMessagesByUserId(request.args.get('uid'))
+
+@app.route('/messages/add', methods=['POST'])
+def addMessage():
+    return MessagesHandler().insert(request.json)
+
+@app.route('/chats', methods=['GET'])
+def getChatsByUserId():
+    return MessagesHandler().getChatsByUserId(request.args.get('uid'))
+
+# @app.route('/messages/mybusiness', methods=['GET'])
+# def getMessagesByBusinessId():
+#     return MessagesHandler().getMessagesByBusinessId(request.args.get('bid'))
+
+@app.route('/chats/business', methods=['GET'])
+def getChatsByBusinessId():
+    print('chat')
+    return MessagesHandler().getChatsByBusinessId(request.args.get('bid'))
+
 
 if __name__ == '__main__':
     app.debug = True
