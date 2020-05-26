@@ -176,12 +176,6 @@ class Home extends Component{
         }
         //this.getBusinessList();
 
-        if(this.state.businessCanceled){
-            return(
-                <Redirect to="/profile"/>
-            )
-        }
-
         const appointments = Array.from(this.state.data);
         return(
 

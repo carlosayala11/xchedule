@@ -129,7 +129,7 @@ class NavigationBar extends Component{
             <div className="navigation-bar-container">
                 <Menu>
                     <span>                    
-                        <i class="fas fa-user-circle profile-icon"></i>
+                        <i className="fas fa-user-circle profile-icon"></i>
                     </span>
                     <p className="user-name">{this.state.fullname}</p>
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>

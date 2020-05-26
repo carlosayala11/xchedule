@@ -21,6 +21,10 @@ def hello_world():
 
 #-----Services-----
 
+@app.route('/business/services/all')
+def getServicesByBusinessId():
+    return servicesHandler().getServicesByBusinessId(request.args.get('id'))
+
 
 @app.route('/services/hours')
 def getHours():
@@ -114,9 +118,9 @@ def getBusinessByUserId(uid):
     else:
         return jsonify(Error = "Method not allowed"), 405
 
-@app.route('/business/<int:bid>/services')
-def getServicesByBusinessId(bid):
-    return BusinessHandler().getServicesByBusinessId(bid)
+# @app.route('/business/<int:bid>/services')
+# def getServicesByBusinessId(bid):
+#     return BusinessHandler().getServicesByBusinessId(bid)
 
 
 @app.route('/business/appointments')

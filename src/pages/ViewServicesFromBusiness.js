@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import NavigationBar from "../components/NavigationBar";
 import '../styles/AllServices.css'
+import '../styles/App.css'
 import {Button, Card, CardTitle} from 'reactstrap';
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
@@ -83,7 +84,7 @@ class ViewServicesFromBusiness extends Component{
                 <p className="type">{service.servicetype}</p>
                 <p className="details">Service Details:</p>
                 <p className="info">{service.servicedetails}</p>
-                <Button onClick={() => this.deleteService(service.sid)}>Delete</Button>
+                <Button className="app-btn" onClick={() => this.deleteService(service.sid)}>Delete</Button>
             </Card>
         );
 

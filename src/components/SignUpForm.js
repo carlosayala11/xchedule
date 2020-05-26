@@ -59,7 +59,7 @@ class SignUpForm extends Component{
                     isowner: false
                 }
                 console.log(user)
-                axios.post("https://localhost:5000/users/insert", user).then((res)=>{
+                axios.post("http://localhost:5000/users/insert", user).then((res)=>{
                     this.setState({userSignedUp:true})
                  console.log(res)
                 }).catch((err)=>{

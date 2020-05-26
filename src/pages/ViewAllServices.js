@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import NavigationBar from "../components/NavigationBar";
 import '../styles/AllServices.css'
+import '../styles/App.css'
 import {Button, Card, CardTitle} from 'reactstrap';
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
@@ -75,7 +76,7 @@ class ViewAllServices extends Component{
                 <p className="type">{service.servicetype}</p>
                 <p className="details">Service Details:</p>
                 <p className="info">{service.servicedetails}</p>
-                <Button onClick={() => this.passServiceId(service.sid)}>Schedule</Button>
+                <Button className="app-btn" onClick={() => this.passServiceId(service.sid)}>Schedule</Button>
             </Card>
         );
 
