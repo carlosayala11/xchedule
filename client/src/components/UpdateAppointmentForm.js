@@ -58,45 +58,47 @@ class UpdateAppointmentForm extends Component{
         event.preventDefault();
         var aid = sessionStorage.getItem('aid');
         console.log(aid);
-        console.log(moment(this.state.start,'HH:mm'));
-        console.log(moment(this.state.end,'HH:mm'));
-        var id = firebase.auth().currentUser.uid;
+        console.log(moment(this.state.start,'HH:mm').hour());
+        console.log(moment(this.state.end, 'HH:mm').hour());
+        var uid = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
+        console.log(moment(startTime, 'YYYY-MM-DDTHH:mm').hour());
         const durationInMinutes = this.state.duration;
         const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
-        console.log(moment(startTime,'HH:mm'));
-        console.log(moment(endTime,'HH:mm'));
-        if(moment(startTime,'HH:mm') < moment(this.state.start,'HH:mm')){
-            this.setState({errorMessage: 'Invalid Start Time: Earlier than allowed'})}
-        if(moment(startTime,'HH:mm') > moment(this.state.end,'HH:mm')){
-            this.setState({errorMessage: 'Invalid Start Time: Later than allowed'})}
-        if(moment(endTime,'HH:mm') < moment(this.state.start,'HH:mm')){
-            this.setState({errorMessage: 'Invalid End Time: Earlier than allowed'})}
-        if(moment(endTime,'HH:mm') > moment(this.state.end,'HH:mm')){
-            this.setState({errorMessage: 'Invalid End Time: Later than allowed'})}
+        console.log(moment(endTime, 'YYYY-MM-DDTHH:mm').hour());
+        if(moment(startTime, 'YYYY-MM-DDTHH:mm').hour() < moment(this.state.start,'HH:mm').hour()){
+            return this.setState({errorMessage: 'Invalid Start Time: Earlier than allowed'});}
+        else if(moment(startTime, 'YYYY-MM-DDTHH:mm').hour() >= moment(this.state.end, 'HH:mm').hour()) {
+            return this.setState({errorMessage: 'Invalid Start Time: Later than allowed'});}
+        else if(moment(endTime, 'YYYY-MM-DDTHH:mm').hour() < moment(this.state.start,'HH:mm').hour()){
+            return this.setState({errorMessage: 'Invalid End Time: Earlier than allowed'});}
+        else if(moment(endTime, 'YYYY-MM-DDTHH:mm').hour()>= moment(this.state.end, 'HH:mm').hour()){
+            return this.setState({errorMessage: 'Invalid End Time: Later than allowed'});}
+         else {
+            //this.setState({endDate:endTime})
+            console.log("Start time: " + startTime)
+            console.log("End Time:" + endTime)
 
-        //this.setState({endDate:endTime})
-        console.log("Start time: " + startTime)
-        console.log("End Time:" + endTime)
-        var appointment = {
-                   aid: aid,
-                   pending: true,
-                   completed: false,
-                   canceled: false,
-                   duration: durationInMinutes,
-                   startDate: startTime,
-                   endDate: endTime
-                }
+            var appointment = {
+                aid: aid,
+                pending: true,
+                completed: false,
+                canceled: false,
+                duration: durationInMinutes,
+                startDate: startTime,
+                endDate: endTime
+            }
 
-                console.log(appointment)
-        axios.put('http://127.0.0.1:5000/appointment/update', appointment).then((res)=>{
-                 console.log(res)
-                }).catch((error) => {
+            console.log(appointment)
+            axios.put('http://127.0.0.1:5000/appointment/update', appointment).then((res) => {
+                console.log(res)
+            }).catch((error) => {
                 this.setState({errorMessage: error.message})
                 this.setState({errorCode: error.code})
-        });
-        sessionStorage.clear();
-        this.props.history.push('/home');
+            });
+            sessionStorage.clear();
+            this.props.history.push('/home');
+        }
     }
     renderErrorMessage(){
         if(this.state.errorMessage){
