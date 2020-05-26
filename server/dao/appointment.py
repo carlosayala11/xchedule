@@ -56,6 +56,15 @@ class AppointmentsDAO:
             result.append(row)
         return result
 
+    def validateHours(self, sdate, edate, sid, uid):
+        cursor = self.conn.cursor()
+        query = "select aid from appointments natural inner join requests natural inner join schedules where ((sdate between %s and %s) or (edate between %s and %s)) and canceled = false and completed = false and sid=%s and uid=%s;"
+        cursor.execute(query, (sdate,edate,sdate,edate,sid,uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
     def getAppointmentsByUserId(self, uid):
         cursor = self.conn.cursor()
         query = "select aid, sdate, duration, pending, completed, canceled, edate, servicetype  from appointments natural inner join schedules natural inner join requests natural inner join services where uid=%s and canceled = false and completed=false;"

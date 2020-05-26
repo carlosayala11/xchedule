@@ -43,7 +43,6 @@ class AppointmentsHandler:
             return jsonify(Error="Unexpected attributes in appointment request"), 400
 
     def updateAppointmentJson(self, json):
-        print(json)
         duration = json['duration']
         date = json['startDate']
         pending = json['pending']
@@ -110,6 +109,19 @@ class AppointmentsHandler:
             result['serviceType'] = row[7]
             result_list.append(result)
         return jsonify(Appointments=result_list)
+
+    def validateHours(self, sdate, edate, sid, uid):
+        dao = AppointmentsDAO()
+        appointments_list = dao.validateHours(sdate, edate, sid, uid)
+        result_list = []
+        for row in appointments_list:
+            result={}
+            result['aid'] = row[0]
+            result_list.append(result)
+        if len(result_list) >0:
+            return jsonify(True)
+        else:
+            return jsonify(False)
 
     def getCanceledAppointmentsByUserId(self, uid):
         dao = AppointmentsDAO()

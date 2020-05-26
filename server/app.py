@@ -169,6 +169,10 @@ def getAppointmentsByUserId():
 def getCanceledAppointmentsByUserId():
     return AppointmentsHandler().getCanceledAppointmentsByUserId(request.args.get('id'))
 
+@app.route('/validate', methods=['GET'])
+def validateHours():
+    return AppointmentsHandler().validateHours(request.args.get('sdate'),request.args.get('edate'),request.args.get('sid'),request.args.get('uid'))
+
 
 @app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])
 def getAppointmentById(aid):
