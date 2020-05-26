@@ -172,15 +172,7 @@ class UserForm extends Component{
                             </Input>
                   </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form action="/business">
-                    <button type="submit">Create a Business</button>
-                    </Form>
-                    <Form action="/business/update">
-                    <button type="submit">Update Business</button>
-                    </Form>
-                    <Form>
-                    <button type="submit" onClick={this.onDelete.bind(this)}>Delete Business</button>
-                    </Form>
+                    
                     {this.renderErrorMessage()}
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                

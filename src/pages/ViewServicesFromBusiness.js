@@ -40,7 +40,7 @@ class ViewServicesFromBusiness extends Component{
     getServicesByBusinessID = () => {
         var id = sessionStorage.getItem('bid');
         console.log(id);
-        axios.get('http://localhost:5000/business/services/all', {
+        axios.get('http://127.0.0.1:5000/business/services/all', {
             params: {
                 id: id
             }

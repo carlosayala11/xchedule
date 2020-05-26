@@ -108,6 +108,19 @@ class NavigationBar extends Component{
         }
     }
 
+    renderViewOrCreateBusiness(){
+        if(this.state.businessExists){
+            return (<div className="manage-business-container">
+                <p className="manage-business">Manage Business</p>
+                <span>
+                <i class="fas fa-store business-icon"></i>
+                    <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
+                </span>
+            </div>)
+        }
+    }
+    
+
     render(){
         if (this.state.signedOut) {
             return <Redirect to='/login'/>;
@@ -122,6 +135,7 @@ class NavigationBar extends Component{
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>
+                    {this.renderViewOrCreateBusiness()}
                     {this.renderProfileOrLogin()}
                 </Menu>
             </div>
