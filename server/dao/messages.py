@@ -25,8 +25,8 @@ class MessagesDAO:
 
     def getChatsByUserId(self, uid):
         cursor = self.conn.cursor()
-        query = "select distinct messages.bid, bname from messages, business where messages.uid = %s and business.bid = messages.bid;"
-        cursor.execute(query, (uid,))
+        query = "select distinct messages.bid, bname from messages, business where messages.uid = %s and business.bid = messages.bid except (select distinct bid, bname from messages natural join business where uid = %s);"
+        cursor.execute(query, (uid, uid))
         result = []
         for row in cursor:
             result.append(row)
@@ -60,8 +60,8 @@ class MessagesDAO:
 
     def getChatsByBusinessId(self, bid):
         cursor = self.conn.cursor()
-        query = "select distinct messages.uid, full_name from messages, users where messages.bid = %s and messages.uid = users.uid;"
-        cursor.execute(query, (bid,))
+        query = "select distinct messages.uid, full_name from messages, users where messages.bid = %s and messages.uid = users.uid except (select uid, full_name from business natural inner join users where bid=%s);"
+        cursor.execute(query, (bid, bid,))
         result = []
         for row in cursor:
             result.append(row)
