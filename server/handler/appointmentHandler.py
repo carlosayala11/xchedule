@@ -77,8 +77,9 @@ class AppointmentsHandler:
     def getAppointmentsByUserId(self, uid):
         dao = AppointmentsDAO()
         appointments_list = dao.getAppointmentsByUserId(uid)
-        result = {}
+        result_list = []
         for row in appointments_list:
+            result={}
             result['aid'] = row[0]
             result['startDate'] = row[1]
             result['duration'] = row[2]
@@ -87,8 +88,8 @@ class AppointmentsHandler:
             result['canceled'] = row[5]
             result['endDate'] = row[6]
             result['serviceType'] = row[7]
-
-        return jsonify(AppointmentsList=result)
+            result_list.append(result)
+        return jsonify(Appointments=result_list)
 
     def getRoute(self, bid, uid):
         dao = AppointmentsDAO()
