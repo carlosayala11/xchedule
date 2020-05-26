@@ -1,4 +1,4 @@
-.all-business-page{
+.all-services-page{
     display:flex;
     flex-direction:column;
     background-color:#f3f3f3;
@@ -21,7 +21,7 @@
 
 .card{
     width:250px;
-    height:425px;
+    height:300px;
     display:flex;
     margin-left:25px;
     margin-right:25px;
@@ -30,33 +30,16 @@
     overflow: hidden;
 }
 
-.working-hours{
+.type{
+    font-size: 30px;
+}
+
+.details{
     font-size: 20px;
 }
 
-.hours{
-    font-size:16px;
+.info{
+    font-size:15px;
     font-weight:bold;
 }
 
-.working-days{
-    font-size:16px;
-    font-weight:bold;
-}
-
-.view-business-button{
-    width:150px;
-    margin-left:auto;
-    margin-right:auto;
-    margin-bottom:25px;
-    background-color:lightskyblue;
-    padding:5px;
-    border-radius:10px;
-}
-
-.search-bar{
-    margin-top:12vh;
-    width:50%;
-    margin-left:auto;
-    margin-right:auto;
-}

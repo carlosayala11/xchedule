@@ -15,8 +15,8 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import axios from 'axios';
-import * as firebase from 'firebase';
 import moment from 'moment'
+import * as firebase from "firebase";
 
 
 // supress warning for using moment()
@@ -51,15 +51,18 @@ class BusinessCalendar extends Component{
   }
 
   getBusinessAppointments(){
-    axios.get("http://localhost:5000/business/1/appointments").then((res)=>{
-
-      this.setState({data:res.data.AppointmentsByBusinessID})
-      this.setState({renderCalendar:true})
-      console.log(this.state.data)
-
-    }).catch((err)=>{
-      console.log(err)
-    })
+    var id = firebase.auth().currentUser.uid;
+    axios.get('http://127.0.0.1:5000/business/appointments', {
+        params: {
+            id: id
+        }
+    }).then((res)=>{
+        this.setState({renderCalendar:true})
+        this.setState({data:res.data.Appointments})
+        console.log(res)
+        }).catch((error) => {
+        console.log(error)
+      });
   }
 
   //function to conditionally render the calendar or a message
@@ -75,7 +78,7 @@ class BusinessCalendar extends Component{
           <ViewState
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Week"
-          /> 
+          />
           <DayView
             startDayHour={9}
             endDayHour={18}
@@ -102,12 +105,12 @@ class BusinessCalendar extends Component{
       }
   }
 
-  
-  
+
 
   render(){
     // this is the data
-    const {data} = this.state.data;
+    const {data} = this.state;
+    console.log(data)
     //console.log('data: ', data);
     // formatted to render in the calendar
     const formattedData = data ? data.map(mapAppointmentData) : [];

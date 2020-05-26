@@ -23,7 +23,6 @@ class AppointmentsHandler:
         return result
     
     def insertAppointmentJson(self, json):
-        print(json)
         duration = json['duration']
         date = json['startDate']
         pending = json['pending']
@@ -32,9 +31,10 @@ class AppointmentsHandler:
         enddate = json['endDate']
         sid = json['sid']
         uid = json['uid']
-        if duration and date and sid and uid:
+
+        if duration and date and sid and uid and enddate:
             dao = AppointmentsDAO()
-            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid, enddate)
+            aid = dao.insert(date, duration, pending, completed, canceled, int(sid), uid, enddate)
             list = []
             list.extend((aid, duration, date, pending, completed, canceled, enddate))
             result = self.build_appointment_dict(list)
@@ -77,21 +77,27 @@ class AppointmentsHandler:
     def getAppointmentsByUserId(self, uid):
         dao = AppointmentsDAO()
         appointments_list = dao.getAppointmentsByUserId(uid)
-        result_list = []
+        result = {}
         for row in appointments_list:
-            result = self.build_appointment_dict(row)
-            result_list.append(result)
-        return jsonify(AppointmentsList=result_list)
+            result['aid'] = row[0]
+            result['startDate'] = row[1]
+            result['duration'] = row[2]
+            result['pending'] = row[3]
+            result['completed'] = row[4]
+            result['canceled'] = row[5]
+            result['endDate'] = row[6]
+            result['serviceType'] = row[7]
 
-    def getRouteFromUserToBusinessByAppointmentId(self, aid):
+        return jsonify(AppointmentsList=result)
+
+    def getRoute(self, bid, uid):
         dao = AppointmentsDAO()
-        route = dao.getRouteFromUserToBusinessByAppointmentId(aid)
+        route = dao.getRoute(bid, uid)
         result = []
         result.append(route[0][0])
         result.append(route[0][1])
         result.append(route[0][2])
         result.append(route[0][3])
-        print(result)
         return result
 
 

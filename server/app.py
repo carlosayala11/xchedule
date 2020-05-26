@@ -18,7 +18,18 @@ CORS(app)
 @app.route('/')
 def hello_world():
     return 'Welcome to XChedule!'
+
 #-----Services-----
+
+@app.route('/business/services/all')
+def getServicesByBusinessId():
+    return servicesHandler().getServicesByBusinessId(request.args.get('id'))
+
+@app.route('/services/hours')
+def getHours():
+    return servicesHandler().getHours(request.args.get('id'))
+
+
 @app.route('/services', methods=['GET', 'POST', 'PUT'])
 def getAllServices():
     if not request.args:
@@ -39,14 +50,10 @@ def updateService():
     return servicesHandler().updateService(request.json)
 
 
-@app.route('/services/<int:sid>',
-           methods=['GET', 'PUT', 'DELETE'])
-def deleteService(sid):
-    return servicesHandler().deleteService(sid)
+@app.route('/services/delete', methods=['DELETE'])
+def deleteService():
+    return servicesHandler().deleteService(request.args.get('id'))
 
-@app.route('/services/business/<int:sid>')
-def getBusinessByServiceId(sid):
-    return servicesHandler().getBusinessByServiceId(sid)
 
 #-----Users-----
 @app.route('/users', methods=['GET', 'POST', 'PUT'])
@@ -70,27 +77,14 @@ def updateUser():
     return userHandler().updateUser(request.json)
 
 @app.route('/users/<string:uid>',
-           methods=['GET', 'PUT', 'DELETE'])
+           methods=['DELETE'])
 def getUserById(uid):
-    if request.method == 'GET':
-        return userHandler().getUserById(uid)
-    elif request.method == 'PUT':
-        return userHandler().updateUser(uid, request.json)
-    elif request.method == 'DELETE':
-        return userHandler().deleteUser(uid)
-    else:
-        return jsonify(Error = "Method not allowed."), 405
-
-@app.route('/users/<int:uid>/appointments')
-def getAppointmentsByUserId(uid):
-    return userHandler().getAppointmentsByUserId(uid)
+    return userHandler().deleteUser(uid)
 
 #-----CreateBusiness-----
-@app.route('/business', methods=['GET', 'POST'])
+@app.route('/business', methods=['GET'])
 def getAllBusiness():
-    if request.method == 'POST':
-        return BusinessHandler().insertBusiness(request.json)
-    elif request.method == 'GET':
+    if request.method == 'GET':
         if not request.args:
             return BusinessHandler().getAllBusiness()
         return BusinessHandler().getBusinessByUserId(request.args.get('id'))
@@ -100,6 +94,10 @@ def getAllBusiness():
 @app.route('/business/update', methods=['PUT'])
 def updateBusiness():
     return BusinessHandler().updateBusiness(request.json)
+
+@app.route('/business/insert', methods=['POST'])
+def insertBusiness():
+    return BusinessHandler().insertBusiness(request.json)
 
 @app.route('/business/delete', methods=['DELETE'])
 def deleteBusiness():
@@ -126,32 +124,48 @@ def getServicesByBusinessId(bid):
 @app.route('/business/<int:bid>/appointments')
 def getAppointmentsByBusinessId(bid):
     return BusinessHandler().getAppointmentsByBusinessId(bid)
+@app.route('/business/appointments')
+def getAppointmentsByBusinessId():
+    return BusinessHandler().getAppointmentsByBusinessId(request.args.get('id'))
 
 @app.route('/business/top')
 def getTopBusiness():
     return BusinessHandler().getTopBusiness()
 
-@app.route('/business/<int:bid>/approve/<int:aid>')
-def approveAppointment(bid, aid):
-    return BusinessHandler().approveAppointment(bid,aid)
+@app.route('/approve')
+def approveAppointment():
+    return BusinessHandler().approveAppointment(request.args.get('id'))
+
+@app.route('/complete')
+def completeAppointment():
+    return BusinessHandler().completeAppointment(request.args.get('id'))
+
+@app.route('/cancel')
+def cancelAppointment():
+    return BusinessHandler().cancelAppointment(request.args.get('id'))
 
 @app.route('/business/<string:param>')
 def searchBusinessByPrefix(param):
     return BusinessHandler().searchBusinessByPrefix(param)
 
 #-----Appointments-----
-@app.route('/appointments', methods=['GET', 'POST', 'DELETE'])
+@app.route('/appointments', methods=['GET','DELETE'])
 def getAllAppointments():
     if request.method == 'GET' and not request.args:
         return AppointmentsHandler().getAllAppointments()
-    elif request.method == 'GET' and request.args:
-        return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
-    elif request.method == 'POST':
-        return AppointmentsHandler().insertAppointmentJson(request.json)
     elif request.method == 'DELETE':
         return AppointmentsHandler().deleteAppointment()
 
     return jsonify(Error = "Method not allowed"), 405
+
+@app.route('/appointment/insert', methods=['POST'])
+def insertAppointment():
+    return AppointmentsHandler().insertAppointmentJson(request.json)
+
+@app.route('/appointments/user', methods=['GET'])
+def getAppointmentsByUserId():
+    return AppointmentsHandler().getAppointmentsByUserId(request.args.get('id'))
+
 
 @app.route('/appointments/<int:aid>', methods=['GET', 'DELETE'])
 def getAppointmentById(aid):
@@ -167,11 +181,11 @@ def getAppointmentsByServiceId(sid):
     return AppointmentsHandler().getAppointmentsByServiceId(sid)
 
 
-@app.route('/appointments/<int:aid>/route')
-def getRouteFromUserToBusinessByAppointmentId(aid):
+@app.route('/route/<int:bid>/<string:uid>')
+def getRoute(bid,uid):
     api_key = "AIzaSyCeHf-jcEx21QPuV7BZOUOukikZ-bQYxDA"
     google = GoogleMaps(api_key)
-    route = AppointmentsHandler().getRouteFromUserToBusinessByAppointmentId(aid)
+    route = AppointmentsHandler().getRoute(bid, uid)
     originaddress = route[0] + ', ' + route[1]
     destaddress = route[2] + ', ' + route[3]
     geocode_origin_result = google.geocode(originaddress)

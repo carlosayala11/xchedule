@@ -12,15 +12,13 @@ import {
   DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import { withStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
 import * as firebase from 'firebase';
 import moment from 'moment'
 
-
 // supress warning for using moment()
 moment.suppressDeprecationWarnings = true;
+
 
 const mapAppointmentData = appointment => ({
   startDate: appointment.startDate,
@@ -62,7 +60,7 @@ class Calendar extends Component{
           <ViewState
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Week"
-          /> 
+          />
           <DayView
             startDayHour={9}
             endDayHour={18}
@@ -95,23 +93,23 @@ class Calendar extends Component{
     firebase.auth().onAuthStateChanged((user) =>{
       if (user) {
         // User is signed in.  get their appointments
-        axios.get('https://xchedule-api.herokuapp.com/appointments',{
-          params: {
-              id: firebase.auth().currentUser.uid
+            var id = firebase.auth().currentUser.uid;
+            axios.get('http://127.0.0.1:5000/appointments/user', {
+                params: {
+                    id: id
+                }
+            }).then((res)=>{
+                this.setState({renderCalendar:true})
+                this.setState({data:res.data.AppointmentsList})
+                console.log(res)
+                }).catch((error) => {
+                console.log(error)
+              });
           }
-        })
-        .then((res)=>{
-        //change data to hold the appointment data, calendar should be rendered to change that state too
-        this.setState({data: res.data.AppointmentsList})
-        this.setState({renderCalendar:true})
-          //console.log(this.state.data)
-        }).catch((err)=>{
-          console.log(err)
-        })
-      } else {
-        // No user is signed in.
-        console.log("No user logged in.")
-      }
+      else {
+            // No user is signed in.
+            console.log("No user logged in.")
+          }
     });
   }
   
@@ -119,10 +117,10 @@ class Calendar extends Component{
   render(){
     // this is the data
     const {data} = this.state;
-    //console.log('data: ', data);
+    console.log('data: ', data);
     // formatted to render in the calendar
     const formattedData = data ? data.map(mapAppointmentData) : [];
-    //console.log('formatted: ', formattedData);
+    console.log('formatted: ', formattedData);
     //conditionally render the calendar
     return(
       <div>

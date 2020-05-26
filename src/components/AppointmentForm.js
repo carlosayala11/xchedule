@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
+import {Button, Input, Label, FormGroup, Form} from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
@@ -12,101 +12,100 @@ class AppointmentForm extends Component{
     constructor(){
         super();
         this.state={
-            bid:'',
-            sid:'',
             date: '',
-            start:'',
-            end:'',
             duration:'',
             completed:'',
             pending:'',
             canceled:'',
             endDate:'',
-            services: [],
-            business: []
+            start:'',
+            end:''
         };
     }
 
-    getServicesByBusiness = (event) =>{
-        event.preventDefault();
-        this.setState({
-            [event.target.name]: event.target.value
+    getHours = () =>{
+        var id = sessionStorage.getItem('sid');
+        console.log(id);
+        axios.get('http://127.0.0.1:5000/services/hours',{
+            params: {
+                id: id
+            }
         })
-        axios.get(`http://localhost:5000/business/${this.state.bid}/services
-        `)
       .then(res => {
           console.log(res.data)
         this.setState({
-          services: res.data.ServicesByBusinessID
-        })
-      })
+          start: res.data.Service.starttime
+        });
+        this.setState({
+          end: res.data.Service.endtime
+        });
+      });
     }
     onInputChange = (event) => {
         event.preventDefault();
+        console.log(event.target.value);
         this.setState({
             [event.target.name]: event.target.value
         })
-  }
-
-    getHours = (event) => {
-        event.preventDefault();
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-        axios.get(`http://localhost:5000/services/business/${this.state.sid}`)
-      .then(res => {
-          console.log(res.data)
-        this.setState({
-          start: res.data.BusinessHours.starttime
-        })
-          this.setState({
-          end: res.data.BusinessHours.endtime
-        })
-      })
     }
-    getAllBusiness = () => {
-    axios.get(`http://localhost:5000/business`)
-      .then(res => {
-          console.log(res.data)
-        this.setState({
-          business: res.data.BusinessList
-        })
-      })
-  }
+    componentDidMount(){
+        this.getHours();
+
+      }
+
     onSubmit = (event) => {
         event.preventDefault();
-        // const {dt, duration, pending, completed, canceled, sid, uid} = this.state
+        var sid = sessionStorage.getItem('sid');
+        console.log(sid);
+        console.log(moment(this.state.start,'hh:mm'));
+        console.log(moment(this.state.end,'hh:mm'));
         var id = firebase.auth().currentUser.uid;
         const startTime = this.state.dt;
         const durationInMinutes = this.state.duration;
+        const endTime = moment(startTime, 'YYYY-MM-DDThh:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDThh:mm');
+        console.log(moment(startTime,'hh:mm'));
+        console.log(moment(endTime,'hh:mm'));
+        if(moment(startTime,'hh:mm') < moment(this.state.start,'hh:mm')){
+            this.setState({errorMessage: 'Invalid Start Time: Earlier than allowed'})}
+        if(moment(startTime,'hh:mm') > moment(this.state.end,'hh:mm')){
+            this.setState({errorMessage: 'Invalid Start Time: Later than allowed'})}
+        if(moment(endTime,'hh:mm') < moment(this.state.start,'hh:mm')){
+            this.setState({errorMessage: 'Invalid End Time: Earlier than allowed'})}
+        if(moment(endTime,'hh:mm') > moment(this.state.end,'hh:mm')){
+            this.setState({errorMessage: 'Invalid End Time: Later than allowed'})}
 
-        const endTime = moment(startTime, 'YYYY-MM-DDTHH:mm').add(durationInMinutes, 'minutes').format('YYYY-MM-DDTHH:mm');
         //this.setState({endDate:endTime})
         console.log("Start time: " + startTime)
         console.log("End Time:" + endTime)
+        var appointment = {
+                   uid: id,
+                   sid: sid,
+                   pending: true,
+                   completed: false,
+                   canceled: false,
+                   duration: durationInMinutes,
+                   startDate: startTime,
+                   endDate: endTime
+                }
 
-        //falta cambiar la tabla de appointments para fit con este POST
-        axios.post('https://xchedule-api.herokuapp.com/appointments', {
-            startDate: this.state.dt,
-            endDate: endTime,
-            duration: this.state.duration,
-            completed: 'False',
-            pending: 'True',
-            canceled: 'False',
-            sid: 1,
-            uid: id
-        }).then(function(response){
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
+                console.log(appointment)
+        axios.post('http://127.0.0.1:5000/appointment/insert', appointment).then((res)=>{
+                 console.log(res)
+                }).catch((error) => {
+                this.setState({errorMessage: error.message})
+                this.setState({errorCode: error.code})
         });
+        sessionStorage.clear();
         this.props.history.push('/home');
     }
+    renderErrorMessage(){
+        if(this.state.errorMessage){
+            console.log(this.state.errorMessage)
+            return <p className="login-error-message">{this.state.errorMessage}</p>}
 
+        }
     render(){
-        this.getAllBusiness();
-        const {date, duration, sid, bid } = this.state;
+        const {date, duration, bname, serviceType } = this.state;
         var dt;
         return(
             <div className="form-container">
@@ -119,13 +118,12 @@ class AppointmentForm extends Component{
                         name="date"
                         value={date}
                         onChange={date => {
-                            dt = moment(date[0]).format('YYYY-MM-DDTHH:mm');
+                            dt = moment(date[0]).format('YYYY-MM-DDThh:mm');
                             // console.log(dt)
                             this.setState({ dt });
                           }}
                     />
                     </div>
-
                 <FormGroup>
                     <Label for="duration">Duration (in minutes)</Label>
                     <Input name="duration" type="select" value={this.state.duration} onChange={this.onInputChange}>
@@ -138,6 +136,7 @@ class AppointmentForm extends Component{
                 </FormGroup>
                 </form>
                 <Button className="appointment-button" color="primary" onClick={this.onSubmit.bind(this)}>Schedule</Button>{' '}
+                {this.renderErrorMessage()}
             </div>
 
 

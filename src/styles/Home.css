@@ -43,13 +43,13 @@
 }
 
 .card-title{
-    font-size:28px;
+    font-size:24px;
     font-weight: bold;
     padding:10px;
 }
 
 .card-body{
-    font-size:22px;
+    font-size:18px;
     font-weight: bold;
 }
 
@@ -65,4 +65,11 @@
 
 .home-bottom-container{
     margin-top:30px;
+}
+
+.business-modal{
+    display: flex;
+    text-align: center;
+    margin-top: 10vh;
+    padding-bottom: 30vh;
 }

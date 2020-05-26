@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
-import logo_black_circle from "../logo_black_circle.png";
+//import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
 import Slideshow from "../components/Carousel";
 import Calendar from "../components/Calendar"
 import NavigationBar from '../components/NavigationBar'
-import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form} from 'reactstrap'
+import CreateBusinessForm from '../components/CreateBusinessForm'
+import UpddateBusinessForm from '../components/UpdateBusinessForm'
+import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form,
+         Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 var axios = require('axios');
+var firebase = require('firebase');
 
 class Home extends Component{
-    constructor(){
+    constructor(){ 
         super();
         this.state={
             bid1:'',
@@ -19,16 +23,38 @@ class Home extends Component{
             bname3:'',
             total1:'',
             total2:'',
-            total3:''
+            total3:'',
+            modal: false,
+            isOwner: false,
+            loggedIn:false,
+            labelName:''
         }
+        this.toggle = this.toggle.bind(this);
 
         this.getBusinessList = this.getBusinessList.bind(this)
     }
 
     componentDidMount(){
         this.getBusinessList();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              this.checkIfIsOwner();
+              this.getBusinessList();
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
     }
-     getBusinessList() {
+
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
+    getBusinessList() {
         axios.get('http://localhost:5000/business/top')
         .then(res => {
             var bus = res.data.TopBusinessList;
@@ -47,7 +73,57 @@ class Home extends Component{
             console.log(error);
         });
     }
+
+    checkIfIsOwner(){
+        var id = firebase.auth().currentUser.uid;
+        console.log(this.state.id);
+        axios.get('http://localhost:5000/users',{
+            params: {
+                id: id
+            }
+        })
+        .then(res => {
+            var user = res.data.User;
+            console.log("user",user);
+            this.setState({isOwner: user.isOwner})
+            if (this.state.isOwner){
+                this.state.labelName = 'Update Business';
+            }
+            else{
+                this.state.labelName = 'Create Business';
+            }
+            console.log('owner',this.state.isOwner)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    renderBusinessForm(){
+        if (!this.state.isOwner){
+           // console.log(this.state.isOwner);
+            return <CreateBusinessForm></CreateBusinessForm>
+        }
+        else{
+            return <UpddateBusinessForm></UpddateBusinessForm>
+        }
+    }
+
+    // componentDidMount(){
+    //     firebase.auth().onAuthStateChanged((user) => {
+    //         if (user) {
+    //           // User is signed in.
+    //           this.checkIfIsOwner();
+    //           this.getBusinessList();
+    //         } else {
+    //             console.log("no user")
+    //           // No user is signed in.
+    //         }
+    //       });
+    // }
+
     render(){
+        //this.getBusinessList();
         return(
             <div className="home-page">
                 <NavigationBar/>
@@ -65,13 +141,31 @@ class Home extends Component{
                     <Container className="home-bottom-container">
                         <Row>
                             <Col sm="8">
-                                <p className="card-title">Today's Appointments</p>
-                                <div className="calendar">
-                                    <Calendar></Calendar>
-                                </div>
-                                
+                                    <p className="card-title">Today's Appointments</p>
+                                    <div className="calendar">
+                                        <Calendar></Calendar>
+                                    </div>
                             </Col>
                             <Col sm="4">
+                                <Card>
+                                    {/* Manage/Create Business Modal */}
+                                    <CardTitle className="card-title">Manage your Business</CardTitle>
+                                    <CardBody>
+                                        <CardText>
+                                            <Button onClick={this.toggle}>{this.state.labelName}</Button>
+                                            <Modal modalClassName="business-modal" isOpen={this.state.modal} toggle={this.toggle}>
+                                                <ModalHeader toggle={this.toggle}>{this.state.labelName}</ModalHeader>
+                                                <ModalBody>
+                                                    {this.renderBusinessForm()}
+                                                </ModalBody>
+                                                <ModalFooter>
+                                                    {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                                                    <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                                                </ModalFooter>
+                                            </Modal>
+                                        </CardText>
+                                    </CardBody>
+                                </Card>
                                 <Card>
                                     <CardTitle className="card-title">Top Businesses</CardTitle>
                                     <CardBody>
@@ -86,10 +180,7 @@ class Home extends Component{
                             </Col>
                         </Row>
                     </Container>
-                    
                 </div>
-                
-
             </div>
         )
     }

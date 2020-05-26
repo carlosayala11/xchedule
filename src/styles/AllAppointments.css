@@ -1,4 +1,4 @@
-.all-business-page{
+.all-appointments-page{
     display:flex;
     flex-direction:column;
     background-color:#f3f3f3;
@@ -20,8 +20,8 @@
 }
 
 .card{
-    width:250px;
-    height:425px;
+    width:300px;
+    height:auto;
     display:flex;
     margin-left:25px;
     margin-right:25px;
@@ -31,11 +31,11 @@
 }
 
 .working-hours{
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .hours{
-    font-size:16px;
+    font-size:14px;
     font-weight:bold;
 }
 

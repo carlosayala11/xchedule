@@ -1,13 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  Redirect
 } from "react-router-dom";
 import Login from './pages/Login.js'
 import LandingPage from './pages/LandingPage.js'
@@ -21,6 +18,12 @@ import ManageBusiness from './pages/ManageBusiness.js'
 import ViewBusiness from './pages/ViewBusiness.js'
 
 import Search from './pages/Search.js'
+//import ViewBusiness from './pages/ViewBusiness.js'
+import AddService from './pages/AddService.js'
+import ViewAllServices from './pages/ViewAllServices.js'
+import ViewAllAppointments from './pages/ViewAllAppointments.js'
+import ViewServicesFromBusiness from './pages/ViewServicesFromBusiness.js'
+
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -68,6 +71,23 @@ function App() {
           </Route>
           <Route exact path="/business/search">
             <Search />
+          <Route exact path="/business/manage">
+            <ManageBusiness />
+          </Route>
+          {/*<Route exact path="/business/details">
+            <ViewBusiness />
+          </Route>*/}
+          <Route exact path="/service/create">
+            <AddService />
+          </Route>
+          <Route exact path="/service/all">
+            <ViewAllServices />
+          </Route>
+          <Route exact path="/business/appointments">
+            <ViewAllAppointments />
+          </Route>
+          <Route exact path="/business/services">
+            <ViewServicesFromBusiness />
           </Route>
           <Route exact path="/business/manage">
             <ManageBusiness />
