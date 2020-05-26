@@ -23,7 +23,7 @@ class LandingPage extends Component{
         return(
             <div className="landing-page">
                 <div className="jumbotron-segment">
-                    <p className="jumbotron-title">Welcome to X-Chedule</p>
+                    <p className="jumbotron-title">Welcome to Xchedule</p>
                     <p className="jumbotron-description">The easy-to-use tool for making appointment at your favorite businesses</p>
                     <div className="jumbotron-buttons-div">
                         <NavLink to="/login"> <Button className="jumbotron-login-button">Returning User? Login.</Button> </NavLink>
@@ -36,9 +36,8 @@ class LandingPage extends Component{
                     <p className="segment-title">How it works?</p>
                     <div className="about-container">
                         <div class="about-text">
-                            <p className="about-description-title">SEARCH --</p>
-                            <p className="about-description">for your favorite bussiness on the platform.</p>
-                            <Button className="about-button">Some Action Button</Button>
+                            <p className="about-description-title">SEARCH -</p>
+                            <p className="about-description">for your favorite bussiness on the platform.  With Xchedule you can find many local businesses that have decided to improve their workflow by adding this platform to help with their appointment management. </p>
 
                         </div>
                         <img className="about-img" src="https://via.placeholder.com/150x150"></img>
@@ -46,22 +45,24 @@ class LandingPage extends Component{
 
                     <div className="about-container">
                         <img className="about-img" src="https://via.placeholder.com/150x150"></img>
+
                         <div class="about-text">
-                            <p className="about-description-title">SAVE -- </p>
-                            <p className="about-description">your appointment and see it on your calendar</p>
-                            <Button className="about-button">Some Action Button</Button>
+                            <p className="about-description-title">SCHEDULE -</p>
+                            <p className="about-description">your appointment on the available time slots.  See what time works best for you and secure that time slot for your appointment.</p>
+
                         </div>
                     </div>
 
                     <div className="about-container">
                         <div class="about-text">
-                            <p className="about-description-title">OTRA PALABRA--</p>
-                            <p className="about-description">otra descripcion pa poner aqui</p>
-                            <Button className="about-button">Some Action Button</Button>
-
+                            <p className="about-description-title">SAVE - </p>
+                            <p className="about-description">time by no more waiting on the phone on hold for someone to take your appointment.  See all your appointments in one place.</p>
                         </div>
                         <img className="about-img" src="https://via.placeholder.com/150x150"></img>
+
                     </div>
+
+                    
                     
                 </div>
 
@@ -94,6 +95,10 @@ class LandingPage extends Component{
                         </div>
                     </div>
                    
+                </div>
+                <div>
+                    <h1>Our Purpose</h1>
+                    <p>The purpose of this application is to create a solution for not only small businesses, but anyone that has the need to manage appointments to be able to do so in an efficient manner.  This idea was created for our Capstone Project in the University of Puerto Rico - Mayagüez for the Computer Science and Engineering and Software Engineering degrees. </p>
                 </div>
             </div>
 

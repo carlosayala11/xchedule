@@ -24,7 +24,8 @@ class NavigationBar extends Component{
             username:"",
             popoverOpen:false,
             businessExists: false,
-            signedOut:false
+            signedOut:false,
+            user:''
         }   
     }
 
@@ -33,14 +34,21 @@ class NavigationBar extends Component{
             if (user) {
                 // console.log(user)
                 this.setState({username:user.email, loggedIn:true})
+                const userQuery = "http://localhost:5000/users/"+user.uid
                 const query = "http://localhost:5000/business/user/" + user.uid
                 axios.get(query).then((res)=>{
-                    console.log(res.data.Business)
                     this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
                 }).catch((err)=>{
                     console.log(err)
                 })
 
+                axios.get(userQuery).then((res)=>{
+                    console.log(res.data.User)
+                    this.setState({user:res.data.User})
+                }).catch((err)=>{
+                    console.log(err)
+                })
+ 
               // User is signed in.
             } else {
                 console.log("no user")
@@ -67,12 +75,20 @@ class NavigationBar extends Component{
 
     renderViewOrCreateBusiness(){
         if(this.state.businessExists){
-            return (<div>
-                <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
+            return (<div className="manage-business-container">
+                <p className="manage-business">Manage Business</p>
+                <span>
+                <i class="fas fa-store business-icon"></i>
+                    <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
+                </span>
             </div>)
         }else{
-            return (<div>
-                <NavLink className="burger-menu-item" to="/business/create">+ Add Business</NavLink>
+            return (<div className="manage-business-container">
+                <p className="manage-business">Manage Business</p>
+                <span>
+                    <i class="fas fa-plus-circle business-icon"></i>
+                    <NavLink className="burger-menu-item" to="/business/create">+ Add Business</NavLink>
+                </span>
             </div>)
         }
     }
@@ -80,11 +96,11 @@ class NavigationBar extends Component{
     renderProfileOrLogin(){
         if(this.state.loggedIn){
             return (<div>
-                <Button color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
+                <Button className="signout-button" color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
             </div>)
-        }else{
-            return 
-
+        }
+        if(this.state.signedOut){
+            return <Redirect to="/login"></Redirect>
         }
     }
 
@@ -95,7 +111,8 @@ class NavigationBar extends Component{
         return(
             <div className="navigation-bar-container">
                 <Menu>
-                    
+                    <img className="business-img" src="https://via.placeholder.com/150x150"></img>
+                    <p className="user-name">{this.state.user.fullname}</p>
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>

@@ -88,7 +88,7 @@ class ViewAllBusiness extends Component{
         const businesses = Array.from(this.state.filtered);
         const listItems = businesses.map((business) =>
             <Card key={business.bid}>
-                <img className="business-img" src="https://via.placeholder.com/150x150"></img>
+                <img className="business-img" alt="" src="https://via.placeholder.com/150x150"/>
                 <CardTitle>{business.bname}</CardTitle>
                 <p className="working-hours">Working Hours:</p>
                 <p className="hours">{business.sworkingHours} - {business.eworkingHours}</p>
