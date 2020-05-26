@@ -17,7 +17,8 @@ class ViewAllAppointments extends Component{
             data: '',
             businessCanceled:false,
             businessCompleted:false,
-            businessApproved:false
+            businessApproved:false,
+            loggedIn:false
         }
         this.cancelAppointment = this.cancelAppointment.bind(this)
         this.completeAppointment = this.completeAppointment.bind(this)
@@ -26,7 +27,17 @@ class ViewAllAppointments extends Component{
 
     componentDidMount(){
         this.getAppointmentsByBusinessId();
-      }
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in.
+                
+                this.setState({loggedIn:true})
+            } else {
+                console.log("no user")
+                // No user is signed in.
+            }
+            });
+        }
 
     getAppointmentsByBusinessId = () => {
         var id = firebase.auth().currentUser.uid;
@@ -85,6 +96,9 @@ class ViewAllAppointments extends Component{
     }
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         if(this.state.businessApproved){
             return(
                 <Redirect to="/home"/>

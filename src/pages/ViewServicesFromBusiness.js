@@ -5,6 +5,7 @@ import '../styles/AllServices.css'
 import {Button, Card, CardTitle} from 'reactstrap';
 import axios from 'axios'
 import {Redirect} from "react-router-dom";
+import * as firebase from 'firebase'
 
 
 
@@ -15,13 +16,24 @@ class ViewServicesFromBusiness extends Component{
         this.state={
             results: [],
             data: '',
-            businessSelected:false
+            businessSelected:false,
+            loggedIn:false
         }
         this.deleteService = this.deleteService.bind(this)
     }
 
     componentDidMount(){
         this.getServicesByBusinessID();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+              this.setState({loggedIn:true})
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
       }
 
     getServicesByBusinessID = () => {
@@ -55,6 +67,9 @@ class ViewServicesFromBusiness extends Component{
     }
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+          }
         if(this.state.businessSelected){
             return(
                 <Redirect to="/home"/>

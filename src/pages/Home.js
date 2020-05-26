@@ -6,6 +6,7 @@ import Calendar from "../components/Calendar"
 import NavigationBar from '../components/NavigationBar'
 import CreateBusinessForm from '../components/CreateBusinessForm'
 import UpddateBusinessForm from '../components/UpdateBusinessForm'
+import {Redirect} from 'react-router-dom'
 import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form,
          Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 var axios = require('axios');
@@ -41,6 +42,7 @@ class Home extends Component{
               // User is signed in.
               this.checkIfIsOwner();
               this.getBusinessList();
+              this.setState({loggedIn:true})
             } else {
                 console.log("no user")
               // No user is signed in.
@@ -123,6 +125,9 @@ class Home extends Component{
     // }
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         //this.getBusinessList();
         return(
             <div className="home-page">

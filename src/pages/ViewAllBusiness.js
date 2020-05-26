@@ -6,6 +6,7 @@ import '../styles/AllBusiness.css'
 import {Redirect} from 'react-router-dom'
 import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import axios from 'axios'
+import * as firebase from 'firebase'
 
 
 
@@ -17,13 +18,24 @@ class ViewAllBusiness extends Component{
             results: [],
             data: '',
             filtered:'',
-            businessSelected:false
+            businessSelected:false,
+            loggedIn:false
         }
         this.passBusinessId = this.passBusinessId.bind(this)
     }
 
     componentDidMount(){
         this.getAllBusiness();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+              this.setState({loggedIn:true})
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
       }
       
       getAllBusiness = () => {
@@ -79,6 +91,9 @@ class ViewAllBusiness extends Component{
 
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
 
         if(this.state.businessSelected){
             return(

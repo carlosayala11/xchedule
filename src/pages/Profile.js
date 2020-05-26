@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import '../styles/Profile.css'
 import UserForm from '../components/UserForm'
 import NavigationBar from '../components/NavigationBar'
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
+
 //import {Button, Input} from 'reactstrap';
 //import {NavLink} from "react-router-dom";
 //import logo_black_circle from "../logo_black_circle.png";
@@ -11,11 +14,27 @@ class Profile extends Component{
     constructor(){
         super();
         this.state={
+            loggedIn:false
         }
         
     }
 
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+              this.setState({loggedIn:true})
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
+    }
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         return(
             <div className="profile-page">
                 <NavigationBar></NavigationBar>

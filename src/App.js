@@ -60,17 +60,18 @@ function App() {
           <Route exact path="/appointment">
             <Appointment />
           </Route>
-            <Route exact path="/business/all">
+          <Route exact path="/business/all">
             <ViewAllBusiness />
           </Route>
           <Route exact path="/business/create">
             <CreateBusiness />
           </Route>
-            <Route exact path="/business/update">
+          <Route exact path="/business/update">
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/search">
             <Search />
+          </Route>
           <Route exact path="/business/manage">
             <ManageBusiness />
           </Route>

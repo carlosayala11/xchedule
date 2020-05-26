@@ -17,7 +17,8 @@ class ManageBusiness extends Component{
             businessData:'',
             businessSelected:false,
             businessDeleted:false,
-            servicesSelected:false
+            servicesSelected:false,
+            loggedIn:false
         }
     this.passBusinessId = this.passBusinessId.bind(this)
     this.servicesFromBusiness = this.servicesFromBusiness.bind(this)
@@ -27,6 +28,7 @@ class ManageBusiness extends Component{
     componentDidMount(){
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
+                this.setState({loggedIn:true})
                 // console.log(user)
                   axios.get('http://localhost:5000/business',{
                     params: {
@@ -70,6 +72,10 @@ class ManageBusiness extends Component{
         this.setState({servicesSelected:true})
     }
     render(){
+
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
 
         if(this.state.businessSelected){
             return(

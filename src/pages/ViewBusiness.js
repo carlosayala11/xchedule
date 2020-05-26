@@ -5,6 +5,8 @@ import '../styles/Business.css'
 //import {Link} from 'react-router-dom'
 //import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import axios from 'axios'
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
 
 
 
@@ -14,12 +16,23 @@ class ViewBusiness extends Component{
         super();
         this.state={
           bid:'',
-          businessData:''
+          businessData:'',
+          loggedIn:false
         }
 
     }
 
     componentDidMount(){
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in.
+          
+          this.setState({loggedIn:true})
+        } else {
+            console.log("no user")
+          // No user is signed in.
+        }
+      });
       this.setState({
         bid: sessionStorage.getItem('bid')
         }, () => {
@@ -41,7 +54,9 @@ class ViewBusiness extends Component{
     }
 
     render() {
-
+      if(!this.state.loggedIn){
+        return <Redirect to="/login"/>
+      }
 
         // const { data } = this.props.location.state
         return (

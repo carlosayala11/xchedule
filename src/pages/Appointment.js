@@ -5,13 +5,30 @@ import NavigationBar from '../components/NavigationBar'
 import '../styles/Appointment.css'
 //import logo_white from '../logo_white.png'
 //import logo_black from '../logo_black.png'
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
+
 
 class Appointment extends Component{
     constructor(){
         super();
         this.state={
+            loggedIn:false
         }
         
+    }
+
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+              this.setState({loggedIn:true})
+            } else {
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
     }
 
     renderForm(){
@@ -22,6 +39,9 @@ class Appointment extends Component{
 
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         return(
             <div className='appointment-page'> 
                 {/* <img src={logo_black} className="logo"/> */}

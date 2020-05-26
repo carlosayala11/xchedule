@@ -21,9 +21,6 @@ def hello_world():
 
 #-----Services-----
 
-@app.route('/business/services/all')
-def getServicesByBusinessId():
-    return servicesHandler().getServicesByBusinessId(request.args.get('id'))
 
 @app.route('/services/hours')
 def getHours():
@@ -121,9 +118,7 @@ def getBusinessByUserId(uid):
 def getServicesByBusinessId(bid):
     return BusinessHandler().getServicesByBusinessId(bid)
 
-@app.route('/business/<int:bid>/appointments')
-def getAppointmentsByBusinessId(bid):
-    return BusinessHandler().getAppointmentsByBusinessId(bid)
+
 @app.route('/business/appointments')
 def getAppointmentsByBusinessId():
     return BusinessHandler().getAppointmentsByBusinessId(request.args.get('id'))
