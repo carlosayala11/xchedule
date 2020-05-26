@@ -4,7 +4,7 @@ import ChatBox from 'react-chat-plugin';
 var axios = require('axios');
 var firebase = require('firebase');
 
-class Messages extends Component{
+class Chat extends Component{
     constructor(){ 
         super();
         this.state = {
@@ -22,14 +22,16 @@ class Messages extends Component{
                 // }
             ],
             id: '',
-            bid: 13
+            bid: 9,
+            owner: ''
         }
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               // User is signed in.
               this.setState({id: firebase.auth().currentUser.uid});
+              this.getBusinessOwner();
               this.getMessages();
-              console.log(this.state.id)
+              //console.log(this.state.id)
             } else {
                 console.log("no user")
               // No user is signed in.
@@ -38,16 +40,32 @@ class Messages extends Component{
     }
 
     getMessages(){
+        console.log(this.state.id);
+        console.log(this.state.bid);
+        console.log(this.state.owner);
         axios.get('http://localhost:5000/messages',{
             params: {
                 uid: this.state.id,
                 bid: this.state.bid,
-                owner: 'S5myZ1ZX9yVPc4IzjrSKe0mauls2'
+                owner: this.state.owner
             }
         })
         .then(res => {
             this.setState({messages: res.data.MessagesList});
             console.log(res.data.MessagesList)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    getBusinessOwner(){
+        var url = 'http://localhost:5000/business/'+this.state.bid.toString();
+        console.log(url)
+        axios.get(url)
+        .then(res => {
+            console.log(res.data.Business)
+            this.setState({owner: res.data.Business.uid});
         })
         .catch(function (error) {
             console.log(error);
@@ -60,7 +78,7 @@ class Messages extends Component{
             bid: this.state.bid,
             body: message,
             mdate: +new Date(),
-            mtype: 'text'
+            mtype: 'notification'
         }).then(function(response){
                 console.log(response);
             })
@@ -77,9 +95,15 @@ class Messages extends Component{
         });
     }
 
-    componentDidUpdate(){
-        //this.getMessages();
-    }
+    // componentDidUpdate(){
+    //     this.getBusinessOwner();
+    //     this.getMessages();
+    // }
+
+    // componentDidMount(){
+    //     this.getBusinessOwner();
+    //     this.getMessages();
+    // }
 
     render(){
         const{id} = this.state;
@@ -96,4 +120,4 @@ class Messages extends Component{
 
 }
 
-export default Messages;
+export default Chat;

@@ -18,7 +18,7 @@ import CreateBusiness from './pages/CreateBusiness.js'
 import UpdateBusiness from './pages/UpdateBusiness.js'
 import ViewAllBusiness from './pages/ViewAllBusiness.js'
 import Search from './pages/Search.js'
-import Messages from './components/Messages.js'
+import Chat from './components/Chat.js'
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -68,7 +68,7 @@ function App() {
             <Search />
           </Route>
           <Route exact path="/messages">
-            <Messages />
+            <Chat />
           </Route>
         </Switch>
       </Router>
