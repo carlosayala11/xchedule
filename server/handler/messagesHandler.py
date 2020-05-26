@@ -25,6 +25,18 @@ class MessagesHandler:
         result['timestamp'] = row[2]
         return result
 
+    def chat_dict(self, row):
+        result = {}
+        result['bid'] = row[0]
+        result['bname'] = row[1]
+        return result
+    
+    def chat_business_dict(self, row):
+        result = {}
+        result['uid'] = row[0]
+        result['full_name'] = row[1]
+        return result
+
     def getAllMessages(self):
         dao = MessagesDAO()
         messages_list = dao.getAllMessages()
@@ -36,9 +48,30 @@ class MessagesHandler:
 
     def getMessagesByUserId(self, uid):
         dao = MessagesDAO()
-        messages = dao.getMessagesByUserId(uid)
-        result = self.messages_dict(messages)
-        return jsonify(Messages=result)
+        messages_list = dao.getMessagesByUserId(uid)
+        result_list = []
+        for row in messages_list:
+            result = self.message_dict(row)
+            result_list.append(result)
+        return jsonify(MessagesList=result_list)
+
+    def getChatsByUserId(self, uid):
+        dao = MessagesDAO()
+        chat_list = dao.getChatsByUserId(uid)
+        result_list = []
+        for row in chat_list:
+            result = self.chat_dict(row)
+            result_list.append(result)
+        return jsonify(Chats=result_list)
+    
+    # def getChatsByBusinessId(self, bid):
+    #     dao = MessagesDAO()
+    #     chat_list = dao.getChatsByBusinessId(bid)
+    #     result_list = []
+    #     for row in chat_list:
+    #         result = self.chat_business_dict(row)
+    #         result_list.append(result)
+    #     return jsonify(Chats=result_list)
 
     def getMessagesByUserIdAndBusinessId(self, uid, bid, owner):
         print(uid, bid, owner)
@@ -47,6 +80,15 @@ class MessagesHandler:
         result_list = []
         for row in messages_list:
             result = self.axios_dict(row)
+            result_list.append(result)
+        return jsonify(MessagesList=result_list)
+
+    def getMessagesByBusinessId(self, uid):
+        dao = MessagesDAO()
+        messages_list = dao.getMessagesByBusinessId(uid)
+        result_list = []
+        for row in messages_list:
+            result = self.message_dict(row)
             result_list.append(result)
         return jsonify(MessagesList=result_list)
 

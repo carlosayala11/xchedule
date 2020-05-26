@@ -179,16 +179,29 @@ def getAllMessages():
     if not request.args:
         return MessagesHandler().getAllMessages()
 
-    elif request.args and request.method == 'GET':
+    elif len(request.args) == 3 and request.method == 'GET':
         print(len(request.args))
         return MessagesHandler().getMessagesByUserIdAndBusinessId(request.args.get('uid'), request.args.get('bid'), request.args.get('owner'))
     
-    elif request.method == 'POST':
-        return MessagesHandler().insert(request.json)
+    elif len(request.args) == 1 and request.method == 'GET':        
+        return MessagesHandler().getMessagesByUserId(request.args.get('uid'))
 
 @app.route('/messages/add', methods=['POST'])
 def addMessage():
     return MessagesHandler().insert(request.json)
+
+@app.route('/chats', methods=['GET'])
+def getChatsByUserId():
+    return MessagesHandler().getChatsByUserId(request.args.get('uid'))
+
+# @app.route('/messages/mybusiness', methods=['GET'])
+# def getMessagesByBusinessId():
+#     return MessagesHandler().getMessagesByBusinessId(request.args.get('bid'))
+
+@app.route('/chats/business', methods=['GET'])
+def getChatsByBusinessId():
+    print('chat')
+    return MessagesHandler().getChatsByBusinessId(request.args.get('bid'))
 
 
 if __name__ == '__main__':

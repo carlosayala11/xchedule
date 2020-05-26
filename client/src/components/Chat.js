@@ -22,15 +22,17 @@ class Chat extends Component{
                 // }
             ],
             id: '',
-            bid: 9,
-            owner: ''
+            bid: sessionStorage.getItem('openChat'),
+            owner: '',
+            business_messages: [],
+            sender: sessionStorage.getItem('senderId')
         }
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               // User is signed in.
               this.setState({id: firebase.auth().currentUser.uid});
               this.getBusinessOwner();
-              this.getMessages();
+              //this.getMessages();
               //console.log(this.state.id)
             } else {
                 console.log("no user")
@@ -40,9 +42,9 @@ class Chat extends Component{
     }
 
     getMessages(){
-        console.log(this.state.id);
-        console.log(this.state.bid);
-        console.log(this.state.owner);
+        if(this.state.owner === this.state.id){
+            this.setState({owner: this.state.sender})
+        }
         axios.get('http://localhost:5000/messages',{
             params: {
                 uid: this.state.id,
@@ -52,20 +54,41 @@ class Chat extends Component{
         })
         .then(res => {
             this.setState({messages: res.data.MessagesList});
-            console.log(res.data.MessagesList)
+            //console.log(res.data.MessagesList)
         })
         .catch(function (error) {
             console.log(error);
         });
+
+        // if(this.state.owner === this.state.id){
+        //     //Get messages other users have send your business
+        //     console.log("yo", this.state.id);
+        //     console.log('sender', this.state.sender);
+        //     axios.get('http://localhost:5000/messages/',{
+        //         params:{
+        //             bid: this.state.bid,
+        //             uid: this.state.id,
+        //             owner: this.state.sender
+        //         }
+        //     })
+        //     .then(res => {
+        //         this.setState({messages: res.data.MessagesList});
+        //         console.log(res.data.MessagesList)
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
+        // }
     }
 
     getBusinessOwner(){
         var url = 'http://localhost:5000/business/'+this.state.bid.toString();
-        console.log(url)
+        // console.log(url)
         axios.get(url)
         .then(res => {
-            console.log(res.data.Business)
+            //console.log(res.data.Business.uid)
             this.setState({owner: res.data.Business.uid});
+            this.getMessages();
         })
         .catch(function (error) {
             console.log(error);
@@ -78,7 +101,7 @@ class Chat extends Component{
             bid: this.state.bid,
             body: message,
             mdate: +new Date(),
-            mtype: 'notification'
+            mtype: 'text'
         }).then(function(response){
                 console.log(response);
             })
@@ -96,7 +119,7 @@ class Chat extends Component{
     }
 
     // componentDidUpdate(){
-    //     this.getBusinessOwner();
+    //     //this.getBusinessOwner();
     //     this.getMessages();
     // }
 
@@ -119,5 +142,4 @@ class Chat extends Component{
     }
 
 }
-
 export default Chat;

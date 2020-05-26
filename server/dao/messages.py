@@ -16,9 +16,20 @@ class MessagesDAO:
 
     def getMessagesByUserId(self, uid):
         cursor = self.conn.cursor()
-        query = "select uid, body, mdate from messages where uid = %s;"
+        query = "select * from messages where uid = %s;"
         cursor.execute(query, (uid,))
-        result = cursor.fetchone()
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getChatsByUserId(self, uid):
+        cursor = self.conn.cursor()
+        query = "select distinct messages.bid, bname from messages, business where messages.uid = %s and business.bid = messages.bid;"
+        cursor.execute(query, (uid,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     def getMessagesByUserIdAndBusinessId(self, uid, bid, owner):
@@ -38,3 +49,20 @@ class MessagesDAO:
         self.conn.commit()
         return mid
 
+    # def getMessagesByBusinessId(self, bid):
+    #     cursor = self.conn.cursor()
+    #     query = "select * from messages where bid = %s;"
+    #     cursor.execute(query, (bid,))
+    #     result = []
+    #     for row in cursor:
+    #         result.append(row)
+    #     return result
+
+    def getChatsByBusinessId(self, bid):
+        cursor = self.conn.cursor()
+        query = "select distinct messages.uid, full_name from messages, users where messages.bid = %s and messages.uid = users.uid;"
+        cursor.execute(query, (bid,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
