@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import LandingPageSegment from '../components/LandingPageSegment'
-import { Jumbotron, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import '../styles/LandingPage.css'
-import logo_black_circle from '../logo_black_circle.png'
 import {NavLink } from 'react-router-dom'
 
 
@@ -40,11 +38,11 @@ class LandingPage extends Component{
                             <p className="about-description">for your favorite bussiness on the platform.  With Xchedule you can find many local businesses that have decided to improve their workflow by adding this platform to help with their appointment management. </p>
 
                         </div>
-                        <img className="about-img" src="https://via.placeholder.com/150x150"></img>
+                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
                     </div>
 
                     <div className="about-container">
-                        <img className="about-img" src="https://via.placeholder.com/150x150"></img>
+                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
 
                         <div class="about-text">
                             <p className="about-description-title">SCHEDULE -</p>
@@ -58,7 +56,7 @@ class LandingPage extends Component{
                             <p className="about-description-title">SAVE - </p>
                             <p className="about-description">time by no more waiting on the phone on hold for someone to take your appointment.  See all your appointments in one place.</p>
                         </div>
-                        <img className="about-img" src="https://via.placeholder.com/150x150"></img>
+                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
 
                     </div>
 
@@ -70,26 +68,26 @@ class LandingPage extends Component{
                     <h1 className="team-title">Meet the team members</h1>
                     <div className="team-members-container">
                         <div className="team-member">
-                            <img className="team-member-img" src="https://via.placeholder.com/150x150"></img>
+                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
                             <p className="team-member-name">Carlos Ayala</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
         
                         </div>
 
                         <div className="team-member">
-                            <img className="team-member-img" src="https://via.placeholder.com/150x150"></img>
+                            <img className="team-member-img" alt="" src="https://via.placeholder.com/150x150"></img>
                             <p className="team-member-name">Gabriel Rosario</p>
                             <p className="team-member-degree">Software Engineering</p>
         
                         </div>
 
                         <div className="team-member">
-                            <img className="team-member-img" src="https://via.placeholder.com/150x150"></img>
+                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
                             <p className="team-member-name">Rex Reyes</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
                         </div>
                         <div className="team-member">
-                            <img className="team-member-img" src="https://via.placeholder.com/150x150"></img>
+                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
                             <p className="team-member-name">Yetsiel Alvarez</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
                         </div>

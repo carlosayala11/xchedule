@@ -83,22 +83,21 @@
     margin-left:200px; */
 }
 div.scrollmenu {
-  background-color: #333;
+  background-color: #f3f3f3;
   overflow: auto;
   white-space: nowrap;
+  
 }
 
 div.scrollmenu a {
   display: flex;
+  display: inline-block;
   flex-direction:row;
   text-align: center;
-  padding: 14px;
+  margin: 5px;
   text-decoration: none;
 }
 
-div.scrollmenu a:hover {
-  background-color: #777;
-}
 
 .all-appointments-page{
     display:flex;

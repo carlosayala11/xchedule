@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import moment from 'moment'
 //import logo_black_circle from "../logo_black_circle.png";
 import '../styles/Home.css'
+import '../styles/App.css'
 import Calendar from "../components/Calendar"
 import NavigationBar from '../components/NavigationBar'
 import CreateBusinessForm from '../components/CreateBusinessForm'
@@ -8,7 +10,6 @@ import UpddateBusinessForm from '../components/UpdateBusinessForm'
 import {Redirect} from 'react-router-dom'
 import {Container, Row, Col, Card, CardText, CardTitle, Button, CardBody, Form,
          Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
-import {Redirect} from "react-router-dom";
 var axios = require('axios');
 var firebase = require('firebase');
 
@@ -27,7 +28,7 @@ class Home extends Component{
             total3:'',
             modal: false,
             isOwner: false,
-            loggedIn:false,
+            loggedIn:true,
             labelName:'',
             data: '',
             businessCanceled:false
@@ -41,22 +42,21 @@ class Home extends Component{
 
     componentDidMount(){
         this.getBusinessList();
+        this.getUserAppointments()
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
               // User is signed in.
               this.checkIfIsOwner();
               this.getBusinessList();
-              this.setState({loggedIn:true})
             } else {
+                this.setState({loggedIn:false})
                 console.log("no user")
               // No user is signed in.
             }
           });
     }
 
-    componentDidMount(){
-    this.getUserAppointments()
-    }
 
     getUserAppointments(){
         //check if a user is signed in
@@ -125,7 +125,7 @@ class Home extends Component{
     checkIfIsOwner(){
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/users',{
+        axios.get('http://127.0.0.1:5000/users',{
             params: {
                 id: id
             }
@@ -135,10 +135,10 @@ class Home extends Component{
             console.log("user",user);
             this.setState({isOwner: user.isOwner})
             if (this.state.isOwner){
-                this.state.labelName = 'Update Business';
+                this.setState({labelName:'Update Business'});
             }
             else{
-                this.state.labelName = 'Create Business';
+                this.setState({labelName:'Create Business'});
             }
             console.log('owner',this.state.isOwner)
         })
@@ -194,24 +194,7 @@ class Home extends Component{
                     <br/><br/><br/><h1 className="h1">Xchedule</h1>
                     <h2 className="h2">Organize your appointments effectively.</h2><br/>
                 </div> */}
-                <div className="home-top-container">
-                    {appointments.map((appointment) =>
-                       <div className="scrollmenu">
-                       <a>
-                        <Card key={appointment.aid}>
-                            <CardTitle></CardTitle>
-                            <p className="working-hours">Service Type:</p>
-                            <p className="hours">{appointment.serviceType}</p>
-                            <p className="working-hours">Appointment Time:</p>
-                            <p className="hours">{appointment.startDate}</p>
-                            <p className="hours">{appointment.endDate}</p>
-                            <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
-                        </Card>
-                        </a>
-                        </div>
-
-                        )}
-                </div>
+                
                     <div className="home-body-container">
                     <Container className="home-bottom-container">
                         <Row>
@@ -223,14 +206,14 @@ class Home extends Component{
                             </Col>
                             <Col sm="4">
                                 <Form action="http://localhost:3000/canceled/appointments">
-                                  <Button className="all-business" >View Canceled Appointments</Button>
+                                  <Button className="all-business app-btn" >View Canceled Appointments</Button>
                                 </Form>
                                 <Card>
                                     {/* Manage/Create Business Modal */}
                                     <CardTitle className="card-title">Manage your Business</CardTitle>
                                     <CardBody>
                                         <CardText>
-                                            <Button onClick={this.toggle}>{this.state.labelName}</Button>
+                                            <Button className="app-btn" onClick={this.toggle}>{this.state.labelName}</Button>
                                             <Modal modalClassName="business-modal" isOpen={this.state.modal} toggle={this.toggle}>
                                                 <ModalHeader toggle={this.toggle}>{this.state.labelName}</ModalHeader>
                                                 <ModalBody>
@@ -251,13 +234,32 @@ class Home extends Component{
                                         <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
                                         <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
                                         <Form action="http://localhost:3000/business/all">
-                                        <Button className="all-business" >View More</Button>
+                                        <Button className="all-business app-btn" >View More</Button>
                                         </Form>
                                     </CardBody>
                                 </Card>
                             </Col>
                         </Row>
                     </Container>
+                </div>
+                <p className="card-title">Upcoming Appointments</p>
+                <div className="home-top-container">
+                    {appointments.map((appointment) =>
+                    
+                       <div className="scrollmenu">
+                        <a>
+                        <Card key={appointment.aid}>
+                            <CardTitle>Service Type:</CardTitle>
+                            <p className="hours">{appointment.serviceType}</p>
+                            <p className="working-hours">Appointment Time:</p>
+                            <p className="hours">{appointment.startDate}</p>
+                            <p className="hours">{appointment.endDate}</p>
+                            <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
+                        </Card>
+                        </a>
+                        </div>
+
+                        )}
                 </div>
             </div>
         )

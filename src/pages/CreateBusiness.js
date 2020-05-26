@@ -9,7 +9,7 @@ class CreateBusiness extends Component{
     constructor(){
         super();
         this.state={
-            loggedIn:false
+            loggedIn:true
         }
 
     }
@@ -18,9 +18,10 @@ class CreateBusiness extends Component{
             if (user) {
               // User is signed in.
               
-              this.setState({loggedIn:true})
             } else {
                 console.log("no user")
+                this.setState({loggedIn:false})
+
               // No user is signed in.
             }
           });

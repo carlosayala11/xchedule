@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import LoginForm from '../components/LoginForm'
-import SignUpForm from '../components/SignUpForm'
-import { Jumbotron, Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import logo_white from '../logo_white.png'
+import {Button, Modal, ModalFooter, ModalHeader, ModalBody } from 'reactstrap';
 import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
-    BrowserRouter as Router,
     NavLink,
     Redirect
   } from "react-router-dom";
+import CreateBusinessForm from '../components/CreateBusinessForm'
+import UpddateBusinessForm from '../components/UpdateBusinessForm'
 import axios from 'axios';
   var firebase = require('firebase');
 
@@ -25,7 +23,10 @@ class NavigationBar extends Component{
             popoverOpen:false,
             businessExists: false,
             signedOut:false,
-            user:''
+            user:'',
+            fullname:'',
+            labelName:'',
+            modal:false
         }   
     }
 
@@ -34,17 +35,22 @@ class NavigationBar extends Component{
             if (user) {
                 // console.log(user)
                 this.setState({username:user.email, loggedIn:true})
-                const userQuery = "http://localhost:5000/users/"+user.uid
-                const query = "http://localhost:5000/business/user/" + user.uid
+                const query = "http://127.0.0.1:5000/business/user/" + user.uid
                 axios.get(query).then((res)=>{
                     this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
                 }).catch((err)=>{
                     console.log(err)
                 })
 
-                axios.get(userQuery).then((res)=>{
+                axios.get('http://127.0.0.1:5000/users',{
+                    params: {
+                        id: user.uid
+                    }
+                }).then((res)=>{
                     console.log(res.data.User)
-                    this.setState({user:res.data.User})
+                    this.setState({user:res.data.User, fullname:res.data.User.fullname}, ()=>{
+                        console.log(this.state.fullname)
+                    })
                 }).catch((err)=>{
                     console.log(err)
                 })
@@ -56,6 +62,16 @@ class NavigationBar extends Component{
             }
           });
         
+    }
+
+    renderBusinessForm(){
+        if (!this.state.isOwner){
+           // console.log(this.state.isOwner);
+            return <CreateBusinessForm></CreateBusinessForm>
+        }
+        else{
+            return <UpddateBusinessForm></UpddateBusinessForm>
+        }
     }
 
     togglePopover(){
@@ -73,25 +89,13 @@ class NavigationBar extends Component{
           });
     }
 
-    renderViewOrCreateBusiness(){
-        if(this.state.businessExists){
-            return (<div className="manage-business-container">
-                <p className="manage-business">Manage Business</p>
-                <span>
-                <i class="fas fa-store business-icon"></i>
-                    <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
-                </span>
-            </div>)
-        }else{
-            return (<div className="manage-business-container">
-                <p className="manage-business">Manage Business</p>
-                <span>
-                    <i class="fas fa-plus-circle business-icon"></i>
-                    <NavLink className="burger-menu-item" to="/business/create">+ Add Business</NavLink>
-                </span>
-            </div>)
-        }
+    toggle() {
+        this.setState((prevState) => ({
+            modal: !prevState.modal
+          }));
     }
+
+    
 
     renderProfileOrLogin(){
         if(this.state.loggedIn){
@@ -111,12 +115,13 @@ class NavigationBar extends Component{
         return(
             <div className="navigation-bar-container">
                 <Menu>
-                    <img className="business-img" src="https://via.placeholder.com/150x150"></img>
-                    <p className="user-name">{this.state.user.fullname}</p>
+                    <span>                    
+                        <i class="fas fa-user-circle profile-icon"></i>
+                    </span>
+                    <p className="user-name">{this.state.fullname}</p>
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>
-                    {this.renderViewOrCreateBusiness()}
                     {this.renderProfileOrLogin()}
                 </Menu>
             </div>
