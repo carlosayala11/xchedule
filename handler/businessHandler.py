@@ -112,6 +112,18 @@ class BusinessHandler:
             result_list.append(result)
         return jsonify(Appointments=result_list)
 
+    def getUnapprovedAppointmentsByBusinessId(self, uid):
+        dao = BusinessDAO()
+        business = dao.getBusinessByUserId(uid)
+        if not business:
+            return jsonify(Error="Business Not Found"), 404
+        services_list = dao.getUnapprovedAppointmentsByBusinessId(uid)
+        result_list = []
+        for row in services_list:
+            result = self.build_business_appointments_dict(row)
+            result_list.append(result)
+        return jsonify(Appointments=result_list)
+
     def getBusinessByUserId(self, uid):
         dao = BusinessDAO()
         business = dao.getBusinessByUserId(uid)

@@ -128,6 +128,10 @@ def getBusinessByUserId(uid):
 def getAppointmentsByBusinessId():
     return BusinessHandler().getAppointmentsByBusinessId(request.args.get('id'))
 
+@app.route('/business/unapproved/appointments')
+def getUnapprovedAppointmentsByBusinessId():
+    return BusinessHandler().getUnapprovedAppointmentsByBusinessId(request.args.get('id'))
+
 @app.route('/business/top')
 def getTopBusiness():
     return BusinessHandler().getTopBusiness()
