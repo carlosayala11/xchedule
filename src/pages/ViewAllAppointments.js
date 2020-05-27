@@ -129,6 +129,7 @@ class ViewAllAppointments extends Component{
                    <Button onClick={() => this.approveAppointment(appointment.aid)}>Approve</Button>
                   ) : (
                     <p></p>
+
                   )}
                 <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
             </Card>
