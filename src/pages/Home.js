@@ -199,7 +199,7 @@ class Home extends Component{
                                     </div>
                             </Col>
                             <Col sm="4">
-                                <Form action="http://localhost:3000/canceled/appointments">
+                                <Form action="https://xchedule-uprm.herokuapp.com/canceled/appointments">
                                   <Button className="all-business app-btn" >View Canceled Appointments</Button>
                                 </Form>
                                 <Card>
@@ -227,7 +227,7 @@ class Home extends Component{
                                         <CardText>{this.state.bname1}: {this.state.total1} appointments</CardText>
                                         <CardText>{this.state.bname2}: {this.state.total2} appointments</CardText>
                                         <CardText>{this.state.bname3}: {this.state.total3} appointments</CardText>
-                                        <Form action="http://localhost:3000/business/all">
+                                        <Form action="https://xchedule-uprm.herokuapp.com/business/all">
                                         <Button className="all-business app-btn" >View More</Button>
                                         </Form>
                                     </CardBody>
