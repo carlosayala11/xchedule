@@ -45,7 +45,7 @@ class BusinessDAO:
     def getAppointmentsByBusinessId(self, uid):
         cursor = self.conn.cursor()
         result = []
-        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype from offers natural inner join services natural inner join requests natural inner join appointments natural inner join business where uid=%s and canceled=false and completed=false;"
+        query = "select bid, aid, sid, uid, sdate, duration, edate, servicetype, pending from offers natural inner join services natural inner join requests natural inner join appointments natural inner join business where uid=%s and canceled=false and completed=false;"
         cursor.execute(query, (uid,))
         for row in cursor:
             result.append(row)

@@ -30,6 +30,7 @@ class BusinessHandler:
         result['duration'] = row[5]
         result['endDate'] = row[6]
         result['serviceType'] = row[7]
+        result['pending'] = row[8]
         return result
     
     def build_service_dict(self, row):
