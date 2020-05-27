@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import Paper from '@material-ui/core/Paper';
+//import moment from 'moment'
+
 import {
   Scheduler,
   DayView,
@@ -12,11 +14,9 @@ import {
   DateNavigator
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
-import { withStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import axios from 'axios';
-import * as firebase from 'firebase';
 import moment from 'moment'
+import * as firebase from "firebase";
 
 
 // supress warning for using moment()
@@ -41,7 +41,8 @@ class Calendar extends Component{
       renderCalendar:false,
       loading: true,
     }
-    this.getUserAppointments = this.getUserAppointments.bind(this);
+
+    this.getUserAppointments = this.getUserAppointments.bind(this)
   }
 
   //Called when component loads on page
@@ -49,7 +50,30 @@ class Calendar extends Component{
     this.getUserAppointments()
   }
 
+  getUserAppointments(){
+      firebase.auth().onAuthStateChanged((user) =>{
+      if (user) {
+        var id = firebase.auth().currentUser.uid;
+        axios.get('http://127.0.0.1:5000/appointments/user', {
+            params: {
+                id: id
+            }
+        }).then((res)=>{
+            this.setState({renderCalendar:true})
+            this.setState({data:res.data.Appointments})
+            console.log(res)
+            }).catch((error) => {
+            console.log(error)
+          });
+         } else {
+        // No user is signed in.
+        console.log("No user logged in.")
+        }
+        });
+      }
 
+
+  //function to conditionally render the calendar or a message
   //function to conditionally render the calendar or a message
   renderCalendar(data){
     const currentDate = moment();
@@ -62,7 +86,7 @@ class Calendar extends Component{
           <ViewState
             defaultCurrentDate={currentDate}
             defaultCurrentViewName="Week"
-          /> 
+          />
           <DayView
             startDayHour={9}
             endDayHour={18}
@@ -89,36 +113,12 @@ class Calendar extends Component{
       }
   }
 
-  //function to get appointments from DB
-  getUserAppointments(){
-    //check if a user is signed in
-    firebase.auth().onAuthStateChanged((user) =>{
-      if (user) {
-        // User is signed in.  get their appointments
-        axios.get('https://xchedule-api.herokuapp.com/appointments',{
-          params: {
-              id: firebase.auth().currentUser.uid
-          }
-        })
-        .then((res)=>{
-        //change data to hold the appointment data, calendar should be rendered to change that state too
-        this.setState({data: res.data.AppointmentsList})
-        this.setState({renderCalendar:true})
-          //console.log(this.state.data)
-        }).catch((err)=>{
-          console.log(err)
-        })
-      } else {
-        // No user is signed in.
-        console.log("No user logged in.")
-      }
-    });
-  }
-  
+
 
   render(){
     // this is the data
     const {data} = this.state;
+    console.log(data)
     //console.log('data: ', data);
     // formatted to render in the calendar
     const formattedData = data ? data.map(mapAppointmentData) : [];

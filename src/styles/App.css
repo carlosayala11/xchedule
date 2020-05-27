@@ -1,0 +1,10 @@
+.app-btn{
+    background-color: lightskyblue;
+    color:white;
+    border-color: white;
+    font-weight:bold
+}
+
+.app-btn:hover{
+    background-color:rgb(28, 114, 168);
+}

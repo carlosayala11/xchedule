@@ -1,21 +1,38 @@
 import React, {Component} from 'react';
+import '../styles/CreateBusiness.css'
 import NavigationBar from "../components/NavigationBar";
-import SearchBusiness from "../components/SearchBusiness";
-import '../styles/Search.css'
+import ServiceForm from "../components/ServiceForm";
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
 
 
-class Search extends Component{
+class AddService extends Component{
     constructor(){
         super();
         this.state={
+            loggedIn:true
         }
 
+    }
+
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+            } else {
+                this.setState({loggedIn:false})
+
+                console.log("no user")
+              // No user is signed in.
+            }
+          });
     }
 
     renderForm(){
 
         return(
-            <SearchBusiness></SearchBusiness>
+            <ServiceForm></ServiceForm>
         )
 
     }
@@ -23,8 +40,11 @@ class Search extends Component{
 
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
             return(
-                <div className='searchBusiness-page'>
+                <div className='createBusiness-page'>
                     {/* <img src={logo_black} className="logo"/> */}
                     <NavigationBar></NavigationBar>
                     {/* <h1>Create New Appointment</h1> */}
@@ -33,4 +53,4 @@ class Search extends Component{
             )
         }}
 
-export default Search;
+export default AddService;

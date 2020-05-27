@@ -19,10 +19,10 @@ class SignUpForm extends Component{
             username:'',
             age:'',
             sex:'',
+            address:'',
             country:'',
             city:'',
-            zipcode:'',
-            address:'',
+            zip:'',
             loadingSignUp:false,
             errorMessage:'',
             userSignedUp:false,
@@ -52,11 +52,14 @@ class SignUpForm extends Component{
                     phone: this.state.phoneNumber,
                     age: this.state.age,
                     gender: this.state.sex,
-                    uaddress: (this.state.address,this.state.country, this.state.city, this.state.zipcode),
+                    address: this.state.address,
+                    country: this.state.country,
+                    city: this.state.city,
+                    zip: this.state.zip,
                     isowner: false
                 }
                 console.log(user)
-                axios.post("https://xchedule-api.herokuapp.com/users/insert", user).then((res)=>{
+                axios.post("http://localhost:5000/users/insert", user).then((res)=>{
                     this.setState({userSignedUp:true})
                  console.log(res)
                 }).catch((err)=>{
@@ -145,13 +148,12 @@ class SignUpForm extends Component{
                     </Row>
                     <Row>
                         <Col>
-                            <Input className="login-input" name="address" placeholder="address" onChange={this.onInputChange}/>
+                            <Input className="login-input" name="address" placeholder="Address" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                            <Input className="login-input" name="zipcode" placeholder="zipcode" onChange={this.onInputChange}/>
+                        <Input className="login-input" name="zip" placeholder="Zip" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
-
                 </Container>
 
                 <Button className="login-button" color="primary" onClick={this.createUserAccount.bind(this)}>

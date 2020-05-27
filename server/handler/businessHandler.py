@@ -26,10 +26,10 @@ class BusinessHandler:
         result['aid'] = row[1]
         result['sid'] = row[2]
         result['uid'] = row[3]
-        result['startdate'] = row[4]
+        result['startDate'] = row[4]
         result['duration'] = row[5]
-        result['enddate'] = row[6]
-        result['servicetype'] = row[7]
+        result['endDate'] = row[6]
+        result['serviceType'] = row[7]
         return result
     
     def build_service_dict(self, row):
@@ -49,7 +49,6 @@ class BusinessHandler:
     def getAllBusiness(self):
         dao = BusinessDAO()
         business_list = dao.getAllBusiness()
-        print(business_list)
         result_list = []
         for row in business_list:
             result = self.build_business_dict(row)
@@ -59,7 +58,6 @@ class BusinessHandler:
     def getBusinessById(self, bid):
         dao = BusinessDAO()
         business = dao.getBusinessById(bid)
-        print(business)
         if not business:
             return jsonify(Error="CreateBusiness Not Found"), 404
         else:
@@ -102,29 +100,17 @@ class BusinessHandler:
             return jsonify(BusinessList=result_list)
 
 
-    def getServicesByBusinessId(self, bid):
+    def getAppointmentsByBusinessId(self, uid):
         dao = BusinessDAO()
-        business = dao.getBusinessById(bid)
+        business = dao.getBusinessByUserId(uid)
         if not business:
-            return jsonify(Error="CreateBusiness Not Found"), 404
-        services_list = dao.getServicesByBusinessId(bid)
-        result_list = []
-        for row in services_list:
-            result = self.build_service_dict(row)
-            result_list.append(result)
-        return jsonify(ServicesByBusinessID=result_list)
-
-    def getAppointmentsByBusinessId(self, bid):
-        dao = BusinessDAO()
-        business = dao.getBusinessById(bid)
-        if not business:
-            return jsonify(Error="CreateBusiness Not Found"), 404
-        services_list = dao.getAppointmentsByBusinessId(bid)
+            return jsonify(Error="Business Not Found"), 404
+        services_list = dao.getAppointmentsByBusinessId(uid)
         result_list = []
         for row in services_list:
             result = self.build_business_appointments_dict(row)
             result_list.append(result)
-        return jsonify(AppointmentsByBusinessID=result_list)
+        return jsonify(Appointments=result_list)
 
     def getBusinessByUserId(self, uid):
         dao = BusinessDAO()
@@ -167,7 +153,7 @@ class BusinessHandler:
             dao = BusinessDAO()
             bid = dao.insert(uid, bname, twitter, facebook, instagram, website_url, workingHours,workingDays, baddress, timeRestriction)
             if bid== "Already owns":
-                return jsonify(Error="User already owns a BusinessInfo"), 400
+                return jsonify(Error="User already owns a Business"), 400
             else:
                 result = {}
                 result['bid'] = bid
@@ -228,13 +214,20 @@ class BusinessHandler:
             else:
                 return jsonify(Error="Unexpected attributes in update request"), 400
 
-    def approveAppointment(self, bid, aid):
+    def approveAppointment(self,aid):
         dao = BusinessDAO()
-        if not dao.getBusinessById(bid):
-            return jsonify(Error="CreateBusiness not found."), 404
-        else:
-            aid = dao.approveAppointment(bid, aid)
-            return jsonify(AppointmentIdApproved=aid), 201
+        aid = dao.approveAppointment(aid)
+        return jsonify(AppointmentIdApproved=aid), 201
+
+    def cancelAppointment(self, aid):
+        dao = BusinessDAO()
+        aid = dao.cancelAppointment(aid)
+        return jsonify(AppointmentIdCanceled=aid), 201
+
+    def completeAppointment(self, aid):
+        dao = BusinessDAO()
+        aid = dao.completeAppointment(aid)
+        return jsonify(AppointmentIdCompleted=aid), 201
 
     def getTopBusiness(self):
         dao = BusinessDAO()
@@ -243,7 +236,6 @@ class BusinessHandler:
         for row in business_list:
             result = self.build_topBusiness_dict(row)
             result_list.append(result)
-        print(result_list)
         return jsonify(TopBusinessList=result_list)
 
     def searchBusinessByPrefix(self,param):

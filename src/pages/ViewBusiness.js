@@ -1,25 +1,39 @@
 import React, {Component} from 'react';
-import NavigationBar from "../components/NavigationBar";
-import BusinessList from "../components/BusinessList";
-import '../styles/AllBusiness.css'
-import {Link} from 'react-router-dom'
-import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
+//import NavigationBar from "../components/NavigationBar";
+//import BusinessList from "../components/BusinessList";
+import '../styles/Business.css'
+//import {Link} from 'react-router-dom'
+//import { Card, CardBody, CardTitle, CardText, Button } from 'reactstrap';
 import axios from 'axios'
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
 
 
 
 
-class ViewAllBusiness extends Component{
+class ViewBusiness extends Component{
     constructor(){
         super();
         this.state={
           bid:'',
-          businessData:''
+          businessData:'',
+          loggedIn:true
         }
 
     }
 
     componentDidMount(){
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in.
+          
+        } else {
+            console.log("no user")
+            this.setState({loggedIn:false})
+
+          // No user is signed in.
+        }
+      });
       this.setState({
         bid: sessionStorage.getItem('bid')
         }, () => {
@@ -37,11 +51,13 @@ class ViewAllBusiness extends Component{
             console.log(error);
           });
       });
-        
+
     }
-      
+
     render() {
-      
+      if(!this.state.loggedIn){
+        return <Redirect to="/login"/>
+      }
 
         // const { data } = this.props.location.state
         return (
@@ -50,11 +66,11 @@ class ViewAllBusiness extends Component{
             {/* <NavigationBar></NavigationBar> */}
 
           </div>
-          
+
         )
       }
 
 }
-    
 
-export default ViewAllBusiness;
+
+export default ViewBusiness;

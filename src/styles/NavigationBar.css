@@ -43,7 +43,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
   
   /* General sidebar styles */
   .bm-menu {
-    background: lightskyblue;
+    background: white;
     padding: 2.5em 1.5em 0;
     font-size: 1.15em;
   }
@@ -86,7 +86,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
   .burger-menu-item{
       text-decoration: none;
-      color:white;
+      color:lightskyblue;
       font-weight: bold;
       font-size:26px;
   }
@@ -120,4 +120,45 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 .profile-name{
   color:black;
+}
+
+.user-name{
+  font-size:24px;
+  color:black;
+  font-weight:bold;
+}
+
+.manage-business-container{
+  border-top-width: 1px;
+  border-top-color:black;
+  border-top-style:solid;
+  margin-top:25px;
+  margin-bottom:60px;
+  padding-bottom:15px;
+  padding-top:15px;
+  border-bottom-width: 1px;
+  border-bottom-color:black;
+  border-bottom-style:solid;
+}
+
+.manage-business{
+  margin-bottom:-5px;
+  font-size:24px;
+  color:black;
+}
+
+.business-icon{
+  color:lightskyblue;
+  font-size:24px;
+  margin-right:5px;
+}
+
+.signout-button{
+  width:90%;
+  background-color:red;
+}
+
+.profile-icon{
+  color:lightskyblue;
+  font-size:94px;
 }

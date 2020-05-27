@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-import LoginForm from '../components/LoginForm'
-import SignUpForm from '../components/SignUpForm'
-import { Jumbotron, Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import logo_white from '../logo_white.png'
+import { Button, Popover, PopoverHeader, PopoverBody, Card, CardTitle } from 'reactstrap';
 import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
-    BrowserRouter as Router,
     NavLink,
     Redirect
   } from "react-router-dom";
+import CreateBusinessForm from '../components/CreateBusinessForm'
+import UpddateBusinessForm from '../components/UpdateBusinessForm'
 import axios from 'axios';
   var firebase = require('firebase');
 
@@ -24,7 +22,15 @@ class NavigationBar extends Component{
             username:"",
             popoverOpen:false,
             businessExists: false,
-            signedOut:false
+            signedOut:false,
+            user:'',
+            fullname:'',
+            labelName:'',
+            modal:false,
+            chats: [],
+            id: '' ,
+            business_chats: [],
+            bid: 13 
         }   
     }
 
@@ -33,14 +39,29 @@ class NavigationBar extends Component{
             if (user) {
                 // console.log(user)
                 this.setState({username:user.email, loggedIn:true})
-                const query = "http://localhost:5000/business/user/" + user.uid
+                this.setState({id: firebase.auth().currentUser.uid});
+                this.getChats();
+                this.getBusinessChats();
+                const query = "http://127.0.0.1:5000/business/user/" + user.uid
                 axios.get(query).then((res)=>{
-                    console.log(res.data.Business)
                     this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
                 }).catch((err)=>{
                     console.log(err)
                 })
 
+                axios.get('http://127.0.0.1:5000/users',{
+                    params: {
+                        id: user.uid
+                    }
+                }).then((res)=>{
+                    console.log(res.data.User)
+                    this.setState({user:res.data.User, fullname:res.data.User.fullname}, ()=>{
+                        console.log(this.state.fullname)
+                    })
+                }).catch((err)=>{
+                    console.log(err)
+                })
+ 
               // User is signed in.
             } else {
                 console.log("no user")
@@ -48,6 +69,16 @@ class NavigationBar extends Component{
             }
           });
         
+    }
+
+    renderBusinessForm(){
+        if (!this.state.isOwner){
+           // console.log(this.state.isOwner);
+            return <CreateBusinessForm></CreateBusinessForm>
+        }
+        else{
+            return <UpddateBusinessForm></UpddateBusinessForm>
+        }
     }
 
     togglePopover(){
@@ -65,28 +96,112 @@ class NavigationBar extends Component{
           });
     }
 
-    renderViewOrCreateBusiness(){
-        if(this.state.businessExists){
-            return (<div>
-                <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
-            </div>)
-        }else{
-            return (<div>
-                <NavLink className="burger-menu-item" to="/business/create">+ Add Business</NavLink>
-            </div>)
-        }
+    toggle() {
+        this.setState((prevState) => ({
+            modal: !prevState.modal
+          }));
     }
+
+    
 
     renderProfileOrLogin(){
         if(this.state.loggedIn){
             return (<div>
-                <Button color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
+                <Button className="signout-button" color="danger" onClick={this.signOut.bind(this)}>Sign Out</Button>
             </div>)
-        }else{
-            return 
-
+        }
+        if(this.state.signedOut){
+            return <Redirect to="/login"></Redirect>
         }
     }
+
+    renderViewOrCreateBusiness(){
+        if(this.state.businessExists){
+            return (<div className="manage-business-container">
+                <p className="manage-business">Manage Business</p>
+                <span>
+                <i class="fas fa-store business-icon"></i>
+                    <NavLink className="burger-menu-item" to="/business/manage">{this.state.userBusinessName}</NavLink>
+                </span>
+            </div>)
+        }
+    }
+
+    getChats(){
+        //console.log(this.state.id);
+        axios.get('http://localhost:5000/chats',{
+            params: {
+                uid: this.state.id
+            }
+        })
+        .then(res => {
+            this.setState({chats: res.data.Chats});
+            //console.log(res.data.Chats)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    getBusinessChats(){
+        //console.log(this.state.bid);
+        axios.get('http://localhost:5000/chats/business',{
+            params: {
+                bid: this.state.bid
+            }
+        })
+        .then(res => {
+            this.setState({business_chats: res.data.Chats});
+            //console.log('business',res.data.Chats)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    openMessages(bid){
+        //console.log("Key", bid)
+        sessionStorage.setItem('openChat', bid)
+        this.props.history.push('/messages')
+    }
+
+    openBusinessMessages(uid){
+        sessionStorage.setItem('senderId', uid)
+        this.props.history.push('/messages')
+    }
+
+    renderMessages(){
+        if(this.state.loggedIn){
+            //const messages = Array.from(this.state.messages);
+            const {chats, business_chats} = this.state;
+            console.log("Chats", chats);
+            console.log("BChats", business_chats);
+            const ChatsList = chats.map((chats) =>
+                <Card key={chats.bid} onClick={() => this.openMessages(chats.bid)}>
+                    <CardTitle>{chats.bname}</CardTitle>
+                    {/* <span onClick={() => this.openMessages(chats.bid)}>Schedule</span> */}
+                </Card>);
+                const BusinessChatsList = business_chats.map((business_chats) =>
+                <Card key={business_chats.uid} onClick={() => this.openBusinessMessages(business_chats.uid)}>
+                    <CardTitle>{business_chats.full_name}</CardTitle>
+                    {/* <span onClick={() => this.openMessages(chats.bid)}>Schedule</span> */}
+                </Card>);
+            return (<div className="nav-bar-user">
+                <Button className="app-btn" id="Popover1" type="button">
+                    Messages
+                </Button>
+                <Popover className="popover" placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover.bind(this)}>
+                    <PopoverHeader>Your Messages</PopoverHeader>
+                    <PopoverBody>
+                       {ChatsList}
+                       {BusinessChatsList}
+                    </PopoverBody>
+                </Popover> 
+            </div>)
+        }
+    }
+
+    
 
     render(){
         if (this.state.signedOut) {
@@ -95,13 +210,18 @@ class NavigationBar extends Component{
         return(
             <div className="navigation-bar-container">
                 <Menu>
-                    
+                    <span>                    
+                        <i className="fas fa-user-circle profile-icon"></i>
+                    </span>
+                    <p className="user-name">{this.state.fullname}</p>
                     <NavLink className="burger-menu-item" to="/home">Home</NavLink>
                     <NavLink className="burger-menu-item" to="/profile">Profile</NavLink>
                     <NavLink className="burger-menu-item" to="/">About Us</NavLink>
                     {this.renderViewOrCreateBusiness()}
                     {this.renderProfileOrLogin()}
                 </Menu>
+                {this.renderMessages()}
+
             </div>
             
         )

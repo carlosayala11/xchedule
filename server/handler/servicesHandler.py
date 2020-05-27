@@ -1,5 +1,6 @@
 from flask import jsonify
 from dao.services import ServicesDAO
+from dao.business import BusinessDAO
 
 class servicesHandler:
     def build_service(self, row):
@@ -9,11 +10,21 @@ class servicesHandler:
         services['servicedetails'] = row[2]
         return services
 
-    def build_business(self, row):
+    def build_hours(self, row):
         services = {}
-        services['starttime'] = row[0]
-        services['endtime'] = row[1]
+        services['starttime'] = str(row[0])
+        services['endtime'] = str(row[1])
         return services
+
+    def getHours(self, sid):
+        dao = ServicesDAO()
+        service = dao.getServiceById(sid)
+        if not service:
+            return jsonify(Error="Service Not Found."), 404
+        else:
+            result = dao.getHours(sid)
+            service = self.build_hours(result)
+        return jsonify(Service=service)
 
     def getAllServices(self):
         dao = ServicesDAO()
@@ -36,24 +47,28 @@ class servicesHandler:
             service = self.build_service(service)
         return jsonify(Service=service)
 
-    def getBusinessByServiceId(self, sid):
+    def getServicesByBusinessId(self, bid):
+        dao = BusinessDAO()
+        business = dao.getBusinessById(bid)
+        if not business:
+            return jsonify(Error="Business Not Found"), 404
         dao = ServicesDAO()
-        bus = dao.getBusinessByServiceId(sid)
-        result = []
-        if bus:
-            result = self.build_business(bus)
-            print(result)
-            return jsonify(BusinessHours=result)
-        else:
-            return jsonify(ERROR='No services found.')
+        services_list = dao.getServicesByBusinessId(bid)
+        result_list = []
+        for row in services_list:
+            result = self.build_service(row)
+            result_list.append(result)
+        return jsonify(ServicesByBusinessId=result_list)
+
+
 
     def insertService(self, json):
-        sid = json['sid']
-        servicetype = json['servicetype']
-        servicedetails = json['servicedetails']
-        if sid and servicetype and servicedetails:
+        bid = json['bid']
+        servicetype = json['serviceType']
+        servicedetails = json['serviceDetails']
+        if bid and servicetype and servicedetails:
             dao = ServicesDAO()
-            sid = dao.insert(sid, servicetype, servicedetails)
+            sid = dao.insert(bid, servicetype, servicedetails)
             result = {}
             result['sid'] = sid
             result['servicetype'] = servicetype

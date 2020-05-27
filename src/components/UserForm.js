@@ -1,8 +1,6 @@
-import React, {Component, useState} from 'react';
-import { Button, Input, Label, FormGroup, Form, ButtonGroup } from 'reactstrap';
-import Flatpickr from "react-flatpickr";
+import React, {Component} from 'react';
+import { Button, Input, Label, FormGroup, Form } from 'reactstrap';
 import "flatpickr/dist/themes/dark.css";
-import moment from 'moment'
 import '../styles/Profile.css'
 
 var axios = require('axios');
@@ -20,6 +18,9 @@ class UserForm extends Component{
             age:'',
             gender:'',
             address:'',
+            country:'',
+            city:'',
+            zip:'',
             loggedIn:false,
             errorMessage:'',
             businessCreated:false
@@ -51,6 +52,9 @@ class UserForm extends Component{
             this.setState({phoneNumber: user.phone})
             this.setState({age: user.age})
             this.setState({address: user.address})
+            this.setState({country: user.country})
+            this.setState({city: user.city})
+            this.setState({zip: user.zip})
         })
         .catch(function (error) {
             console.log(error);
@@ -96,27 +100,6 @@ class UserForm extends Component{
 
         }
 
-    onDelete = (event) => {
-        event.preventDefault();
-        this.getBusiness();
-        var id = this.state.bid
-        if(id){
-        axios.delete('http://localhost:5000/business/delete', {
-            params: {
-                id: id
-            }
-        })
-            .then(res => {
-                console.log(res);
-                this.setState({businessCreated: true})
-            })
-            .catch((error) => {
-                this.setState({errorMessage: error.message})
-              });
-        }
-
-    }
-
     onSubmit = (event) => {
         event.preventDefault();
         axios.put('https://xchedule-api.herokuapp.com/users/update', {
@@ -127,7 +110,10 @@ class UserForm extends Component{
             phone: this.state.phoneNumber,
             age: this.state.age,
             gender: this.state.gender,
-            address: "(testaddress, country1, city2, 00958)",
+            address: this.state.address,
+            country: this.state.country,
+            city: this.state.city,
+            zip: this.state.zip,
             isowner: false
         })
             .then(function (response) {
@@ -163,22 +149,30 @@ class UserForm extends Component{
                         <Input name='age' placeholder={this.state.age} onChange={this.onInputChange}></Input>
                     </FormGroup>
                     <FormGroup>
+                        <Label>Address</Label>
+                        <Input name='address' placeholder={this.state.address} onChange={this.onInputChange}></Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Country</Label>
+                        <Input name='country' placeholder={this.state.country} onChange={this.onInputChange}></Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>City</Label>
+                        <Input name='city' placeholder={this.state.city} onChange={this.onInputChange}></Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Zip code</Label>
+                        <Input name='zip' placeholder={this.state.zip} onChange={this.onInputChange}></Input>
+                    </FormGroup>
+                        <FormGroup>
                         <Label>Gender</Label>
                             <Input name="gender" type="select" value={this.state.gender} onChange={this.onInputChange}>
                                 <option>M</option>
                                 <option>F</option>
                             </Input>
-                    </FormGroup>
+                  </FormGroup>
                     <p>Selected: {this.state.gender}</p>
-                    <Form action="/business">
-                    <button type="submit">Create a Business</button>
-                    </Form>
-                    <Form action="/business/update">
-                    <button type="submit">Update Business</button>
-                    </Form>
-                    <Form>
-                    <button type="submit" onClick={this.onDelete.bind(this)}>Delete Business</button>
-                    </Form>
+                    
                     {this.renderErrorMessage()}
                 </Form>
                 <Button className="save-button" color="primary" onClick={this.onSubmit.bind(this)}>Save Changes</Button>{' '}                

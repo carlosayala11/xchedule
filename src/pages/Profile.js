@@ -2,20 +2,40 @@ import React, {Component} from 'react';
 import '../styles/Profile.css'
 import UserForm from '../components/UserForm'
 import NavigationBar from '../components/NavigationBar'
-import {Button, Input} from 'reactstrap';
-import {NavLink} from "react-router-dom";
-import logo_black_circle from "../logo_black_circle.png";
+import {Redirect} from 'react-router-dom'
+import * as firebase from 'firebase'
+
+//import {Button, Input} from 'reactstrap';
+//import {NavLink} from "react-router-dom";
+//import logo_black_circle from "../logo_black_circle.png";
 
 
 class Profile extends Component{
     constructor(){
         super();
         this.state={
+            loggedIn:true
         }
         
     }
 
+    componentDidMount(){
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              // User is signed in.
+              
+            } else {
+                console.log("no user")
+                this.setState({loggedIn:false})
+
+              // No user is signed in.
+            }
+          });
+    }
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to="/login"/>
+        }
         return(
             <div className="profile-page">
                 <NavigationBar></NavigationBar>

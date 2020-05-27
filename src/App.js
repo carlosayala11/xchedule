@@ -1,19 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  Redirect
 } from "react-router-dom";
 import Login from './pages/Login.js'
 import LandingPage from './pages/LandingPage.js'
 import Profile from './pages/Profile.js'
 import Home from './pages/Home.js'
 import Appointment from './pages/Appointment.js'
+import UpdateAppointment from './pages/UpdateAppointment.js'
 import CreateBusiness from './pages/CreateBusiness.js'
 import UpdateBusiness from './pages/UpdateBusiness.js'
 import ViewAllBusiness from './pages/ViewAllBusiness.js'
@@ -21,6 +19,14 @@ import ManageBusiness from './pages/ManageBusiness.js'
 import ViewBusiness from './pages/ViewBusiness.js'
 
 import Search from './pages/Search.js'
+//import ViewBusiness from './pages/ViewBusiness.js'
+import AddService from './pages/AddService.js'
+import ViewAllServices from './pages/ViewAllServices.js'
+import ViewAllAppointments from './pages/ViewAllAppointments.js'
+import ViewCanceledAppointments from './pages/ViewCanceledAppointments.js'
+import ViewServicesFromBusiness from './pages/ViewServicesFromBusiness.js'
+
+import Chat from './components/Chat.js'
 var firebase = require('firebase');
 
 firebase.initializeApp({
@@ -57,13 +63,16 @@ function App() {
           <Route exact path="/appointment">
             <Appointment />
           </Route>
+          <Route exact path="/appointment/reschedule">
+            <UpdateAppointment />
+          </Route>
             <Route exact path="/business/all">
             <ViewAllBusiness />
           </Route>
           <Route exact path="/business/create">
             <CreateBusiness />
           </Route>
-            <Route exact path="/business/update">
+          <Route exact path="/business/update">
             <UpdateBusiness />
           </Route>
           <Route exact path="/business/search">
@@ -72,8 +81,32 @@ function App() {
           <Route exact path="/business/manage">
             <ManageBusiness />
           </Route>
+          {/*<Route exact path="/business/details">
+            <ViewBusiness />
+          </Route>*/}
+          <Route exact path="/service/create">
+            <AddService />
+          </Route>
+          <Route exact path="/service/all">
+            <ViewAllServices />
+          </Route>
+          <Route exact path="/business/appointments">
+            <ViewAllAppointments />
+          </Route>
+          <Route exact path="/canceled/appointments">
+            <ViewCanceledAppointments />
+          </Route>
+          <Route exact path="/business/services">
+            <ViewServicesFromBusiness />
+          </Route>
+          <Route exact path="/business/manage">
+            <ManageBusiness />
+          </Route>
           <Route exact path="/business/details">
             <ViewBusiness />
+          </Route>
+          <Route exact path="/messages">
+            <Chat />
           </Route>
         </Switch>
       </Router>
