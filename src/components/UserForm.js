@@ -21,6 +21,7 @@ class UserForm extends Component{
             country:'',
             city:'',
             zip:'',
+            isowner:'',
             loggedIn:false,
             errorMessage:'',
             businessCreated:false
@@ -55,6 +56,7 @@ class UserForm extends Component{
             this.setState({country: user.country})
             this.setState({city: user.city})
             this.setState({zip: user.zip})
+            this.setState({isowner: user.isOwner})
         })
         .catch(function (error) {
             console.log(error);
@@ -114,7 +116,7 @@ class UserForm extends Component{
             country: this.state.country,
             city: this.state.city,
             zip: this.state.zip,
-            isowner: false
+            isowner: this.state.isowner
         })
             .then(function (response) {
                 console.log(response);
