@@ -18,7 +18,7 @@ class NavigationBar extends Component{
     constructor(){
         super();
         this.state={
-            loggedIn:false,
+            loggedIn:true,
             username:"",
             popoverOpen:false,
             businessExists: false,
@@ -38,7 +38,7 @@ class NavigationBar extends Component{
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // console.log(user)
-                this.setState({username:user.email, loggedIn:true})
+                this.setState({username:user.email})
                 this.setState({id: firebase.auth().currentUser.uid});
                 this.getChats();
                 this.getBusinessChats();
@@ -65,6 +65,8 @@ class NavigationBar extends Component{
               // User is signed in.
             } else {
                 console.log("no user")
+                this.setState({loggedIn:false})
+                
               // No user is signed in.
             }
           });
@@ -204,6 +206,9 @@ class NavigationBar extends Component{
     
 
     render(){
+        if(!this.state.loggedIn){
+            return <Redirect to='/login'/>;
+        }
         if (this.state.signedOut) {
             return <Redirect to='/login'/>;
         }
