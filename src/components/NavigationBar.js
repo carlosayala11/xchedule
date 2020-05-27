@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import { Button, Popover, PopoverHeader, PopoverBody, Card, CardTitle } from 'reactstrap';
+import { Button, Popover, PopoverHeader, PopoverBody, Card, CardTitle,
+    Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { stack as Menu } from 'react-burger-menu'
 import '../styles/NavigationBar.css'
 import {
     NavLink,
-    Redirect
+    Redirect,
+    withRouter
   } from "react-router-dom";
 import CreateBusinessForm from '../components/CreateBusinessForm'
 import UpddateBusinessForm from '../components/UpdateBusinessForm'
@@ -30,8 +32,11 @@ class NavigationBar extends Component{
             chats: [],
             id: '' ,
             business_chats: [],
-            bid: 13 
+            bid: sessionStorage.getItem('openChat'),
+            modal: false,
+            businesses: []
         }   
+        this.toggle = this.toggle.bind(this);
     }
 
     componentDidMount(){
@@ -42,6 +47,7 @@ class NavigationBar extends Component{
                 this.setState({id: firebase.auth().currentUser.uid});
                 this.getChats();
                 this.getBusinessChats();
+                this.getAllBusiness();
                 const query = "https://xchedule-api.herokuapp.com/business/user/" + user.uid
                 axios.get(query).then((res)=>{
                     this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
@@ -104,7 +110,15 @@ class NavigationBar extends Component{
           }));
     }
 
-    
+    getAllBusiness = () => {
+        axios.get(`http://localhost:5000/business`)
+          .then(res => {
+              console.log(res.data)
+            this.setState({
+              businesses: res.data.BusinessList
+            })
+          })
+      }  
 
     renderProfileOrLogin(){
         if(this.state.loggedIn){
@@ -161,8 +175,13 @@ class NavigationBar extends Component{
         });
     }
 
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
     openMessages(bid){
-        //console.log("Key", bid)
         sessionStorage.setItem('openChat', bid)
         this.props.history.push('/messages')
     }
@@ -174,19 +193,27 @@ class NavigationBar extends Component{
 
     renderMessages(){
         if(this.state.loggedIn){
-            //const messages = Array.from(this.state.messages);
-            const {chats, business_chats} = this.state;
+            const {chats, business_chats, businesses} = this.state;
             console.log("Chats", chats);
             console.log("BChats", business_chats);
             const ChatsList = chats.map((chats) =>
-                <Card key={chats.bid} onClick={() => this.openMessages(chats.bid)}>
+                <Card key={chats.bid} style={{cursor: 'pointer'}} onClick={() => this.openMessages(chats.bid)} className="ml-0">
                     <CardTitle>{chats.bname}</CardTitle>
-                    {/* <span onClick={() => this.openMessages(chats.bid)}>Schedule</span> */}
                 </Card>);
                 const BusinessChatsList = business_chats.map((business_chats) =>
-                <Card key={business_chats.uid} onClick={() => this.openBusinessMessages(business_chats.uid)}>
+                <Card key={business_chats.uid} style={{cursor: 'pointer'}} onClick={() => this.openBusinessMessages(business_chats.uid)} className="ml-0">
                     <CardTitle>{business_chats.full_name}</CardTitle>
-                    {/* <span onClick={() => this.openMessages(chats.bid)}>Schedule</span> */}
+                </Card>);
+                const listItems = businesses.map((businesses) =>
+                <Card key={businesses.bid} style={{cursor: 'pointer'}} onClick={() => this.openMessages(businesses.bid)}>
+                    {/* <img className="business-img" alt="" src="https://via.placeholder.com/150x150"></img> */}
+                    <CardTitle>{businesses.bname}</CardTitle>
+                    <p className="city">{businesses.city}</p>
+                    <p className="working-hours">Working Hours:</p> 
+                    <p className="hours">{businesses.sworkingHours} - {businesses.eworkingHours}</p>
+                    <p className="working-days">{businesses.workingDays}</p>
+                    <div className="button-container">
+                    </div>
                 </Card>);
             return (<div className="nav-bar-user">
                 <Button className="app-btn" id="Popover1" type="button">
@@ -195,6 +222,17 @@ class NavigationBar extends Component{
                 <Popover className="popover" placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover.bind(this)}>
                     <PopoverHeader>Your Messages</PopoverHeader>
                     <PopoverBody>
+                        <Button onClick={this.toggle}>New Message</Button>
+                        <Modal modalClassName="business-modal" isOpen={this.state.modal} toggle={this.toggle}>
+                            <ModalHeader toggle={this.toggle}>Select a Business</ModalHeader>
+                            <ModalBody>
+                                {listItems}
+                            </ModalBody>
+                            <ModalFooter>
+                                {/* <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '} */}
+                                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                            </ModalFooter>
+                        </Modal>
                        {ChatsList}
                        {BusinessChatsList}
                     </PopoverBody>
@@ -233,4 +271,4 @@ class NavigationBar extends Component{
     }
 }
 
-export default NavigationBar;
+export default withRouter(NavigationBar);
