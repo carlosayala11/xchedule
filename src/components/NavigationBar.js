@@ -111,7 +111,7 @@ class NavigationBar extends Component{
     }
 
     getAllBusiness = () => {
-        axios.get(`http://localhost:5000/business`)
+        axios.get(`https://xchedule-api.herokuapp.com/business`)
           .then(res => {
               console.log(res.data)
             this.setState({

@@ -3,6 +3,7 @@ import ChatBox from 'react-chat-plugin';
 import NavigationBar from '../components/NavigationBar'
 import { withRouter } from "react-router-dom";
 import { Button } from 'reactstrap';
+import '../styles/Chat.css'
 
 var axios = require('axios');
 var firebase = require('firebase');
@@ -90,10 +91,10 @@ class Chat extends Component{
         });
     }
 
-    // componentDidUpdate(){
-    //     //this.getBusinessOwner();
-    //     this.getMessages();
-    // }
+    componentDidUpdate(){
+        //this.getBusinessOwner();
+        this.getMessages();
+    }
 
     // componentDidMount(){
     //     this.getBusinessOwner();
@@ -106,6 +107,7 @@ class Chat extends Component{
             <div className="chat-page">
             <NavigationBar/>
                 <div className="chatbox-container">
+                    <p className="">Direct Message</p>
                     <ChatBox
                         messages={this.state.messages}
                         userId={id}
@@ -113,7 +115,8 @@ class Chat extends Component{
                         width={'500px'}
                         height={'500px'}
                     />
-                    <Button className="btn-back" onClick={() => this.props.history.goBack()}>Go Back</Button>
+                     <Button className="btn-back" onClick={() => this.props.history.goBack()}>Go Back</Button>
+
                 </div>
             </div>
         );

@@ -1,10 +1,29 @@
 .chat-page{
     display:flex;
+    flex-direction: column;
     background-color: rgb(238, 238, 238);
+    align-content: center;
+    justify-content: center;
+    height:100vh;
 }
 
 .chatbox-container{
-    margin-top:10vh;
+    display:flex;
+    flex-direction: column;
+    margin-top:20vh;
     align-content: center;
     justify-content: center;
+    width:600px;
+    height:75%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.btn-back{
+    margin-top:25px;
+    background-color:lightskyblue;
+    width:300px;
+    border-color:lightskyblue;
+    margin-right:auto;
+    margin-left:auto;
 }
