@@ -93,7 +93,6 @@ class Home extends Component{
             console.log(res.data)
             this.setState({businessCanceled:true})
           })
-        window.location.reload();
 
     }
 
