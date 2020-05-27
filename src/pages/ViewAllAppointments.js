@@ -128,9 +128,8 @@ class ViewAllAppointments extends Component{
                   {appointment.pending ? (
                    <Button onClick={() => this.approveAppointment(appointment.aid)}>Approve</Button>
                   ) : (
-                    <p className="hours">Already approved</p>
+                    <p>Already approved</p>
                   )}
-                <Button onClick={() => this.approveAppointment(appointment.aid)}>Approve</Button>
                 <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
             </Card>
         );
