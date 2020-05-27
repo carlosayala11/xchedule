@@ -64,7 +64,7 @@ class Home extends Component{
           if (user) {
             // User is signed in.  get their appointments
                 var id = firebase.auth().currentUser.uid;
-                axios.get('http://127.0.0.1:5000/appointments/user', {
+                axios.get('https://xchedule-api.herokuapp.com/appointments/user', {
                     params: {
                         id: id
                     }
@@ -84,7 +84,7 @@ class Home extends Component{
 
     cancelAppointment(aid){
         console.log(aid)
-        axios.get(`http://localhost:5000/cancel`, {
+        axios.get(`https://xchedule-api.herokuapp.com/cancel`, {
             params: {
                 id: aid
             }
@@ -103,7 +103,7 @@ class Home extends Component{
     }
 
     getBusinessList() {
-        axios.get('http://localhost:5000/business/top')
+        axios.get('https://xchedule-api.herokuapp.com/business/top')
         .then(res => {
             var bus = res.data.TopBusinessList;
             console.log("top business list",bus);
@@ -125,7 +125,7 @@ class Home extends Component{
     checkIfIsOwner(){
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://127.0.0.1:5000/users',{
+        axios.get('https://xchedule-api.herokuapp.com/users',{
             params: {
                 id: id
             }

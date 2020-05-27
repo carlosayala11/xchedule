@@ -29,7 +29,7 @@ class ManageBusiness extends Component{
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 // console.log(user)
-                  axios.get('http://localhost:5000/business',{
+                  axios.get('https://xchedule-api.herokuapp.com/business',{
                     params: {
                         id: user.uid
                             }
@@ -49,7 +49,7 @@ class ManageBusiness extends Component{
     }
     deleteBusiness(bid){
         console.log(bid)
-        axios.delete('http://localhost:5000/business/delete',{
+        axios.delete('https://xchedule-api.herokuapp.com/business/delete',{
                     params: {
                         id: bid
                             }

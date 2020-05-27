@@ -37,7 +37,7 @@ class ViewBusiness extends Component{
       this.setState({
         bid: sessionStorage.getItem('bid')
         }, () => {
-        axios.get('http://localhost:5000/business', {
+        axios.get('https://xchedule-api.herokuapp.com/business', {
             params: {
               id: this.state.bid
             }

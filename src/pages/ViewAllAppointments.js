@@ -43,7 +43,7 @@ class ViewAllAppointments extends Component{
     getAppointmentsByBusinessId = () => {
         var id = firebase.auth().currentUser.uid;
         console.log(id);
-        axios.get(`http://localhost:5000/business/appointments`, {
+        axios.get(`https://xchedule-api.herokuapp.com/business/appointments`, {
             params: {
                 id: id
             }
@@ -57,7 +57,7 @@ class ViewAllAppointments extends Component{
       }
     cancelAppointment(aid){
         console.log(aid)
-        axios.get(`http://localhost:5000/cancel`, {
+        axios.get(`https://xchedule-api.herokuapp.com/cancel`, {
             params: {
                 id: aid
             }
@@ -70,7 +70,7 @@ class ViewAllAppointments extends Component{
     }
     approveAppointment(aid){
         console.log(aid)
-        axios.get(`http://localhost:5000/approve`, {
+        axios.get(`https://xchedule-api.herokuapp.com/approve`, {
             params: {
                 id: aid
             }
@@ -84,7 +84,7 @@ class ViewAllAppointments extends Component{
 
     completeAppointment(aid){
         console.log(aid)
-        axios.get(`http://localhost:5000/complete`, {
+        axios.get(`https://xchedule-api.herokuapp.com/complete`, {
             params: {
                 id: aid
             }

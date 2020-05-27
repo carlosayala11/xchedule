@@ -37,7 +37,7 @@ class ServiceForm extends Component {
                    serviceDetails: this.state.serviceDetails
                 }
                 console.log(service)
-       axios.post("http://127.0.0.1:5000/services/insert", service).then((res)=>{
+       axios.post("https://xchedule-api.herokuapp.com/services/insert", service).then((res)=>{
                     this.setState({serviceCreated:true})
                  console.log(res)
                 }).catch((error) => {

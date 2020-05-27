@@ -31,7 +31,7 @@ class ViewCanceledAppointments extends Component{
         if (user) {
         var id = firebase.auth().currentUser.uid;
         console.log(id);
-        axios.get(`http://localhost:5000/appointments/canceled`, {
+        axios.get(`https://xchedule-api.herokuapp.com/appointments/canceled`, {
             params: {
                 id: id
             }

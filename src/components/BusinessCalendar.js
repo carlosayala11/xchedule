@@ -52,7 +52,7 @@ class BusinessCalendar extends Component{
 
   getBusinessAppointments(){
     var id = firebase.auth().currentUser.uid;
-    axios.get('http://127.0.0.1:5000/business/appointments', {
+    axios.get('https://xchedule-api.herokuapp.com/business/appointments', {
         params: {
             id: id
         }

@@ -25,7 +25,7 @@ class AppointmentForm extends Component{
     getHours = () =>{
         var id = sessionStorage.getItem('sid');
         console.log(id);
-        axios.get('http://127.0.0.1:5000/services/hours',{
+        axios.get('https://xchedule-api.herokuapp.com/services/hours',{
             params: {
                 id: id
             }
@@ -88,7 +88,7 @@ class AppointmentForm extends Component{
             }
 
             console.log(appointment)
-            axios.post('http://127.0.0.1:5000/appointment/insert', appointment).then((res) => {
+            axios.post('https://xchedule-api.herokuapp.com/appointment/insert', appointment).then((res) => {
                 console.log(res)
             }).catch((error) => {
                 this.setState({errorMessage: error.message})

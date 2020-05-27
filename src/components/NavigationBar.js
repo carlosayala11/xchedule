@@ -42,14 +42,14 @@ class NavigationBar extends Component{
                 this.setState({id: firebase.auth().currentUser.uid});
                 this.getChats();
                 this.getBusinessChats();
-                const query = "http://127.0.0.1:5000/business/user/" + user.uid
+                const query = "https://xchedule-api.herokuapp.com/business/user/" + user.uid
                 axios.get(query).then((res)=>{
                     this.setState({businessExists:true, userBusinessName: res.data.Business.bname})
                 }).catch((err)=>{
                     console.log(err)
                 })
 
-                axios.get('http://127.0.0.1:5000/users',{
+                axios.get('https://xchedule-api.herokuapp.com/users',{
                     params: {
                         id: user.uid
                     }
@@ -129,7 +129,7 @@ class NavigationBar extends Component{
 
     getChats(){
         //console.log(this.state.id);
-        axios.get('http://localhost:5000/chats',{
+        axios.get('https://xchedule-api.herokuapp.com/chats',{
             params: {
                 uid: this.state.id
             }
@@ -145,7 +145,7 @@ class NavigationBar extends Component{
 
     getBusinessChats(){
         //console.log(this.state.bid);
-        axios.get('http://localhost:5000/chats/business',{
+        axios.get('https://xchedule-api.herokuapp.com/chats/business',{
             params: {
                 bid: this.state.bid
             }

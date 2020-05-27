@@ -42,7 +42,7 @@ class ViewAllBusiness extends Component{
       }
 
       getAllBusiness = () => {
-        axios.get(`http://localhost:5000/business`)
+        axios.get(`https://xchedule-api.herokuapp.com/business`)
           .then(res => {
               console.log(res.data)
             this.setState({
@@ -96,7 +96,7 @@ class ViewAllBusiness extends Component{
         console.log(bid)
         var id = firebase.auth().currentUser.uid;
         console.log(id);
-        this.setState({route:`http://localhost:5000/route/${bid}/${id}`})
+        this.setState({route:`https://xchedule-api.herokuapp.com/route/${bid}/${id}`})
     }
 
 

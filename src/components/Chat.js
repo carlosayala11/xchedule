@@ -45,7 +45,7 @@ class Chat extends Component{
         if(this.state.owner === this.state.id){
             this.setState({owner: this.state.sender})
         }
-        axios.get('http://localhost:5000/messages',{
+        axios.get('https://xchedule-api.herokuapp.com/messages',{
             params: {
                 uid: this.state.id,
                 bid: this.state.bid,
@@ -82,7 +82,7 @@ class Chat extends Component{
     }
 
     getBusinessOwner(){
-        var url = 'http://localhost:5000/business/'+this.state.bid.toString();
+        var url = 'https://xchedule-api.herokuapp.com/business/'+this.state.bid.toString();
         // console.log(url)
         axios.get(url)
         .then(res => {

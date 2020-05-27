@@ -41,7 +41,7 @@ class ViewServicesFromBusiness extends Component{
     getServicesByBusinessID = () => {
         var id = sessionStorage.getItem('bid');
         console.log(id);
-        axios.get('http://127.0.0.1:5000/business/services/all', {
+        axios.get('https://xchedule-api.herokuapp.com/business/services/all', {
             params: {
                 id: id
             }
@@ -56,7 +56,7 @@ class ViewServicesFromBusiness extends Component{
       }
     deleteService(sid){
         console.log(sid)
-        axios.delete('http://localhost:5000/services/delete',{
+        axios.delete('https://xchedule-api.herokuapp.com/services/delete',{
                     params: {
                         id: sid
                             }

@@ -9,7 +9,7 @@ class SearchBusiness extends Component {
   }
 
   getInfo = () => {
-    axios.get(`http://localhost:5000/business/${this.state.query}`)
+    axios.get(`https://xchedule-api.herokuapp.com/business/${this.state.query}`)
       .then(res => {
           console.log(res.data)
         this.setState({

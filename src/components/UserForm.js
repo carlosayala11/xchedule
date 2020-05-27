@@ -63,7 +63,7 @@ class UserForm extends Component{
     getBusiness() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('http://localhost:5000/business',{
+        axios.get('https://xchedule-api.herokuapp.com/business',{
             params: {
                 id: id
             }

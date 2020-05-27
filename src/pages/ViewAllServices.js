@@ -41,7 +41,7 @@ class ViewAllServices extends Component{
     getServicesByBusinessID = () => {
         var id = sessionStorage.getItem('bid');
         console.log(id);
-        axios.get(`http://localhost:5000/business/services/all`, {
+        axios.get(`https://xchedule-api.herokuapp.com/business/services/all`, {
             params: {
                 id: id
             }
