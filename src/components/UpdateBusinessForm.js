@@ -63,7 +63,7 @@ class UpdateBusinessForm extends Component{
     getBusiness() {
         var id = firebase.auth().currentUser.uid;
         console.log(this.state.id);
-        axios.get('https://xchedule-api.herokuapp.com/users',{
+        axios.get('https://xchedule-api.herokuapp.com/business',{
             params: {
                 id: id
             }
