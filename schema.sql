@@ -19,11 +19,12 @@ create table services (
 
 create table appointments (
 	aid serial not null constraint appointments_pkey primary key,
-	date date,
+	sdate date not nul,
 	duration integer not null,
 	pending boolean,
 	completed boolean,
-	canceled boolean
+	canceled boolean,
+	edate date not null
 );
 
 create table offers(
@@ -63,8 +64,17 @@ create table business (
 	facebook varchar(30),
 	instagram varchar(30),
 	website_url varchar(30),
-    workingHours varchar(100) not null,
+    workingHours hours_item,
     workingDays varchar(100) not null,
     baddress address_item,
     timeRestriction int
+);
+
+create table messages (
+    mid serial not null constraint messages_pkey primary key,
+    uid varchar(30) constraint user_uid_fkey references users,
+    bid int constraint business_bid_fkey references business,
+    body varchar(140) not null,
+    mdate varchar(20) not null, 
+    mtype varchar(15) not null
 );

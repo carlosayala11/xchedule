@@ -1,0 +1,93 @@
+.all-business-page{
+    display:flex;
+    flex-direction:column;
+    background-color:#f3f3f3;
+    justify-content: center;
+    align-content: center;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.cards-container{
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.card{
+    width:250px;
+    height:425px;
+    display:flex;
+    margin-left:25px;
+    margin-right:25px;
+    margin-top:25px;
+    margin-bottom:25px;
+    overflow: hidden;
+}
+
+.working-hours{
+    font-size: 42px;
+    font-weight:bold;
+    color:lightskyblue;
+    margin-top:10px;
+}
+
+.hours{
+    font-size:16px;
+    font-weight:bold;
+    margin-top:-10px;
+}
+
+.working-days{
+    font-size:16px;
+    font-weight:bold;
+    margin-top:-10px;
+}
+
+.view-business-button{
+    width:150px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:25px;
+    background-color:lightskyblue;
+    padding:5px;
+    border-radius:10px;
+}
+
+.search-bar{
+    margin-top:12vh;
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:10px;
+    border-style:none;
+    padding:10px;
+}
+
+.city{
+    font-size:16px;
+    font-weight:bold;
+    margin-top:-18px;
+}
+
+.button-container{
+    display:flex;
+    flex-direction: row;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:15px;
+}
+
+.service-btn{
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.route-btn{
+    margin-right:auto;
+    margin-left:auto;
+}

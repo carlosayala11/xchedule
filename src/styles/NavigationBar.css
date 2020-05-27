@@ -1,0 +1,164 @@
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 32px;
+    height: 26px;
+    left: 30px;
+    top: 25px;
+  }
+  
+  /* Color/shape of burger icon bars */
+  .bm-burger-bars {
+    margin-top:auto;
+    margin-bottom:auto;
+    /*background: #373a47;*/
+    background:white;
+  }
+  
+  /* Color/shape of burger icon bars on hover*/
+  .bm-burger-bars-hover {
+    /* background: #a90000; */
+    background:grey;
+  }
+  
+  /* Position and sizing of clickable cross button */
+  .bm-cross-button {
+    height: 32px;
+    width: 32px;
+  }
+  
+  /* Color/shape of close button cross */
+  .bm-cross {
+    background: #bdc3c7;
+  }
+
+  /*
+Sidebar wrapper styles
+Note: Beware of modifying this element as it can break the animations - you should not need to touch it in most cases
+*/
+.bm-menu-wrap {
+    position: fixed;
+    height: 100%;
+  }
+  
+  /* General sidebar styles */
+  .bm-menu {
+    background: white;
+    padding: 2.5em 1.5em 0;
+    font-size: 1.15em;
+  }
+  
+  /* Morph shape necessary with bubble or elastic */
+  .bm-morph-shape {
+    fill: #373a47;
+  }
+  
+  /* Wrapper for item list */
+  .bm-item-list {
+    color: #b8b7ad;
+    padding: 0.8em;
+  }
+  
+  /* Individual item */
+  .bm-item {
+    display: inline-block;
+  }
+  
+  /* Styling of overlay */
+  .bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .navigation-bar-container{
+      background:lightskyblue;
+      height:10vh;
+      display:flex;
+      position:fixed;
+      top:0;
+      width:100%;
+      z-index:9998;
+  }
+
+  .popover{
+    z-index:9999;
+    width:200px;
+  }
+
+  .burger-menu-item{
+      text-decoration: none;
+      color:lightskyblue;
+      font-weight: bold;
+      font-size:26px;
+  }
+
+  .burger-menu-item:hover{
+    text-decoration: none;
+}
+
+.nav-bar-user{
+    position:absolute;
+    top:18px;
+    right:50px;
+}
+
+
+.popover{
+    display:flex;
+    flex-direction: column;
+}
+
+.profile-img{
+    height:150px;
+    width:150px;
+    border-radius:50px;
+}
+
+.profile-div{
+  background-color:white;
+  width:100%;
+}
+
+.profile-name{
+  color:black;
+}
+
+.user-name{
+  font-size:24px;
+  color:black;
+  font-weight:bold;
+}
+
+.manage-business-container{
+  border-top-width: 1px;
+  border-top-color:black;
+  border-top-style:solid;
+  margin-top:25px;
+  margin-bottom:60px;
+  padding-bottom:15px;
+  padding-top:15px;
+  border-bottom-width: 1px;
+  border-bottom-color:black;
+  border-bottom-style:solid;
+}
+
+.manage-business{
+  margin-bottom:-5px;
+  font-size:24px;
+  color:black;
+}
+
+.business-icon{
+  color:lightskyblue;
+  font-size:24px;
+  margin-right:5px;
+}
+
+.signout-button{
+  width:90%;
+  background-color:red;
+}
+
+.profile-icon{
+  color:lightskyblue;
+  font-size:94px;
+}

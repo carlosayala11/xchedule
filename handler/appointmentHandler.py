@@ -23,7 +23,6 @@ class AppointmentsHandler:
         return result
 
     def insertAppointmentJson(self, json):
-        print(json)
         duration = json['duration']
         date = json['startDate']
         pending = json['pending']
@@ -32,13 +31,33 @@ class AppointmentsHandler:
         enddate = json['endDate']
         sid = json['sid']
         uid = json['uid']
-        if duration and date and sid and uid:
+
+        if duration and date and sid and uid and enddate:
             dao = AppointmentsDAO()
-            aid = dao.insert(date, duration, pending, completed, canceled, sid, uid, enddate)
+            aid = dao.insert(date, duration, pending, completed, canceled, int(sid), uid, enddate)
             list = []
             list.extend((aid, duration, date, pending, completed, canceled, enddate))
             result = self.build_appointment_dict(list)
             return jsonify(Appointment=result), 201
+        else:
+            return jsonify(Error="Unexpected attributes in appointment request"), 400
+
+    def updateAppointmentJson(self, json):
+        duration = json['duration']
+        date = json['startDate']
+        pending = json['pending']
+        completed = json['completed']
+        canceled = json['canceled']
+        enddate = json['endDate']
+        aid = json['aid']
+
+        if duration and date and aid and enddate:
+            dao = AppointmentsDAO()
+            dao.update(aid, date, duration, pending, completed, canceled, enddate)
+            list = []
+            list.extend((aid, duration, date, pending, completed, canceled, enddate))
+            result = self.build_appointment_dict(list)
+            return jsonify(Appointment=result), 200
         else:
             return jsonify(Error="Unexpected attributes in appointment request"), 400
 
@@ -79,17 +98,55 @@ class AppointmentsHandler:
         appointments_list = dao.getAppointmentsByUserId(uid)
         result_list = []
         for row in appointments_list:
-            result = self.build_appointment_dict(row)
+            result={}
+            result['aid'] = row[0]
+            result['startDate'] = row[1]
+            result['duration'] = row[2]
+            result['pending'] = row[3]
+            result['completed'] = row[4]
+            result['canceled'] = row[5]
+            result['endDate'] = row[6]
+            result['serviceType'] = row[7]
             result_list.append(result)
-        return jsonify(AppointmentsList=result_list)
+        return jsonify(Appointments=result_list)
 
-    def getRouteFromUserToBusinessByAppointmentId(self, aid):
+    def validateHours(self, sdate, edate, sid, uid):
         dao = AppointmentsDAO()
-        route = dao.getRouteFromUserToBusinessByAppointmentId(aid)
+        appointments_list = dao.validateHours(sdate, edate, sid, uid)
+        result_list = []
+        for row in appointments_list:
+            result={}
+            result['aid'] = row[0]
+            result_list.append(result)
+        if len(result_list) >0:
+            return jsonify(True)
+        else:
+            return jsonify(False)
+
+    def getCanceledAppointmentsByUserId(self, uid):
+        dao = AppointmentsDAO()
+        appointments_list = dao.getCanceledAppointmentsByUserId(uid)
+        result_list = []
+        for row in appointments_list:
+            result = {}
+            result['aid'] = row[0]
+            result['startDate'] = row[1]
+            result['duration'] = row[2]
+            result['pending'] = row[3]
+            result['completed'] = row[4]
+            result['canceled'] = row[5]
+            result['endDate'] = row[6]
+            result['serviceType'] = row[7]
+            result['sid'] = row[8]
+            result_list.append(result)
+        return jsonify(Appointments=result_list)
+
+    def getRoute(self, bid, uid):
+        dao = AppointmentsDAO()
+        route = dao.getRoute(bid, uid)
         result = []
         result.append(route[0][0])
         result.append(route[0][1])
         result.append(route[0][2])
         result.append(route[0][3])
-        print(result)
         return result

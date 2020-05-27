@@ -1,0 +1,135 @@
+.business-page{
+    display:flex;
+    flex-direction:column;
+    background-color: rgb(238, 238, 238);
+}
+
+.business-body-container{
+    display:flex;
+    margin-top:10vh;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    background-color:white;
+    /* margin-right: 200px;
+    margin-left:200px; */
+}
+
+
+.calendar {
+    height:600px;
+    overflow:scroll;
+    width:750px;
+}
+
+.business-img{
+    border-radius:50%;
+    height:150px;
+    width:150px;
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:25px;
+
+}
+
+.business-card{
+    margin-top:50px;
+    display:flex;
+    align-content: center;
+    justify-content: center;
+    height:auto;
+    width:275px;
+}
+
+.business-name{
+    font-size:40px;
+    font-weight:bold;
+    margin-bottom:-25px;
+}
+
+.card-segment{
+    border-bottom-style:solid;
+    border-bottom-width:1px;
+    border-bottom-color:black;
+
+}
+
+.card-segment-title{
+    font-size:24px;
+    color:lightskyblue;
+    margin-top:5px;
+}
+
+.working-hours{
+    font-size:22px;
+    margin-top:-10px;
+}
+
+.time-restriction{
+    font-size:16px;
+    margin-top:-20px
+}
+
+.business-location{
+    font-size:18px;
+    margin-top:-10px
+}
+
+.social-media-text{
+    font-size:16px;
+    margin-top:-14px;
+    margin-top:-14px;
+
+}
+
+.update-business-button{
+    margin-top:25px;
+    background-color:lightskyblue;
+    color:white;
+}
+
+.appointments-title{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.updateBusiness-page{
+    display:flex;
+    flex-direction:column;
+    background-color: rgb(238, 238, 238);
+    margin-top:10vh;
+    padding:1vh;
+}
+
+.logo{
+    height:300px;
+    width:500px;
+    justify-self: center;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.form-container{
+    display:flex;
+    justify-content:center;
+    align-content: right;
+    align-self: center;
+    background-color: white;
+    flex-direction: column;
+    width:400px;
+    padding:15px;
+    border-radius:10px;
+}
+
+.input-form{
+    display: inline;
+    padding-inline: 10px;
+}
+
+.save-button{
+    width:300px;
+    margin:20px;
+    font-size:18px;
+    font-weight:bold;
+    align-self: center;
+}
