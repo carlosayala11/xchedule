@@ -97,7 +97,7 @@ class LandingPage extends Component{
                         </div>
                         <div className="team-member">
                             {/* <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
-                            <p className="team-member-name">Yetsiel Alvarez</p>
+                            <p className="team-member-name">Yetsiel Aviles</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
                         </div>
                     </div>
@@ -106,6 +106,7 @@ class LandingPage extends Component{
                 <div className="purpose-container">
                     <h1 className="purpose-header">Our Purpose</h1>
                     <p className="purpose-text">The purpose of this application is to create a solution for not only small businesses, but anyone that has the need to manage appointments to be able to do so in an efficient manner.  This idea was created for our Capstone Project in the University of Puerto Rico - Mayagüez for the Computer Science and Engineering and Software Engineering degrees. </p>
+                    <NavLink className="footer-button" to="/home">Start making Appointments</NavLink>
                 </div>
             </div>
 

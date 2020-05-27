@@ -183,6 +183,8 @@ html {
     margin-left:75px;
     margin-right:75px;
     margin-bottom:25px;
+    display:flex;
+    flex-direction:column;
 }
 
 .purpose-header{
@@ -202,4 +204,24 @@ html {
     margin-top:auto;
     margin-bottom:auto;
     color:lightskyblue;
+}
+
+.footer-button{
+    font-size:32px;
+    margin-bottom:20px;
+    margin-top:45px;
+    margin-left:auto;
+    margin-right:auto;
+    background-color:rgb(0, 153, 255);
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    width:500px;
+    text-decoration: none;
+}
+
+.footer-button:hover{
+    background-color:lightskyblue;
+    text-decoration: none;
+
 }
