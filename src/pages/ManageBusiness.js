@@ -101,7 +101,7 @@ class ManageBusiness extends Component{
                         <Row>
                             <Col>
                                 <Card className="business-card">
-                                    <img className="business-img" src="https://via.placeholder.com/150x150"></img>
+                                    {/* <img className="business-img" src="https://via.placeholder.com/150x150"></img> */}
                                     <CardTitle className="business-name">{this.state.businessData.bname}</CardTitle>
                                     <CardBody>
                                         <div className="card-segment">
