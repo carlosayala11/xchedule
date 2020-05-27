@@ -16,7 +16,7 @@ class ViewCanceledAppointments extends Component{
             results: [],
             data: '',
             rescheduleSelected:false,
-            loggedIn:false
+            loggedIn:true
         }
         this.passIDs = this.passIDs.bind(this)
 

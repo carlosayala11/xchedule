@@ -87,7 +87,7 @@ html {
 }
 
 .about-text{
-    width:350px;
+    width:550px;
     margin-right: 100px;
     display: flex;
     flex-direction: column;
@@ -104,13 +104,13 @@ html {
 }
 .about-description{
     font-size:24px;
-    width:350px;
+    width:450px;
     margin-bottom:20px;
 }
 
 .about-img{
     width:300px;
-    width:300px;
+    height:300px;
     border-radius: 50%;
     margin-left:auto;
     margin-right:auto;
@@ -177,4 +177,29 @@ html {
 
 .team-member-degree{
     font-size:20px;
+}
+
+.purpose-container{
+    margin-left:75px;
+    margin-right:75px;
+    margin-bottom:25px;
+}
+
+.purpose-header{
+    font-size:42px;
+}
+
+.purpose-text{
+    font-size:22px;
+}
+
+.landing-icon{
+    width:300px;
+    height:300px;
+    font-size:190px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:auto;
+    margin-bottom:auto;
+    color:lightskyblue;
 }

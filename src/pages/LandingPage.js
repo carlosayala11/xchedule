@@ -38,11 +38,17 @@ class LandingPage extends Component{
                             <p className="about-description">for your favorite bussiness on the platform.  With Xchedule you can find many local businesses that have decided to improve their workflow by adding this platform to help with their appointment management. </p>
 
                         </div>
-                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                        <span>
+                            <i class="fas fa-store-alt landing-icon"></i>
+                        </span>
+                        {/* <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
                     </div>
 
                     <div className="about-container">
-                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                        <span>
+                            <i class="far fa-calendar-alt landing-icon"></i>
+                        </span>
+                        {/* <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
 
                         <div class="about-text">
                             <p className="about-description-title">SCHEDULE -</p>
@@ -56,7 +62,10 @@ class LandingPage extends Component{
                             <p className="about-description-title">SAVE - </p>
                             <p className="about-description">time by no more waiting on the phone on hold for someone to take your appointment.  See all your appointments in one place.</p>
                         </div>
-                        <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                        <span>
+                            <i class="fas fa-hourglass-start landing-icon"></i>
+                        </span>
+                        {/* <img className="about-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
 
                     </div>
 
@@ -68,35 +77,35 @@ class LandingPage extends Component{
                     <h1 className="team-title">Meet the team members</h1>
                     <div className="team-members-container">
                         <div className="team-member">
-                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                            {/* <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
                             <p className="team-member-name">Carlos Ayala</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
         
                         </div>
 
                         <div className="team-member">
-                            <img className="team-member-img" alt="" src="https://via.placeholder.com/150x150"></img>
+                            {/* <img className="team-member-img" alt="" src="https://via.placeholder.com/150x150"></img> */}
                             <p className="team-member-name">Gabriel Rosario</p>
                             <p className="team-member-degree">Software Engineering</p>
         
                         </div>
 
                         <div className="team-member">
-                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                            {/* <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
                             <p className="team-member-name">Rex Reyes</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
                         </div>
                         <div className="team-member">
-                            <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img>
+                            {/* <img className="team-member-img" alt=""src="https://via.placeholder.com/150x150"></img> */}
                             <p className="team-member-name">Yetsiel Alvarez</p>
                             <p className="team-member-degree">Computer Science and Engineering</p>
                         </div>
                     </div>
                    
                 </div>
-                <div>
-                    <h1>Our Purpose</h1>
-                    <p>The purpose of this application is to create a solution for not only small businesses, but anyone that has the need to manage appointments to be able to do so in an efficient manner.  This idea was created for our Capstone Project in the University of Puerto Rico - Mayagüez for the Computer Science and Engineering and Software Engineering degrees. </p>
+                <div className="purpose-container">
+                    <h1 className="purpose-header">Our Purpose</h1>
+                    <p className="purpose-text">The purpose of this application is to create a solution for not only small businesses, but anyone that has the need to manage appointments to be able to do so in an efficient manner.  This idea was created for our Capstone Project in the University of Puerto Rico - Mayagüez for the Computer Science and Engineering and Software Engineering degrees. </p>
                 </div>
             </div>
 
