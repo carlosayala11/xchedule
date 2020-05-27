@@ -262,7 +262,7 @@ class NavigationBar extends Component{
                     {this.renderViewOrCreateBusiness()}
                     {this.renderProfileOrLogin()}
                 </Menu>
-                {this.renderMessages()}
+                {/* {this.renderMessages()} */}
 
             </div>
             

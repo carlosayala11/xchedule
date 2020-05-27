@@ -105,9 +105,9 @@ function App() {
           <Route exact path="/business/details">
             <ViewBusiness />
           </Route>
-          <Route exact path="/messages">
+          {/* <Route exact path="/messages">
             <Chat />
-          </Route>
+          </Route> */}
         </Switch>
       </Router>
     </div>
