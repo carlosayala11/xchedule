@@ -125,7 +125,7 @@ class CreateBusinessForm extends Component {
                             <Input className="login-input" name="eworkingHours" placeholder="Working Hours End Time" onChange={this.onInputChange}/>
                         </Col>
                         <Col>
-                        <Input className="login-input" name="workingDays" placeholder="Working Days" onChange={this.onInputChange}/>
+                        <Input className="login-input" name="workingDays" placeholder="Monday to Friday" onChange={this.onInputChange}/>
                         </Col>
                     </Row>
                     <Row>
