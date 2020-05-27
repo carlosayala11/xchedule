@@ -28,7 +28,6 @@ class NavigationBar extends Component{
             user:'',
             fullname:'',
             labelName:'',
-            modal:false,
             chats: [],
             id: '' ,
             business_chats: [],

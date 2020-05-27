@@ -43,7 +43,7 @@ class ViewAllAppointments extends Component{
     getAppointmentsByBusinessId = () => {
         var id = firebase.auth().currentUser.uid;
         console.log(id);
-        axios.get('https://xchedule-api.herokuapp.com/business/unapproved/appointments', {
+        axios.get('https://xchedule-api.herokuapp.com/business/appointments', {
             params: {
                 id: id
             }
@@ -125,6 +125,13 @@ class ViewAllAppointments extends Component{
                 <p className="hours">{appointment.startDate}</p>
                 <p className="hours">{appointment.endDate}</p>
                 <Button onClick={() => this.completeAppointment(appointment.aid)}>Complete</Button>
+                <div>
+                  {appointment.pending ? (
+                   <Button onClick={() => this.approveAppointment(appointment.aid)}>Approve</Button>
+                  ) : (
+                    <p className="working-hours">Already approved</p>
+                  )}
+                </div>
                 <Button onClick={() => this.approveAppointment(appointment.aid)}>Approve</Button>
                 <Button onClick={() => this.cancelAppointment(appointment.aid)}>Cancel</Button>
             </Card>
