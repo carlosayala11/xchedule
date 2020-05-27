@@ -43,7 +43,7 @@ class ViewAllAppointments extends Component{
     getAppointmentsByBusinessId = () => {
         var id = firebase.auth().currentUser.uid;
         console.log(id);
-        axios.get(`https://xchedule-api.herokuapp.com/business/appointments`, {
+        axios.get(`https://xchedule-api.herokuapp.com/business/unapproved/appointments`, {
             params: {
                 id: id
             }
